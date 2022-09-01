@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.adnstyle.choicafe.repository.GhBoardRepository">
+    <resultMap id="simpleBoard" type="com.adnstyle.choicafe.domain.GhBoard">
+        <id property="seq"                  column="seq"/>
+        <result property="parentSeq"        column="parent_seq"/>
+        <result property="title"            column="title"/>
+        <result property="content"          column="content"/>
+        <result property="viewCount"        column="view_conunt"/>
+        <result property="delYN"            column="del_yn"/>
+        <result property="createdBy"        column="created_by"/>
+        <result property="createdDate"      column="created_date"/>
+        <result property="modifiedBy"       column="modified_by"/>
+        <result property="modifiedDate"     column="modified_date"/>
+    </resultMap>
+
+
+    <sql id="selectBoard">
+        select seq,
+               parent_seq,
+               title,
+               content,
+               view_conunt,
+               del_yn,
+               created_by,
+               created_date,
+               modified_by,
+               modified_date
+        from gh_board
+    </sql>
+
+
+    <select id="selectCount" resultType="int">
+        select count(*)
+        from gh_board
+    </select>
+
+
+    <select id="selectBoardList" resultMap="simpleBoard">
+        <include refid="selectBoard"/>
+        where del_yn = 'N'
+        order by seq desc;
+    </select>
+
+    <insert id="insertBoard">
+        insert into gh_board
+            (
+             title,
+             content
+            )
+        values
+            (
+             #{title},
+            #{content}
+            )
+    </insert>
+
+
+    <update id="updateBoard">
+        update gh_board set title = #{title}, content= #{content} where seq = #{seq} ;
+    </update>
+
+    <update id="deleteBoard">
+        update gh_board set del_yn = 'Y' where seq = #{seq} ;
+    </update>
+
+
+
+</mapper>

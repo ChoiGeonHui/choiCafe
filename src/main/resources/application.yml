@@ -1,0 +1,24 @@
+logging:
+  level:
+    org:
+      springframework: debug
+      objectweb: debug
+
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://192.168.1.84:3306/a_ljy_db?useSSL=false&allowMultiQueries=true
+    username: a_ljy_user
+    password: '!adnstyleDB'
+
+  mvc:
+    static-path-pattern: /static/**
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+
+mybatis:
+  mapper-locations: mybatis/**/*Mapper.xml
+
+server:
+  port: 8800
