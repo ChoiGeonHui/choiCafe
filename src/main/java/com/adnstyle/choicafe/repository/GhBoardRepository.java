@@ -13,6 +13,8 @@ public interface GhBoardRepository {
 
     List<GhBoard> selectBoardList();
 
+    GhBoard selectGhBoardBySeq(Long seq);
+
     int insertBoard(GhBoard ghBoard);
 
     int updateBoard(GhBoard ghBoard);

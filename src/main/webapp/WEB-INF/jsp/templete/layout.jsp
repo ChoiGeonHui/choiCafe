@@ -22,7 +22,11 @@
 <div class="container text-center">
     <h2 class="mt-3"><a href="/board/list">ChoiCafe</a></h2>
 
-    <jsp:include page="../${page}.jsp"/>
+    <section>
+        <jsp:include page="../${page}.jsp"/>
+    </section>
+    <jsp:include page="../info/footer.jsp"/>
+
 
 </div>
 

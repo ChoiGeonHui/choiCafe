@@ -22,6 +22,12 @@ public class GhBoardService {
         return ghBoardRepository.selectCount();
     }
 
+
+    @Transactional
+    public GhBoard selectGhBoardBySeq(Long seq){
+        return ghBoardRepository.selectGhBoardBySeq(seq);
+    }
+
     @Transactional
     public List<GhBoard> selectBoardList(){
         return ghBoardRepository.selectBoardList();
@@ -39,8 +45,16 @@ public class GhBoardService {
 
 
     @Transactional
-    public int deleteBoard(Long seq){
-        return ghBoardRepository.deleteBoard(seq);
+    public String deleteBoard(Long seq){
+        int i= ghBoardRepository.deleteBoard(seq);
+
+        if (i >0){
+            return "success";
+        } else {
+            return "fail";
+        }
+
+
     }
 
 

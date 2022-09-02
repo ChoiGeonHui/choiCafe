@@ -35,6 +35,11 @@
         from gh_board
     </select>
 
+    <select id="selectGhBoardBySeq" resultMap="simpleBoard">
+        <include refid="selectBoard"/>
+        where seq = #{seq}
+    </select>
+
 
     <select id="selectBoardList" resultMap="simpleBoard">
         <include refid="selectBoard"/>
