@@ -44,6 +44,9 @@
     <select id="selectBoardList" resultMap="simpleBoard">
         <include refid="selectBoard"/>
         where del_yn = 'N'
+            <if test="searchWord != null and searchWord != ''">
+                and title like concat('%',#{searchWord},'%')
+            </if>
         order by seq desc;
     </select>
 

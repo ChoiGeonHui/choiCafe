@@ -29,8 +29,8 @@ public class GhBoardService {
     }
 
     @Transactional
-    public List<GhBoard> selectBoardList(){
-        return ghBoardRepository.selectBoardList();
+    public List<GhBoard> selectBoardList(String searchWoard){
+        return ghBoardRepository.selectBoardList(searchWoard);
     }
 
     @Transactional

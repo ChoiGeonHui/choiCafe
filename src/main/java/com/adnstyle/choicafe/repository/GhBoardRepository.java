@@ -11,7 +11,7 @@ public interface GhBoardRepository {
 
     int selectCount();
 
-    List<GhBoard> selectBoardList();
+    List<GhBoard> selectBoardList(String searchWoard);
 
     GhBoard selectGhBoardBySeq(Long seq);
 

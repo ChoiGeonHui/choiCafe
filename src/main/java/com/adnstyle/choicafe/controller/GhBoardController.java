@@ -33,7 +33,7 @@ public class GhBoardController {
 
     @RequestMapping("/list")
     public String selectBoardList(@RequestParam(value = "searchWord",required = false)String searchWord, Model model){
-        List<GhBoard> ghBoardList = ghBoardService.selectBoardList();
+        List<GhBoard> ghBoardList = ghBoardService.selectBoardList(searchWord);
         String page = "board/boardList";
         model.addAttribute("page", page);
         model.addAttribute("ghBoardList",ghBoardList);
