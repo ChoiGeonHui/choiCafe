@@ -1,5 +1,6 @@
 package com.adnstyle.choicafe.controller;
 
+import com.adnstyle.choicafe.common.Pagination;
 import com.adnstyle.choicafe.domain.GhBoard;
 import com.adnstyle.choicafe.service.GhBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
@@ -32,10 +32,15 @@ public class GhBoardController {
 
 
     @RequestMapping("/list")
-    public String selectBoardList(@RequestParam(value = "searchWord",required = false)String searchWord, Model model){
-        List<GhBoard> ghBoardList = ghBoardService.selectBoardList(searchWord);
+    public String selectBoardList(Model model,GhBoard ghBoard) throws  Exception{
+        Pagination pagination = new Pagination();
+        pagination.setCriteria(ghBoard);
+        pagination.setTotalCount(ghBoardService.selectCount());
+        List<GhBoard> ghBoardList = ghBoardService.selectBoardList(ghBoard);
+
         String page = "board/boardList";
         model.addAttribute("page", page);
+        model.addAttribute("paging", pagination);
         model.addAttribute("ghBoardList",ghBoardList);
         return "templete/layout";
     }

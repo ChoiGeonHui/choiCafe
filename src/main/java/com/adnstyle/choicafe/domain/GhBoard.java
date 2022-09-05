@@ -1,6 +1,7 @@
 package com.adnstyle.choicafe.domain;
 
 
+import com.adnstyle.choicafe.common.Criteria;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.ibatis.type.Alias;
@@ -10,7 +11,7 @@ import java.util.Date;
 @Alias("ghBoard")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class GhBoard {
+public class GhBoard extends Criteria {
 
     // 식별자
     private Long seq;

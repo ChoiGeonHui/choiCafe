@@ -11,7 +11,12 @@
         <div class="d-flex flex-row-reverse">
             <a class="btn btn-primary text-white ml-3" href="/board/create"> 등록</a>
             <input type="button" id="btnSearch" class="btn btn-secondary ml-1" value="검색">
-            <input type="text" id="search" name="search">
+            <input type="text" id="search" name="search" value="${searchWord}">
+            <select id="searchName" name="searchName" class="mr-1">
+                <option value="all">전체</option>
+                <option value="title">제목</option>
+                <option value="content">내용</option>
+            </select>
         </div>
 
     </div>
@@ -47,6 +52,18 @@
         </tbody>
     </table>
 
+    <ul class="paging">
+        <c:if test="${paging.prev}">
+            <span><a href='/board/list?page=${paging.startPage-1}'>이전</a></span>
+        </c:if>
+        <c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="num">
+            <span><a href='/board/list?page=${num}'>${num}</a></span>
+        </c:forEach>
+        <c:if test="${paging.next && paging.endPage>0}">
+            <span><a href='/board/list?page=${paging.endPage+1}'>다음</a></span>
+        </c:if>
+    </ul>
+
 
 </div>
 <script>
@@ -54,13 +71,14 @@
 
         $('#btnSearch').on('click',function (){
             let searchWord = $('#search').val();
+            let searchName = $('#searchName').val();
 
             if (searchWord == '' || searchWord == null){
                 alert('최소 1글자 이상 입력해주세요.');
                 return;
             }
-            alert(searchWord);
-            location.href = '/board/list?searchWord='+searchWord;
+            alert('values : '+ searchWord+" "+searchName);
+            location.href = '/board/list?searchWord='+searchWord+'&searchName='+searchName;
         })
 
 

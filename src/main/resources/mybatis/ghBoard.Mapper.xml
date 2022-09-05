@@ -45,9 +45,23 @@
         <include refid="selectBoard"/>
         where del_yn = 'N'
             <if test="searchWord != null and searchWord != ''">
-                and title like concat('%',#{searchWord},'%')
+
+                <choose>
+                    <when test="searchName == 'all'">
+                        and (title like concat('%',#{searchWord},'%') or content like concat('%',#{searchWord},'%'))
+                    </when>
+                    <when test="searchName == 'title'">
+                        and title like concat('%',#{searchWord},'%')
+                    </when>
+                    <otherwise>
+                        and content like concat('%',#{searchWord},'%')
+                    </otherwise>
+
+                </choose>
+
             </if>
-        order by seq desc;
+        order by seq desc
+        limit #{perPageNum};
     </select>
 
     <insert id="insertBoard">
