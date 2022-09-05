@@ -13,12 +13,11 @@
             <input type="button" id="btnSearch" class="btn btn-secondary ml-1" value="검색">
             <input type="text" id="search" name="search" value="${ghBoard.searchWord}">
             <select id="searchName" name="searchName" class="mr-1">
-                <option value="all">전체</option>
-                <option value="title">제목</option>
-                <option value="content">내용</option>
+                <option ${ghBoard.searchName eq 'all' ? 'selected' : ''} value="all">전체</option>
+                <option ${ghBoard.searchName eq 'title' ? 'selected' : ''} value="title">제목</option>
+                <option ${ghBoard.searchName eq 'content' ? 'selected' : ''} value="content">내용</option>
             </select>
         </div>
-
     </div>
 
 
