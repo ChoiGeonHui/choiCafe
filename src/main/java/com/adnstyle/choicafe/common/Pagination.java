@@ -9,13 +9,13 @@ import lombok.EqualsAndHashCode;
 public class Pagination {
 
 
-    private int startPage;
-    private int endPage;
-    private boolean prev;
-    private boolean next;
+    private int startPage; //화면 시작 번호
+    private int endPage; //화면 끝 번호
+    private boolean prev; //이전 페이지 버튼 활성화 여부
+    private boolean next; // 다음 페이지 버튼 활성화 여부
 
-    private int totalCount;
-    private int displayPageNum = 5;
+    private int totalCount; // 게시물 리스트 갯수
+    private int displayPageNum = 3; //한번에 보여줄 페이지 수
 
     private Criteria criteria;
 

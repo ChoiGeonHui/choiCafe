@@ -29,10 +29,31 @@
         from gh_board
     </sql>
 
+    <sql id="whereSQL">
+        where del_yn = 'N'
+        <if test="searchWord != null and searchWord != ''">
+
+            <choose>
+                <when test="searchName == 'all'">
+                    and (title like concat('%',#{searchWord},'%') or content like concat('%',#{searchWord},'%'))
+                </when>
+                <when test="searchName == 'title'">
+                    and title like concat('%',#{searchWord},'%')
+                </when>
+                <otherwise>
+                    and content like concat('%',#{searchWord},'%')
+                </otherwise>
+
+            </choose>
+
+        </if>
+    </sql>
+
 
     <select id="selectCount" resultType="int">
         select count(*)
         from gh_board
+        <include refid="whereSQL"/>
     </select>
 
     <select id="selectGhBoardBySeq" resultMap="simpleBoard">
@@ -43,23 +64,7 @@
 
     <select id="selectBoardList" resultMap="simpleBoard">
         <include refid="selectBoard"/>
-        where del_yn = 'N'
-            <if test="searchWord != null and searchWord != ''">
-
-                <choose>
-                    <when test="searchName == 'all'">
-                        and (title like concat('%',#{searchWord},'%') or content like concat('%',#{searchWord},'%'))
-                    </when>
-                    <when test="searchName == 'title'">
-                        and title like concat('%',#{searchWord},'%')
-                    </when>
-                    <otherwise>
-                        and content like concat('%',#{searchWord},'%')
-                    </otherwise>
-
-                </choose>
-
-            </if>
+        <include refid="whereSQL"/>
         order by seq desc
         limit #{PageStart}, #{perPageNum};
     </select>

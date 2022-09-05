@@ -9,7 +9,7 @@ import java.util.List;
 public interface GhBoardRepository {
 
 
-    int selectCount();
+    int selectCount(GhBoard ghBoard);
 
     List<GhBoard> selectBoardList(GhBoard ghBoard);
 

@@ -36,11 +36,11 @@ public class GhBoardController {
         Pagination pagination = new Pagination();
         pagination.setCriteria(ghBoard);
         ghBoard.setPageStart();
-        pagination.setTotalCount(ghBoardService.selectCount());
+        pagination.setTotalCount(ghBoardService.selectCount(ghBoard));
         List<GhBoard> ghBoardList = ghBoardService.selectBoardList(ghBoard);
 
-        String page = "board/boardList";
-        model.addAttribute("page", page);
+//        String page = "board/boardList";
+        model.addAttribute("page", "board/boardList");
         model.addAttribute("paging", pagination);
         model.addAttribute("ghBoardList",ghBoardList);
         return "templete/layout";

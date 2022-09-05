@@ -18,8 +18,8 @@ public class GhBoardService {
     private final GhBoardRepository ghBoardRepository;
 
     @Transactional
-    public int selectCount(){
-        return ghBoardRepository.selectCount();
+    public int selectCount(GhBoard ghBoard){
+        return ghBoardRepository.selectCount(ghBoard);
     }
 
 
