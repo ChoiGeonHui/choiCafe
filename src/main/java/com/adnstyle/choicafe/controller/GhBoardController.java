@@ -32,9 +32,10 @@ public class GhBoardController {
 
 
     @RequestMapping("/list")
-    public String selectBoardList(Model model,GhBoard ghBoard) throws  Exception{
+    public String selectBoardList(Model model,GhBoard ghBoard) throws Exception {
         Pagination pagination = new Pagination();
         pagination.setCriteria(ghBoard);
+        ghBoard.setPageStart();
         pagination.setTotalCount(ghBoardService.selectCount());
         List<GhBoard> ghBoardList = ghBoardService.selectBoardList(ghBoard);
 

@@ -61,7 +61,7 @@
 
             </if>
         order by seq desc
-        limit #{perPageNum};
+        limit #{PageStart}, #{perPageNum};
     </select>
 
     <insert id="insertBoard">

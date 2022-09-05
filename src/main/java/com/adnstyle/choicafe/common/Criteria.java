@@ -13,15 +13,21 @@ public class Criteria {
 
     private int perPageNum;
 
+    private int PageStart;
+
     public Criteria(){
         this.page = 1;
         this.perPageNum = 5;
+//        this.PageStart = setPageStart();
     }
 
 
     // 한 페이지당 보여줄 게시글 갯수
-    public int getPageStart(){
-        return (this.page - 1)*perPageNum;
+    public int setPageStart() {
+        // 특정 페이지의 범위를 정하는 구간, 현재 페이지의 게시글 시작 번호
+        // 0 ~ 10 , 10 ~ 20 이런식으로
+        this.PageStart = (this.page - 1) * perPageNum;
+        return this.PageStart;
     }
 
 
@@ -35,6 +41,7 @@ public class Criteria {
     }
 
 
+    //페이지당 보여줄 게시글의 갯수
     public void setPerPageNum(int pageCount){
         int cnt = this.perPageNum;
         if (pageCount != cnt){
