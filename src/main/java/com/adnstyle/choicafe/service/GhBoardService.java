@@ -34,7 +34,7 @@ public class GhBoardService {
     }
 
     @Transactional
-    public int insertBoard(GhBoard ghBoard){
+    public int cuBoard(GhBoard ghBoard){
         if(ghBoard.getSeq() == null || ghBoard.getSeq() == 0) {
             return ghBoardRepository.insertBoard(ghBoard);
         } else {

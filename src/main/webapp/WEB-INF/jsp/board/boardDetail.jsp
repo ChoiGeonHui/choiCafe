@@ -5,7 +5,7 @@
 
 
 <div class="text-center">
-<form method="post"id="submitForm" name="submitForm" action="/board/insert">
+<form method="post"id="submitForm" name="submitForm" action="/board/insertUpdate">
     <input type="text" value="${ghBoard.seq}" id="seq" name="seq" hidden="hidden">
     <div>
         <b class="col-1">제목 : </b> <input type="text" id="title" name="title" class="col-6" value="${ghBoard.title}">

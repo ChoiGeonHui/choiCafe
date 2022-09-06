@@ -47,7 +47,6 @@ public class GhBoardController {
     }
 
 
-
     @RequestMapping("/detail")
     public String detailBoard(@RequestParam("seq") Long seq, Model model) {
         GhBoard ghBoard = ghBoardService.selectGhBoardBySeq(seq);
@@ -57,14 +56,14 @@ public class GhBoardController {
     }
 
     @RequestMapping("/create")
-    public String createBoard(GhBoard ghBoard,Model model){
+    public String createBoard(Model model){
         model.addAttribute("page", "board/boardDetail");
         return layout;
     }
 
-    @RequestMapping("/insert")
-    public String insertBoard(GhBoard ghBoard,Model model){
-        int i = ghBoardService.insertBoard(ghBoard);
+    @RequestMapping("/insertUpdate")
+    public String cuBoard(GhBoard ghBoard){
+        ghBoardService.cuBoard(ghBoard);
         return "redirect:/board/list";
     }
 

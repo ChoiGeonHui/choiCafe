@@ -30,8 +30,8 @@ public class Criteria {
     }
 
 
-    //특정 페이지의 게시글 시작번호, 게시글 시작 행 번호
     public void setPage(int page){
+        //특정 페이지의 게시글 시작번호, 게시글 시작 행 번호
         if (page <= 0){
             this.page = 1;
         } else {
@@ -40,15 +40,14 @@ public class Criteria {
     }
 
 
-    //페이지당 보여줄 게시글의 갯수
     public void setPerPageNum(int pageCount){
+        //페이지당 보여줄 게시글의 갯수
         int cnt = this.perPageNum;
         if (pageCount != cnt){
             this.perPageNum = cnt;
         } else {
             this.perPageNum = pageCount;
         }
-
     }
 
 

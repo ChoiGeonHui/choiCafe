@@ -33,7 +33,7 @@ public class Pagination {
         int tempEndPage = (int) (Math.ceil(totalCount / (double) criteria.getPerPageNum()));
         if(endPage > tempEndPage) {
             endPage = tempEndPage;
-            // 마지막 페이지 번호 = 총 게시글 수 / 한 페이지당 보여줄 게시글의개수
+            //총합 마지막 페이지 번호 = 총 게시글 수 / 한 페이지당 보여줄 게시글의개수
         }
 
         prev = startPage == 1 ? false : true; // 이전 버튼 생성 여부 = 시작 페이지 번호가 1과 같으면 false, 아니면 true
