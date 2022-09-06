@@ -58,13 +58,13 @@
 
     <ul class="paging">
         <c:if test="${paging.prev}">
-            <span><a href='/board/list?page=${paging.startPage-1}' data-page-number='${paging.startPage-1}' class="btn btn-white btnPage">이전</a></span>
+            <span><a href="#" data-page-number='${paging.startPage-1}' class="btn btn-white btnPage">이전</a></span>
         </c:if>
         <c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="num">
-            <span><a href='/board/list?page=${num}' data-page-number='${num}' class="btn btn-white btnPage">${num}</a></span>
+            <span><a href="javascript:void(0);" data-page-number='${num}' class="btn btn-white ${ghBoard.page ne num ? 'btnPage': 'btn-info'} ">${num}</a></span>
         </c:forEach>
         <c:if test="${paging.next && paging.endPage>0}">
-            <span><a href='/board/list?page=${paging.endPage+1}' data-page-number='${paging.endPage+1}' class="btn btn-white btnPage">다음</a></span>
+            <span><a href="#" data-page-number='${paging.endPage+1}' class="btn btn-white btnPage">다음</a></span>
         </c:if>
     </ul>
 
