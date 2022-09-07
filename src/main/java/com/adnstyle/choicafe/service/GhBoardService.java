@@ -18,24 +18,24 @@ public class GhBoardService {
     private final GhBoardRepository ghBoardRepository;
 
     @Transactional
-    public int selectCount(GhBoard ghBoard){
+    public int selectCount(GhBoard ghBoard) {
         return ghBoardRepository.selectCount(ghBoard);
     }
 
 
     @Transactional
-    public GhBoard selectGhBoardBySeq(Long seq){
+    public GhBoard selectGhBoardBySeq(Long seq) {
         return ghBoardRepository.selectGhBoardBySeq(seq);
     }
 
     @Transactional
-    public List<GhBoard> selectBoardList(GhBoard ghBoard){
+    public List<GhBoard> selectBoardList(GhBoard ghBoard) {
         return ghBoardRepository.selectBoardList(ghBoard);
     }
 
     @Transactional
-    public int cuBoard(GhBoard ghBoard){
-        if(ghBoard.getSeq() == null || ghBoard.getSeq() == 0) {
+    public int cuBoard(GhBoard ghBoard) {
+        if (ghBoard.getSeq() == null || ghBoard.getSeq() == 0) {
             return ghBoardRepository.insertBoard(ghBoard);
         } else {
             return ghBoardRepository.updateBoard(ghBoard);
@@ -43,17 +43,15 @@ public class GhBoardService {
     }
 
 
-
     @Transactional
-    public String deleteBoard(Long seq){
-        int i= ghBoardRepository.deleteBoard(seq);
+    public String deleteBoard(List<Long> seq) {
+        int i = ghBoardRepository.deleteBoard(seq);
 
-        if (i >0){
+        if (i > 0) {
             return "success";
         } else {
             return "fail";
         }
-
 
     }
 

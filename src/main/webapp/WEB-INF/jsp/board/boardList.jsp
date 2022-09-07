@@ -61,7 +61,7 @@
             <span><a href="#" data-page-number='${paging.startPage-1}' class="btn btn-white btnPage">이전</a></span>
         </c:if>
         <c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="num">
-            <span><a href="javascript:void(0);" data-page-number='${num}' class="btn btn-white ${ghBoard.page ne num ? 'btnPage': 'btn-info'} ">${num}</a></span>
+            <span><a href="javascript:void(0);" data-page-number='${num}' class="btn btn-white ${ghBoard.page ne num ? 'btnPage' : 'btn-info'} ">${num}</a></span>
         </c:forEach>
         <c:if test="${paging.next && paging.endPage>0}">
             <span><a href="#" data-page-number='${paging.endPage+1}' class="btn btn-white btnPage">다음</a></span>
@@ -98,29 +98,37 @@
     $(document).ready(function () {
 
         $('#selectDel').on('click', function () {
-            let chkIdx = [];
+            let seq = [];
 
             $('.selectChk:checked').each(function () {
-                chkIdx.push($(this).data('checkbox'));
+                seq.push($(this).data('checkbox'));
             })
 
-            if (chkIdx.length == 0) {
+            if (seq.length == 0) {
                 alert('삭제할 항목이 없습니다. test');
                 return;
             }
 
-            alert('삭제할 항목은 ' + chkIdx + ' 입니다.');
-            return;
+            if (confirm('삭제 하시겠습니까? 삭제할 항목은 ' + seq + ' 입니다.')) {
 
+                $.ajax({
+                    type: "POST",
+                    url: "/board/delete",
+                    data: {"seq": seq},
+                    success: function (data) {
+                        if (data.result == 'success') {
+                            alert('삭제를 완료하였습니다.');
+                            location.reload();
+                        } else {
+                            alert('오류발생');
+                        }
+                    },
+                    error: function () {
+                        alert('에러발생!');
+                    }
+                })
+            }
         })
-
-        // $('#selectAll').on('click', function () {
-        //     if ($(this).prop('checked')) {
-        //         $("input[name=selectChk]").prop('checked', true);
-        //     } else {
-        //         $("input[name=selectChk]").prop('checked', false);
-        //     }
-        // })
 
         $('.btnPage').on('click', function (e) {
             e.preventDefault(); //href 이동 안함
@@ -136,7 +144,6 @@
 
         });
 
-
         $('#btnSearch').on('click', function () {
             let searchWord = $('#search').val();
             let searchName = $('#searchName').val();
@@ -150,12 +157,13 @@
 
 
         $('.btnDel').on('click', function () {
-            let seq = $(this).data('seq');
+            let seq = [];
+            seq.push($(this).data('seq'));
             if (confirm('삭제 하시겠습니까?')) {
                 alert('seq : ' + seq);
                 $.ajax({
                     type: "POST",
-                    data: {'seq': seq},
+                    data: {'seq' : seq},
                     url: "/board/delete",
                     success: function (data) {
                         if (data.result == 'success') {
@@ -171,6 +179,15 @@
                 })
             }
         });
+
+        // $('#selectAll').on('click', function () {
+        //     if ($(this).prop('checked')) {
+        //         $("input[name=selectChk]").prop('checked', true);
+        //     } else {
+        //         $("input[name=selectChk]").prop('checked', false);
+        //     }
+        // })
+
 
     });
 

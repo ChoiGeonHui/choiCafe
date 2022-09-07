@@ -6,9 +6,7 @@ import com.adnstyle.choicafe.service.GhBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,28 +20,27 @@ public class GhBoardController {
     @Autowired
     GhBoardService ghBoardService;
 
-    String layout ="templete/layout";
+    String layout = "templete/layout";
 
 
     @RequestMapping("/count")
-    public String test(){
+    public String test() {
         return layout;
     }
 
 
     @RequestMapping("/list")
-    public String selectBoardList(Model model,GhBoard ghBoard) throws Exception {
+    public String selectBoardList(Model model, GhBoard ghBoard) throws Exception {
         Pagination pagination = new Pagination();
         pagination.setCriteria(ghBoard);
         ghBoard.setPageStart();
         pagination.setTotalCount(ghBoardService.selectCount(ghBoard));
         List<GhBoard> ghBoardList = ghBoardService.selectBoardList(ghBoard);
 
-//        String page = "board/boardList";
         model.addAttribute("page", "board/boardList");
         model.addAttribute("paging", pagination);
-        model.addAttribute("ghBoardList",ghBoardList);
-        return "templete/layout";
+        model.addAttribute("ghBoardList", ghBoardList);
+        return layout;
     }
 
 
@@ -56,23 +53,23 @@ public class GhBoardController {
     }
 
     @RequestMapping("/create")
-    public String createBoard(Model model){
+    public String createBoard(Model model) {
         model.addAttribute("page", "board/boardDetail");
         return layout;
     }
 
     @RequestMapping("/insertUpdate")
-    public String cuBoard(GhBoard ghBoard){
+    public String cuBoard(GhBoard ghBoard) {
         ghBoardService.cuBoard(ghBoard);
         return "redirect:/board/list";
     }
 
     @ResponseBody
-    @RequestMapping("/delete")
-    public Map<String,String> insertBoard(@RequestParam("seq") Long seq){
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public Map<String, String> deleteBoard(@RequestParam("seq[]") List<Long> seq) {
         String total = ghBoardService.deleteBoard(seq);
-        Map<String,String> result = new HashMap<>();
-        result.put("result",total);
+        Map<String, String> result = new HashMap<>();
+        result.put("result", total);
         return result;
     }
 
