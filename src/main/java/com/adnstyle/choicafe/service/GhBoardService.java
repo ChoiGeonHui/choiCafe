@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -16,6 +17,8 @@ import java.util.List;
 public class GhBoardService {
 
     private final GhBoardRepository ghBoardRepository;
+
+    private final GhAttachService ghAttachService;
 
     @Transactional
     public int selectCount(GhBoard ghBoard) {
@@ -34,9 +37,11 @@ public class GhBoardService {
     }
 
     @Transactional
-    public int cuBoard(GhBoard ghBoard) {
+    public int cuBoard(GhBoard ghBoard, MultipartFile file) {
         if (ghBoard.getSeq() == null || ghBoard.getSeq() == 0) {
-            return ghBoardRepository.insertBoard(ghBoard);
+            ghBoardRepository.insertBoard(ghBoard);
+            ghAttachService.save(ghBoard.getSeq(),"ghBoard",file);
+            return 1;
         } else {
             return ghBoardRepository.updateBoard(ghBoard);
         }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -59,8 +60,8 @@ public class GhBoardController {
     }
 
     @RequestMapping("/insertUpdate")
-    public String cuBoard(GhBoard ghBoard) {
-        ghBoardService.cuBoard(ghBoard);
+    public String cuBoard(GhBoard ghBoard, @RequestPart("file") MultipartFile file) {
+        ghBoardService.cuBoard(ghBoard, file);
         return "redirect:/board/list";
     }
 

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.adnstyle.choicafe.repository.GhAttachRepository">
+
+    <resultMap id="simpleAttach" type="com.adnstyle.choicafe.domain.GhAttach">
+        <id property="seq" column="seq"/>
+        <result property="tableType" column="table_type"/>
+        <result property="tableSeq" column="table_seq"/>
+        <result property="displayName" column="display_name"/>
+        <result property="savedName" column="saved_name"/>
+        <result property="savedDir" column="saved_dir"/>
+        <result property="type" column="type"/>
+        <result property="size" column="size"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="createdDate" column="created_date"/>
+    </resultMap>
+
+    <select id="selectAttachCount" resultType="int">
+        select count(*)
+        from gh_attach;
+    </select>
+
+
+    <insert id="insertAttach">
+        insert into gh_attach
+            (
+                 table_type,
+                 table_seq,
+                 display_name,
+                 saved_name,
+                 saved_dir,
+                 type,
+                 size
+            )
+            value
+            (
+                #{tableType},
+                #{tableSeq},
+                #{displayName},
+                #{savedName},
+                #{savedDir},
+                #{type},
+                #{size}
+            )
+
+    </insert>
+
+
+</mapper>

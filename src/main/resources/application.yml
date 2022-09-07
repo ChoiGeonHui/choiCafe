@@ -10,12 +10,17 @@ spring:
     url: jdbc:mariadb://192.168.1.84:3306/a_ljy_db?useSSL=false&allowMultiQueries=true
     username: a_ljy_user
     password: '!adnstyleDB'
-
+  file-upload:
+    save-dir: D:/saveChoi/save
+    save-editor: D:/saveChoi/editor
+    temp-dir: D:/saveChoi/temp
   mvc:
     static-path-pattern: /static/**
     view:
       prefix: /WEB-INF/jsp/
       suffix: .jsp
+
+
 
 mybatis:
   mapper-locations: mybatis/**/*Mapper.xml

@@ -114,7 +114,7 @@
                 $.ajax({
                     type: "POST",
                     url: "/board/delete",
-                    data: {"seq": seq},
+                    data: {"seq" : seq},
                     success: function (data) {
                         if (data.result == 'success') {
                             alert('삭제를 완료하였습니다.');

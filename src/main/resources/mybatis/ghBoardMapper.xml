@@ -2,16 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.adnstyle.choicafe.repository.GhBoardRepository">
     <resultMap id="simpleBoard" type="com.adnstyle.choicafe.domain.GhBoard">
-        <id property="seq"                  column="seq"/>
-        <result property="parentSeq"        column="parent_seq"/>
-        <result property="title"            column="title"/>
-        <result property="content"          column="content"/>
-        <result property="viewCount"        column="view_conunt"/>
-        <result property="delYN"            column="del_yn"/>
-        <result property="createdBy"        column="created_by"/>
-        <result property="createdDate"      column="created_date"/>
-        <result property="modifiedBy"       column="modified_by"/>
-        <result property="modifiedDate"     column="modified_date"/>
+        <id property="seq" column="seq"/>
+        <result property="parentSeq" column="parent_seq"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="viewCount" column="view_conunt"/>
+        <result property="delYN" column="del_yn"/>
+        <result property="createdBy" column="created_by"/>
+        <result property="createdDate" column="created_date"/>
+        <result property="modifiedBy" column="modified_by"/>
+        <result property="modifiedDate" column="modified_date"/>
     </resultMap>
 
 
@@ -69,22 +69,25 @@
         limit #{PageStart}, #{perPageNum};
     </select>
 
-    <insert id="insertBoard">
+    <insert id="insertBoard" useGeneratedKeys="true" keyProperty="seq">
         insert into gh_board
             (
-             title,
-             content
+            title,
+            content
             )
         values
             (
              #{title},
-            #{content}
-            )
+             #{content}
+             )
     </insert>
 
 
     <update id="updateBoard">
-        update gh_board set title = #{title}, content= #{content} where seq = #{seq} ;
+        update gh_board
+        set title = #{title},
+            content = #{content}
+        where seq = #{seq};
     </update>
 
     <update id="deleteBoard">
@@ -93,9 +96,8 @@
         where seq in
         <foreach collection="seq" item="seq" open="(" close=")" separator=",">
             #{seq}
-        </foreach>;
+        </foreach>
     </update>
-
 
 
 </mapper>
