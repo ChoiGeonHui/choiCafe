@@ -8,6 +8,8 @@ public interface GhAttachRepository {
 
     int selectAttachCount();
 
+    GhAttach selectAttach(GhAttach ghAttach);
+
     int insertAttach(GhAttach ghAttach);
 
 }

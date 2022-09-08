@@ -42,4 +42,7 @@ public class GhBoard extends Criteria {
 
     //수정일
     private Date modifiedDate;
+
+    private GhAttach ghAttach;
+
 }

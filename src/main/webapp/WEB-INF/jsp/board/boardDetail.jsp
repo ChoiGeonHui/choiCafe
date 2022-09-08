@@ -15,10 +15,15 @@
     </div>
     <div class="mt-2 col-8">
         <input type="file" name="file" id="file">
+        <span> 현재 저장된 파일 : </span>
+        <a>${ghBoard.ghAttach.displayName}</a>
+        <input  name="ghAttach.seq" value="${ghBoard.ghAttach.seq}" hidden>
+        <input  name="ghAttach.tableType" value="ghBoard" hidden>
+        <input  name="ghAttach.tableSeq" value="${ghBoard.seq}" hidden>
         <div id="fileName" class="ml-2 text-center ml-2"></div>
     </div>
     <div class="mt-2">
-        <button type="submit" class="btn btn-info insertBoard btnC">등록</button>
+        <button type="submit" class="btn btn-info">등록</button>
         <a class="btn btn-secondary text-white" href="/board/list">취소</a>
     </div>
 </form>

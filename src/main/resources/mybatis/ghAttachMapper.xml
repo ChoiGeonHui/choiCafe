@@ -20,6 +20,38 @@
         from gh_attach;
     </select>
 
+    <sql id="simpleSelect">
+        select
+            seq,
+            table_type,
+            table_seq,
+            display_name,
+            saved_name,
+            saved_dir,
+            type,
+            size,
+            created_by,
+            created_date
+        from gh_attach
+    </sql>
+
+    <select id="selectAttach" resultMap="simpleAttach" parameterType="map">
+        <include refid="simpleSelect"/>
+        <where>
+            <if test="seq != null and seq != ''">
+                and seq = #{seq}
+            </if>
+            <if test="tableType != null and tableType != ''">
+                and table_type = #{tableType}
+            </if>
+            <if test="tableSeq != null and tableSeq != ''">
+                and table_seq = #{tableSeq}
+            </if>
+
+        </where>
+        limit 1
+    </select>
+
 
     <insert id="insertAttach">
         insert into gh_attach

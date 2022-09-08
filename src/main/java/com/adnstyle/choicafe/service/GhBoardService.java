@@ -28,7 +28,9 @@ public class GhBoardService {
 
     @Transactional
     public GhBoard selectGhBoardBySeq(Long seq) {
-        return ghBoardRepository.selectGhBoardBySeq(seq);
+        GhBoard ghBoard= ghBoardRepository.selectGhBoardBySeq(seq);
+        ghBoard.setGhAttach(ghAttachService.selectAttach("ghBoard",ghBoard.getSeq()));
+        return ghBoard;
     }
 
     @Transactional
@@ -43,7 +45,9 @@ public class GhBoardService {
             ghAttachService.save(ghBoard.getSeq(),"ghBoard",file);
             return 1;
         } else {
-            return ghBoardRepository.updateBoard(ghBoard);
+            ghBoardRepository.updateBoard(ghBoard);
+//            ghAttachService.update(ghBoard,"ghBoard",file);
+            return 1;
         }
     }
 
