@@ -12,4 +12,7 @@ public interface GhAttachRepository {
 
     int insertAttach(GhAttach ghAttach);
 
+    int deleteAttach(GhAttach ghAttach);
+
+
 }

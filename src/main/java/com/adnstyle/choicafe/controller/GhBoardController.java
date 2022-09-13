@@ -61,7 +61,7 @@ public class GhBoardController {
 
     @RequestMapping("/insertUpdate")
     public String cuBoard(GhBoard ghBoard, @RequestPart("file") MultipartFile file) {
-        ghBoardService.cuBoard(ghBoard, file);
+//        ghBoardService.cuBoard(ghBoard, file);
         return "redirect:/board/list";
     }
 

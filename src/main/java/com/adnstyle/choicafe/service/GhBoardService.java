@@ -28,8 +28,8 @@ public class GhBoardService {
 
     @Transactional
     public GhBoard selectGhBoardBySeq(Long seq) {
-        GhBoard ghBoard= ghBoardRepository.selectGhBoardBySeq(seq);
-        ghBoard.setGhAttach(ghAttachService.selectAttach("ghBoard",ghBoard.getSeq()));
+        GhBoard ghBoard = ghBoardRepository.selectGhBoardBySeq(seq);
+        ghBoard.setGhAttach(ghAttachService.selectAttach("ghBoard", ghBoard.getSeq()));
         return ghBoard;
     }
 
@@ -42,11 +42,11 @@ public class GhBoardService {
     public int cuBoard(GhBoard ghBoard, MultipartFile file) {
         if (ghBoard.getSeq() == null || ghBoard.getSeq() == 0) {
             ghBoardRepository.insertBoard(ghBoard);
-            ghAttachService.save(ghBoard.getSeq(),"ghBoard",file);
+            ghAttachService.save(ghBoard.getSeq(), "ghBoard", file);
             return 1;
         } else {
             ghBoardRepository.updateBoard(ghBoard);
-//            ghAttachService.update(ghBoard,"ghBoard",file);
+            ghAttachService.update(ghBoard, file);
             return 1;
         }
     }

@@ -41,5 +41,8 @@ public class GhAttach {
     //작성일
     private Date createdDate;
 
+    //파일 상태
+    private String status;
+
 
 }

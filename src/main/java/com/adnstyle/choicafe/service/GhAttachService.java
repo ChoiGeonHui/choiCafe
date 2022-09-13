@@ -8,10 +8,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,7 +28,11 @@ public class GhAttachService {
     private final FileUploadDirByYML fileUploadDirByYML;
 
     private final GhAttachRepository ghAttachRepository;
-    public GhAttach selectAttach(String tableType,Long tableSeq){
+
+    private static final Logger log = LoggerFactory.getLogger(GhAttachService.class);
+
+
+    public GhAttach selectAttach(String tableType, Long tableSeq) {
         GhAttach ghAttach = new GhAttach();
         ghAttach.setTableType(tableType);
         ghAttach.setTableSeq(tableSeq);
@@ -34,6 +41,7 @@ public class GhAttachService {
 
     /**
      * 파일 저장
+     *
      * @param seq
      * @param tableName
      * @param file
@@ -54,7 +62,7 @@ public class GhAttachService {
 
         createDirectory(saveDir); // 파일 폴더 생성 (없을경우)
 
-        String fileExt = getFileExt(file.getOriginalFilename()); //파일 확장자명 생성
+        String fileExt = file.getContentType(); //파일 타입 생성
 
         String saveFileName = RandomStringUtils.randomAlphanumeric(20); //파일에 저장할 저장명 설정 (랜덤한 문자 20자)
 
@@ -70,7 +78,7 @@ public class GhAttachService {
         ghAttach.setTableSeq(seq);
         ghAttach.setDisplayName(file.getOriginalFilename());
         ghAttach.setSavedName(saveFileName);
-        ghAttach.setSavedDir(StringUtils.removeStart(saveDir,fileUploadDirByYML.getSaveDir()));
+        ghAttach.setSavedDir(StringUtils.removeStart(saveDir, fileUploadDirByYML.getSaveDir()));
         ghAttach.setType(fileExt);
         ghAttach.setSize(file.getSize());
 
@@ -78,33 +86,53 @@ public class GhAttachService {
     }
 
     @Transactional
-    public void update(GhBoard ghBoard, String tableType, MultipartFile file){
+    public void update(GhBoard ghBoard, MultipartFile file) {
+
+        /**
+         * 파일 업로드시 파일 존재 여부
+         *
+         *  upload       db         method
+         * ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+         *  false       false       save
+         *  false       ture        save
+         *  ture        false       save
+         *  ture        ture        delete DB -> insert UploadFile
+         *
+         * dbDelete     ---->       status = _delete  -> delete DB
+         *
+         */
+        //기존 db에 등록된 파일
         GhAttach ghAttach = ghAttachRepository.selectAttach(ghBoard.getGhAttach());
 
-        if (ghAttach == null){ //기존에 등록된 파일 여부
+        //db에 저장된 파일 상태
+        String status = ghBoard.getGhAttach().getStatus();
 
-        } else {
-            if (file.isEmpty()){ //새로 등록할 파일 여부
-                return;
-            } else {
+        if (ghAttach != null) { //기존에 등록된 파일 여부
+
+            if (status.equals("_delete") || !file.isEmpty()){
+                //DB에 저장된 파일 삭제 요청 or 신규 파일 등록시 -> 기존파일 삭제
+
+                File f = new File(fileUploadDirByYML.getSaveDir() + ghAttach.getSavedDir() + "/" + ghAttach.getSavedName());
+
+                if (f.exists()) {
+                    f.delete();
+                }
+                deleteAttach(ghAttach);
 
             }
         }
-
-        save(ghBoard.getSeq(),tableType,file);
-
+        save(ghBoard.getSeq(), ghBoard.getGhAttach().getTableType(), file);
     }
 
     @Transactional
-    public int insertAttach(GhAttach ghAttach){
+    public int insertAttach(GhAttach ghAttach) {
         return ghAttachRepository.insertAttach(ghAttach);
     }
 
     @Transactional
-    public int deleteAttach(GhAttach ghAttach){
-        return 1;
+    public int deleteAttach(GhAttach ghAttach) {
+        return ghAttachRepository.deleteAttach(ghAttach);
     }
-
 
 
     private void createDirectory(String saveDir) {
@@ -121,14 +149,14 @@ public class GhAttachService {
 
 
     public String getFileExt(String fileName) {
-        return fileName.substring(fileName.lastIndexOf(".")+1);
+        return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
-    public String getSaveDir(String tableName){
-        if (tableName == null || tableName.equals("")){
+    public String getSaveDir(String tableName) {
+        if (tableName == null || tableName.equals("")) {
             return null;
         }
-        String saveDir = fileUploadDirByYML.getSaveDir() + "/"+ tableName +"/"+ fileUploadDirByYML.getSubDir();
+        String saveDir = fileUploadDirByYML.getSaveDir() + "/" + tableName + "/" + fileUploadDirByYML.getSubDir();
         return saveDir;
     }
 

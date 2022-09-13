@@ -15,10 +15,6 @@
         <result property="createdDate" column="created_date"/>
     </resultMap>
 
-    <select id="selectAttachCount" resultType="int">
-        select count(*)
-        from gh_attach;
-    </select>
 
     <sql id="simpleSelect">
         select
@@ -35,8 +31,7 @@
         from gh_attach
     </sql>
 
-    <select id="selectAttach" resultMap="simpleAttach" parameterType="map">
-        <include refid="simpleSelect"/>
+    <sql id="whereSql">
         <where>
             <if test="seq != null and seq != ''">
                 and seq = #{seq}
@@ -49,6 +44,16 @@
             </if>
 
         </where>
+    </sql>
+
+    <select id="selectAttachCount" resultType="int">
+        select count(*)
+        from gh_attach;
+    </select>
+
+    <select id="selectAttach" resultMap="simpleAttach" parameterType="map">
+        <include refid="simpleSelect"/>
+        <include refid="whereSql"/>
         limit 1
     </select>
 
@@ -76,6 +81,11 @@
             )
 
     </insert>
+
+    <delete id="deleteAttach">
+        delete from gh_attach
+        <include refid="whereSql"/>
+    </delete>
 
 
 </mapper>

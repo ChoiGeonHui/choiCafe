@@ -4,16 +4,31 @@ logging:
       springframework: debug
       objectweb: debug
 
+    root: info
+    com.adnstyle.choicafe: debug
+
+#  config: classpath:logback-spring.xml
+
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://192.168.1.84:3306/a_ljy_db?useSSL=false&allowMultiQueries=true
     username: a_ljy_user
     password: '!adnstyleDB'
+
   file-upload:
     save-dir: D:/saveChoi/save
-    save-editor: D:/saveChoi/editor
+    save-editor-dir: D:/saveChoi/editor
     temp-dir: D:/saveChoi/temp
+
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+  profiles:
+    active: local
+
   mvc:
     static-path-pattern: /static/**
     view:
