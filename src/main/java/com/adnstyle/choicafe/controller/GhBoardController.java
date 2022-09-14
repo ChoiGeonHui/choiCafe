@@ -52,6 +52,14 @@ public class GhBoardController {
         model.addAttribute("page", "board/boardDetail");
         return layout;
     }
+    @RequestMapping("/comment")
+    public String commentBoard(@RequestParam("seq") Long seq, Model model) {
+        GhBoard ghBoard = new GhBoard();
+        ghBoard.setParentSeq(seq);
+        model.addAttribute("ghBoard", ghBoard);
+        model.addAttribute("page", "board/boardDetail");
+        return layout;
+    }
 
     @RequestMapping("/create")
     public String createBoard(Model model) {
@@ -61,7 +69,7 @@ public class GhBoardController {
 
     @RequestMapping("/insertUpdate")
     public String cuBoard(GhBoard ghBoard, @RequestPart("file") MultipartFile file) {
-//        ghBoardService.cuBoard(ghBoard, file);
+        ghBoardService.cuBoard(ghBoard, file);
         return "redirect:/board/list";
     }
 

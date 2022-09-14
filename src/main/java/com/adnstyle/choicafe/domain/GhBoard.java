@@ -19,6 +19,12 @@ public class GhBoard extends Criteria {
     // 부모식별자
     private Long parentSeq;
 
+    //답글 소속그룹
+    private String groupOrd;
+
+    //답글 깊이
+    private int depth;
+
     // 제목
     private String title;
 
@@ -43,6 +49,7 @@ public class GhBoard extends Criteria {
     //수정일
     private Date modifiedDate;
 
+    //파일
     private GhAttach ghAttach;
 
 }

@@ -26,7 +26,7 @@
         <tr>
             <th class="col-1"><input type="checkbox" id="selectAll" name="selectAll" onclick="selectAll()"></th>
             <th class="col-1">번호</th>
-            <th class="col-5">제목</th>
+            <th class="col-5 text-left">제목</th>
             <th class="col-1">조회</th>
             <th class="col-1">작성자</th>
             <th class="col-2">날짜</th>
@@ -38,14 +38,19 @@
                 <tr>
                     <td><input type="checkbox" name="selectChk" class="selectChk" data-checkbox="${list.seq}" onclick='checkedAll()'></td>
                     <td>${list.seq}</td>
-                    <td><a href="/board/detail?seq=${list.seq}">${list.title}</a></td>
+                    <td class="text-left"><a href="/board/detail?seq=${list.seq}">
+                        <c:forEach var="depth" begin="1" end="${list.depth}">
+                            <c:if test="${depth ne list.depth}">&nbsp;&nbsp;</c:if>
+                            <c:if test="${depth == list.depth}"> └</c:if>
+                        </c:forEach>
+                            ${list.title}</a></td>
                     <td>${list.viewCount}</td>
                     <td>${list.createdBy}</td>
                     <td>
                         <fmt:formatDate value="${list.createdDate}" pattern="yyyy-MM-dd"/>
                     </td>
                     <td>
-                        <input type="button" class="btn btn-danger btnDel" data-seq='${list.seq}' value="삭제">
+                        <a href="/board/comment?seq=${list.seq}" class="btn btn-info btnComment" data-seq='${list.seq}'>답글</a>
                     </td>
                 </tr>
         </c:forEach>
@@ -156,29 +161,29 @@
         });
 
 
-        $('.btnDel').on('click', function () {
-            let seq = [];
-            seq.push($(this).data('seq'));
-            if (confirm('삭제 하시겠습니까?')) {
-                alert('seq : ' + seq);
-                $.ajax({
-                    type: "POST",
-                    data: {'seq' : seq},
-                    url: "/board/delete",
-                    success: function (data) {
-                        if (data.result == 'success') {
-                            alert('삭제를 완료하였습니다.');
-                            location.reload();
-                        } else {
-                            alert('오류발생');
-                        }
-                    },
-                    error: function () {
-                        alert('에러발생');
-                    }
-                })
-            }
-        });
+        // $('.btnDel').on('click', function () {
+        //     let seq = [];
+        //     seq.push($(this).data('seq'));
+        //     if (confirm('삭제 하시겠습니까?')) {
+        //         alert('seq : ' + seq);
+        //         $.ajax({
+        //             type: "POST",
+        //             data: {'seq' : seq},
+        //             url: "/board/delete",
+        //             success: function (data) {
+        //                 if (data.result == 'success') {
+        //                     alert('삭제를 완료하였습니다.');
+        //                     location.reload();
+        //                 } else {
+        //                     alert('오류발생');
+        //                 }
+        //             },
+        //             error: function () {
+        //                 alert('에러발생');
+        //             }
+        //         })
+        //     }
+        // });
 
         // $('#selectAll').on('click', function () {
         //     if ($(this).prop('checked')) {

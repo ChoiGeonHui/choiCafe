@@ -7,6 +7,7 @@
 <div class="text-center">
     <form method="post"id="submitForm" name="submitForm" action="/board/insertUpdate" enctype="multipart/form-data">
         <input type="text" value="${ghBoard.seq}" id="seq" name="seq" hidden="hidden">
+        <input type="text" value="${ghBoard.parentSeq}" id="parentSeq" name="parentSeq" hidden="hidden">
         <div>
             <b class="col-1">제목 : </b> <input type="text" id="title" name="title" class="col-6" value="${ghBoard.title}">
         </div>
@@ -15,6 +16,8 @@
         </div>
         <div class="mt-2 col-12">
             <input type="file" name="file" id="file">
+        </div>
+        <div>
             <c:if test="${ghBoard.ghAttach.seq ne null}">
                 <span id="fileName1"> 현재 저장된 파일 :</span>
                 <a href="#" id="btnDownload" class="btn ml-2">${ghBoard.ghAttach.displayName}</a>

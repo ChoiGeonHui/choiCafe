@@ -40,7 +40,7 @@ public class GhBoardService {
 
     @Transactional
     public int cuBoard(GhBoard ghBoard, MultipartFile file) {
-        if (ghBoard.getSeq() == null || ghBoard.getSeq() == 0) {
+        if (ghBoard.getSeq() == null || ghBoard.getSeq() == 0) { //식별자 존재 여부에 따라 등록, 수정이 나뉜다.
             ghBoardRepository.insertBoard(ghBoard);
             ghAttachService.save(ghBoard.getSeq(), "ghBoard", file);
             return 1;
