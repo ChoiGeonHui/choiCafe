@@ -35,6 +35,10 @@ spring:
       prefix: /WEB-INF/jsp/
       suffix: .jsp
 
+  security:
+    user:
+      name: user
+      password: 1234
 
 
 mybatis:

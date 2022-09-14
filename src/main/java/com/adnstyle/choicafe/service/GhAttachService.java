@@ -12,16 +12,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
+import java.nio.channels.WritableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class GhAttachService {
 
@@ -38,6 +46,56 @@ public class GhAttachService {
         ghAttach.setTableSeq(tableSeq);
         return ghAttachRepository.selectAttach(ghAttach);
     }
+
+
+    public void download(GhAttach ghAttach) throws IOException {
+
+        //DB에서 파일 데이터 가져오기
+        ghAttach = ghAttachRepository.selectAttach(ghAttach);
+
+        File f = new File(fileUploadDirByYML.getSaveDir() + ghAttach.getSavedDir() + "/" + ghAttach.getSavedName());
+
+        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletResponse response = requestAttributes.getResponse();
+
+        response.setContentType(ghAttach.getType());
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(ghAttach.getDisplayName(), "UTF-8") + "\"");
+        response.setContentLength((int) f.length());
+
+        FileInputStream fin = null;
+        FileChannel inputChannel = null;
+        WritableByteChannel outputChannel = null;
+
+        try {
+            fin = new FileInputStream(f);
+            inputChannel = fin.getChannel();
+
+            outputChannel = Channels.newChannel(response.getOutputStream());
+            inputChannel.transferTo(0, fin.available(), outputChannel);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            try {
+                if (fin != null) fin.close();
+                if (inputChannel.isOpen()) inputChannel.close();
+                if (outputChannel.isOpen()) outputChannel.close();
+            } catch (Exception e) {
+                fin.close();
+                inputChannel.close();
+                outputChannel.close();
+            }
+
+        }
+
+
+
+
+    }
+
+
+
+
+
 
     /**
      * 파일 저장

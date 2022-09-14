@@ -36,22 +36,27 @@
         <tbody>
         <c:forEach items="${ghBoardList}" var="list">
                 <tr>
-                    <td><input type="checkbox" name="selectChk" class="selectChk" data-checkbox="${list.seq}" onclick='checkedAll()'></td>
-                    <td>${list.seq}</td>
-                    <td class="text-left"><a href="/board/detail?seq=${list.seq}">
-                        <c:forEach var="depth" begin="1" end="${list.depth}">
-                            <c:if test="${depth ne list.depth}">&nbsp;&nbsp;</c:if>
-                            <c:if test="${depth == list.depth}"> └</c:if>
-                        </c:forEach>
-                            ${list.title}</a></td>
-                    <td>${list.viewCount}</td>
-                    <td>${list.createdBy}</td>
-                    <td>
-                        <fmt:formatDate value="${list.createdDate}" pattern="yyyy-MM-dd"/>
-                    </td>
-                    <td>
-                        <a href="/board/comment?seq=${list.seq}" class="btn btn-info btnComment" data-seq='${list.seq}'>답글</a>
-                    </td>
+                    <c:if test='${list.delYN == "Y"}'>
+                        <td colspan="7">삭제된 게시글 입니다.</td>
+                    </c:if>
+                    <c:if test='${list.delYN eq "N"}'>
+                        <td><input type="checkbox" name="selectChk" class="selectChk" data-checkbox="${list.seq}" onclick='checkedAll()'></td>
+                        <td>${list.seq}</td>
+                        <td class="text-left"><a href="/board/detail?seq=${list.seq}">
+                            <c:forEach var="depth" begin="1" end="${list.depth}">
+                                <c:if test="${depth ne list.depth}">&nbsp;&nbsp;</c:if>
+                                <c:if test="${depth == list.depth}"> └</c:if>
+                            </c:forEach>
+                                ${list.title}</a></td>
+                        <td>${list.viewCount}</td>
+                        <td>${list.createdBy}</td>
+                        <td>
+                            <fmt:formatDate value="${list.createdDate}" pattern="yyyy-MM-dd"/>
+                        </td>
+                        <td>
+                            <a href="/board/comment?seq=${list.seq}" class="btn btn-info btnComment" data-seq='${list.seq}'>답글</a>
+                        </td>
+                    </c:if>
                 </tr>
         </c:forEach>
 

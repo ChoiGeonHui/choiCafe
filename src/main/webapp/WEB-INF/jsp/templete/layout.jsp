@@ -20,6 +20,9 @@
 
 <body>
 <div class="container text-center">
+    <header>
+        
+    </header>
     <h2 class="mt-3"><a href="/board/list">ChoiCafe</a></h2>
 
     <section>

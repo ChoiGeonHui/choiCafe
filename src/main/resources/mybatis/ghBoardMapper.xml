@@ -81,7 +81,7 @@
     </sql>
 
     <sql id="whereSQL">
-        where del_yn = 'N'
+        where 1 = 1
         <if test="searchWord != null and searchWord != ''">
 
             <choose>

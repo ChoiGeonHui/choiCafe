@@ -20,7 +20,7 @@
         <div>
             <c:if test="${ghBoard.ghAttach.seq ne null}">
                 <span id="fileName1"> 현재 저장된 파일 :</span>
-                <a href="#" id="btnDownload" class="btn ml-2">${ghBoard.ghAttach.displayName}</a>
+                <a href="/download?seq=${ghBoard.ghAttach.seq}" id="btnDownload" class="btn ml-2">${ghBoard.ghAttach.displayName}</a>
                 <input type="button" id="btnDelFile" class="btn ml-2" value="X">
                 <div id="fileName" class="ml-2 text-center ml-2"></div>
             </c:if>
