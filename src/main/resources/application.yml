@@ -39,6 +39,15 @@ spring:
     user:
       name: user
       password: 1234
+    oauth2:
+      client:
+        registration:
+          goole:
+            client-id: 745491787039-461klkra8odj8oc7eg08p6ku1d366cii.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - profile
+              - -email
 
 
 mybatis:

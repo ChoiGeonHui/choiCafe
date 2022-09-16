@@ -17,15 +17,18 @@ public class GhAttachController {
     GhAttachService ghAttachService;
 
 
+    /**
+     * 파일 다운로드
+     * @param seq
+     * @return
+     * @throws Exception
+     */
     @RequestMapping("/download")
     public ResponseEntity<String> download(@RequestParam("seq") Long seq) throws Exception {
         GhAttach ghAttach = new GhAttach();
         ghAttach.setSeq(seq);
-
         ghAttachService.download(ghAttach);
-
         return null;
-
     }
 
 

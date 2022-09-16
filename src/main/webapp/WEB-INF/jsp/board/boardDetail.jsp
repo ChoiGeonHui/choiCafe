@@ -5,7 +5,7 @@
 
 
 <div class="text-center">
-    <form method="post"id="submitForm" name="submitForm" action="/board/insertUpdate" enctype="multipart/form-data">
+    <form method="post" id="submitForm" name="submitForm" action="/board/insertUpdate" enctype="multipart/form-data">
         <input type="text" value="${ghBoard.seq}" id="seq" name="seq" hidden="hidden">
         <input type="text" value="${ghBoard.parentSeq}" id="parentSeq" name="parentSeq" hidden="hidden">
         <div>
@@ -14,14 +14,14 @@
         <div class="mt-2">
             <textarea id="content" name="content" class="col-7" style="height: 100px" placeholder="내용을 입력하세요.">${ghBoard.content}</textarea>
         </div>
-        <div class="mt-2 col-12">
-            <input type="file" name="file" id="file">
+        <div class="mt-2 d-flex justify-content-center">
+            <input class="form-control col-7" type="file" name="file" id="file" multiple="multiple">
         </div>
         <div>
             <c:if test="${ghBoard.ghAttach.seq ne null}">
                 <span id="fileName1"> 현재 저장된 파일 :</span>
                 <a href="/download?seq=${ghBoard.ghAttach.seq}" id="btnDownload" class="btn ml-2">${ghBoard.ghAttach.displayName}</a>
-                <input type="button" id="btnDelFile" class="btn ml-2" value="X">
+                <input type="button" data-file-seq="${ghBoard.ghAttach.seq}" id="btnDelFile" class="btn ml-2" value="X">
                 <div id="fileName" class="ml-2 text-center ml-2"></div>
             </c:if>
             <input  name="ghAttach.seq" value="${ghBoard.ghAttach.seq}" hidden>

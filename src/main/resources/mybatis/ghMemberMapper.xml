@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.adnstyle.choicafe.repository.GhMemberRepository">
+
+    <resultMap id="simpleMember" type="com.adnstyle.choicafe.domain.GhMember">
+        <id property="seq" column="seq"/>
+        <result property="id" column="id"/>
+        <result property="password" column="password"/>
+        <result property="name" column="name"/>
+        <result property="email" column="email"/>
+        <result property="role" column="role"/>
+        <result property="delYN" column="del_yn"/>
+        <result property="createdMember" column="created_member"/>
+    </resultMap>
+
+    <sql id="selectSimple">
+        select
+            seq,
+            id,
+            password,
+            name,
+            email,
+            role,
+            del_yn,
+            created_member
+        from
+            gh_member
+    </sql>
+
+    <select id="selectCount" resultType="int">
+        select count(*)
+        from gh_member;
+    </select>
+
+    <select id="selectMember" resultMap="simpleMember">
+        <include refid="selectSimple"/>
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="password != null">
+                and password = #{password}
+            </if>
+            <if test="email != null">
+                and email = #{email}
+            </if>
+            <if test="name != null">
+                and name = #{name}
+            </if>
+
+        </where>
+
+    </select>
+
+
+    <insert id="insertMember">
+        insert into gh_member
+            (
+             id,
+             password,
+             name,
+             email,
+             role
+             )
+        values
+            (
+             #{id},
+             #{password},
+             #{name},
+             #{email},
+             #{role}
+             )
+    </insert>
+
+
+
+
+
+</mapper>

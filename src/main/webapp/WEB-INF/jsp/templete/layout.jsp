@@ -21,9 +21,17 @@
 <body>
 <div class="container text-center">
     <header>
-        
+        <h2 class="mt-3"><a href="/board/list">ChoiCafe</a></h2>
     </header>
-    <h2 class="mt-3"><a href="/board/list">ChoiCafe</a></h2>
+
+    <c:if test="${user ne null}">
+
+        <div class="d-flex flex-row-reverse my-2">
+            <a href="/logout"> 로그아웃</a> <span>${user.name}님 환영합니다. </span>
+        </div>
+
+    </c:if>
+
 
     <section>
         <jsp:include page="../${page}.jsp"/>
