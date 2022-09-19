@@ -6,12 +6,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.ibatis.type.Alias;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Alias("ghBoard")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class GhBoard extends Criteria {
+public class GhBoard extends Criteria implements Serializable {
 
     // 식별자
     private Long seq;
@@ -37,8 +39,11 @@ public class GhBoard extends Criteria {
     // 삭제여부
     private String delYN;
 
-    // 작성자
+    // 작성자 식별자
     private String createdBy;
+
+
+    private String createdName;
 
     //작성일
     private Date createdDate;
@@ -50,6 +55,6 @@ public class GhBoard extends Criteria {
     private Date modifiedDate;
 
     //파일
-    private GhAttach ghAttach;
+    private List<GhAttach> ghAttachList;
 
 }

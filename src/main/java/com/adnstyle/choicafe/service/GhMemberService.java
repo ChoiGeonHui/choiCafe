@@ -2,6 +2,7 @@ package com.adnstyle.choicafe.service;
 
 
 import com.adnstyle.choicafe.domain.GhMember;
+import com.adnstyle.choicafe.domain.Role;
 import com.adnstyle.choicafe.repository.GhMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,6 +30,7 @@ public class GhMemberService implements UserDetailsService {
     @Transactional
     public String insertMember(GhMember ghMember){
 
+        ghMember.setRole(Role.USER.getKey());
         String password = ghMember.getPassword();
         String encPW = encoder.encode(password);
 

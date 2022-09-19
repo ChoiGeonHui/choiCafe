@@ -91,9 +91,6 @@
             let email = $("#email").val();
             let emailhost = $("#emailhost").val();
 
-            alert(id+ password + name +  email+"  @  "+emailhost);
-
-
             if(id == ''){
                 alert('아이디를 입력하세요.');
                 return;

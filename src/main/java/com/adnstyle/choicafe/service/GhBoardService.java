@@ -26,10 +26,14 @@ public class GhBoardService {
     }
 
 
-    @Transactional
+    /**
+     * 게시물 상세보기
+     * @param seq
+     * @return
+     */
     public GhBoard selectGhBoardBySeq(Long seq) {
         GhBoard ghBoard = ghBoardRepository.selectGhBoardBySeq(seq);
-        ghBoard.setGhAttach(ghAttachService.selectAttach("ghBoard", ghBoard.getSeq()));
+        ghBoard.setGhAttachList(ghAttachService.selectAttach("ghBoard", ghBoard.getSeq()));
         return ghBoard;
     }
 
@@ -39,14 +43,14 @@ public class GhBoardService {
     }
 
     @Transactional
-    public int cuBoard(GhBoard ghBoard, MultipartFile file) {
+    public int cuBoard(GhBoard ghBoard,List<MultipartFile> fileList) {
         if (ghBoard.getSeq() == null || ghBoard.getSeq() == 0) { //식별자 존재 여부에 따라 등록, 수정이 나뉜다.
             ghBoardRepository.insertBoard(ghBoard);
-            ghAttachService.save(ghBoard.getSeq(), "ghBoard", file);
+            ghAttachService.save(ghBoard.getSeq(), "ghBoard", fileList);
             return 1;
         } else {
             ghBoardRepository.updateBoard(ghBoard);
-            ghAttachService.update(ghBoard, file);
+            ghAttachService.update(ghBoard.getSeq(),"ghBoard", ghBoard.getGhAttachList(),  fileList);
             return 1;
         }
     }

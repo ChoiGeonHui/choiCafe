@@ -26,43 +26,41 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-                .authorizeRequests()
-                .antMatchers("/error",
-                        "/favicon.ico",
-                        "/**/*.png",
-                        "/**/*.gif",
-                        "/**/*.svg",
-                        "/**/*.jpg",
-                        "/**/*.html",
-                        "/**/*.css",
-                        "/**/*.js",
-                        "/**/*.jsp", "/oauth/**","/**").permitAll()
-                .antMatchers("/board/**").hasAnyRole(Role.ADMIN.name(),Role.USER.name(),Role.SOCIAL.name())
+                    .authorizeRequests()
+                    .antMatchers("/error",
+                            "/favicon.ico",
+                            "/**/*.png",
+                            "/**/*.gif",
+                            "/**/*.svg",
+                            "/**/*.jpg",
+                            "/**/*.html",
+                            "/**/*.css",
+                            "/**/*.js",
+                            "/**/*.jsp", "/oauth/**").permitAll()
+                    .antMatchers("/board/**").hasAnyRole(Role.ADMIN.name(),Role.USER.name(),Role.SOCIAL.name())
 
                 .and()
-                .formLogin()
-                .usernameParameter("id").passwordParameter("password")
-                .loginPage("/oauth/login")
-                .loginProcessingUrl("/oauth/sginIn")
-                .defaultSuccessUrl("/oauth/")
+                    .formLogin()
+                    .usernameParameter("id").passwordParameter("password")
+                    .loginPage("/oauth/login")
+                    .loginProcessingUrl("/oauth/sginIn")
+                    .defaultSuccessUrl("/oauth/")
 
 
                 .and()
-                .csrf()
-                .disable()
-                .exceptionHandling()
-                .accessDeniedPage("/oauth/access")
+                    .csrf()
+                    .disable()
+                    .exceptionHandling()
+                    .accessDeniedPage("/oauth/access")
 
                 .and()
-                .logout()
-                .logoutSuccessUrl("/oauth/login")
-                .invalidateHttpSession(true)
+                    .logout()
+                    .logoutSuccessUrl("/oauth/login")
+                    .invalidateHttpSession(true)
 
                 .and()
-                .exceptionHandling()
-                .accessDeniedPage("/oauth/access");
-
-
+                    .exceptionHandling()
+                    .accessDeniedPage("/oauth/access");
 
 
         return http.build();

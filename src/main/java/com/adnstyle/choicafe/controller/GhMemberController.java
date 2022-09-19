@@ -55,7 +55,6 @@ public class GhMemberController {
     @ResponseBody
     @RequestMapping("/insertMember")
     public Map<String, String> sginUp(GhMember ghMember) {
-        ghMember.setRole(Role.USER.getKey());
         String s = ghMemberService.insertMember(ghMember);
         Map<String, String> result = new HashMap<>();
         result.put("result",s);

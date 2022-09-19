@@ -47,6 +47,14 @@ public class GhBoardController {
         return layout;
     }
 
+    @RequestMapping("/view")
+    public String BoardView (@RequestParam("seq") Long seq, Model model) {
+        GhBoard ghBoard = ghBoardService.selectGhBoardBySeq(seq);
+        model.addAttribute("ghBoard", ghBoard);
+        model.addAttribute("page", "board/boardView");
+        return layout;
+    }
+
 
     @RequestMapping("/detail")
     public String detailBoard(@RequestParam("seq") Long seq, Model model) {
@@ -73,7 +81,7 @@ public class GhBoardController {
     }
 
     @RequestMapping("/insertUpdate")
-    public String cuBoard(GhBoard ghBoard, @RequestPart("file") MultipartFile file) {
+    public String cuBoard(GhBoard ghBoard, @RequestPart("fileList") List<MultipartFile> file) {
         ghBoardService.cuBoard(ghBoard, file);
         return "redirect:/board/list";
     }

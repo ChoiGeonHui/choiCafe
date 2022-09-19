@@ -46,10 +46,9 @@
                 data: {'id': id, 'password': password},
                 success: function (data) {
                     if (data.result == 'success') {
-                        alert('로그인 성공.');
                         location.href="/board/list";
                     } else {
-                        alert('아이디 또는 비밀번호가 다릅니다.');
+                        alert('아이디 또는 비밀번호가 틀립니다.');
                     }
                 },
                 error: function () {

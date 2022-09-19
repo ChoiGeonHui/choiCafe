@@ -17,6 +17,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -27,6 +28,8 @@ import java.nio.channels.WritableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -36,10 +39,12 @@ public class GhAttachService {
 
     private final GhAttachRepository ghAttachRepository;
 
+    private final HttpSession httpSession;
+
     private static final Logger log = LoggerFactory.getLogger(GhAttachService.class);
 
 
-    public GhAttach selectAttach(String tableType, Long tableSeq) {
+    public List<GhAttach> selectAttach(String tableType, Long tableSeq) {
         GhAttach ghAttach = new GhAttach();
         ghAttach.setTableType(tableType);
         ghAttach.setTableSeq(tableSeq);
@@ -47,10 +52,13 @@ public class GhAttachService {
     }
 
 
-    public void download(GhAttach ghAttach) throws IOException {
+    public void download(Long seq,Boolean isDownload) throws IOException {
+
+        GhAttach ghAttach = new GhAttach();
+        ghAttach.setSeq(seq);
 
         //DB에서 파일 데이터 가져오기
-        ghAttach = ghAttachRepository.selectAttach(ghAttach);
+        ghAttach = ghAttachRepository.selectAttach(ghAttach).get(0);
 
         File f = new File(fileUploadDirByYML.getSaveDir() + ghAttach.getSavedDir() + "/" + ghAttach.getSavedName());
 
@@ -58,7 +66,9 @@ public class GhAttachService {
         HttpServletResponse response = requestAttributes.getResponse();
 
         response.setContentType(ghAttach.getType());
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(ghAttach.getDisplayName(), "UTF-8") + "\"");
+        if (isDownload) {
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(ghAttach.getDisplayName(), "UTF-8") + "\"");
+        }
         response.setContentLength((int) f.length());
 
         FileInputStream fin = null;
@@ -95,89 +105,93 @@ public class GhAttachService {
      *
      * @param seq
      * @param tableName
-     * @param file
+     * @param fileList
      */
     @Transactional
-    public void save(Long seq, String tableName, MultipartFile file) {
+    public void save(Long seq, String tableName, List<MultipartFile> fileList) {
 
-        if (file == null) {
+        if (fileList.get(0) == null) {
             return;
         }
-        if (file.isEmpty()) {
+        if (fileList.get(0).isEmpty()) {
             return;
         }
 
-        GhAttach ghAttach = new GhAttach();
+
+        List<GhAttach> ghAttachList = new ArrayList<>();
 
         String saveDir = getSaveDir(tableName);// 파일 경로 설정
 
         createDirectory(saveDir); // 파일 폴더 생성 (없을경우)
 
-        String fileExt = file.getContentType(); //파일 타입 생성
+        for (MultipartFile file : fileList) {
 
-        String saveFileName = RandomStringUtils.randomAlphanumeric(20); //파일에 저장할 저장명 설정 (랜덤한 문자 20자)
+            String fileExt = file.getContentType(); //파일 타입 생성
 
-        try {
-            //난수화된 이름으로 파일 업로드
-            Path path = Paths.get(saveDir, saveFileName);
-            Files.copy(file.getInputStream(), path);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            String saveFileName = RandomStringUtils.randomAlphanumeric(20); //파일에 저장할 저장명 설정 (랜덤한 문자 20자)
+
+            try {
+                //난수화된 이름으로 파일 업로드
+                Path path = Paths.get(saveDir, saveFileName);
+                Files.copy(file.getInputStream(), path);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            GhAttach ghAttach = new GhAttach();
+            ghAttach.setTableType(tableName);
+            ghAttach.setTableSeq(seq);
+            ghAttach.setDisplayName(file.getOriginalFilename());
+            ghAttach.setSavedName(saveFileName);
+            ghAttach.setSavedDir(StringUtils.removeStart(saveDir, fileUploadDirByYML.getSaveDir()));
+            ghAttach.setType(fileExt);
+            ghAttach.setSize(file.getSize());
+
+            ghAttachList.add(ghAttach);
+
         }
-
-        ghAttach.setTableType(tableName);
-        ghAttach.setTableSeq(seq);
-        ghAttach.setDisplayName(file.getOriginalFilename());
-        ghAttach.setSavedName(saveFileName);
-        ghAttach.setSavedDir(StringUtils.removeStart(saveDir, fileUploadDirByYML.getSaveDir()));
-        ghAttach.setType(fileExt);
-        ghAttach.setSize(file.getSize());
-
-        insertAttach(ghAttach);
+        insertAttach(ghAttachList);
     }
 
     @Transactional
-    public void update(GhBoard ghBoard, MultipartFile file) {
+    public void update(Long seq, String tableType,List<GhAttach> ghAttachList,List<MultipartFile> file) {
 
-        /**
-         * 파일 업로드시 파일 존재 여부
-         *
-         *  upload       db         method
-         * ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-         *  false       false       save
-         *  false       ture        save
-         *  ture        false       save
-         *  ture        ture        delete DB -> insert UploadFile
-         *
-         * dbDelete     ---->       status = _delete  -> delete DB
-         *
-         */
+        GhAttach attach = new GhAttach();
+        attach.setTableSeq(seq);
+        attach.setTableType(tableType);
+
         //기존 db에 등록된 파일
-        GhAttach ghAttach = ghAttachRepository.selectAttach(ghBoard.getGhAttach());
+        List<GhAttach> DBghAttach = ghAttachRepository.selectAttach(attach);
 
-        //db에 저장된 파일 상태
-        String status = ghBoard.getGhAttach().getStatus();
+        for (GhAttach i : DBghAttach) {
 
-        if (ghAttach != null) { //기존에 등록된 파일 여부
+            for (GhAttach j : ghAttachList) {
 
-            if (status.equals("_delete") || !file.isEmpty()){
-                //DB에 저장된 파일 삭제 요청 or 신규 파일 등록시 -> 기존파일 삭제
-
-                File f = new File(fileUploadDirByYML.getSaveDir() + ghAttach.getSavedDir() + "/" + ghAttach.getSavedName());
-
-                if (f.exists()) {
-                    f.delete();
+                if (i.getSeq() != j.getSeq()){
+                    continue;
                 }
-                deleteAttach(ghAttach);
+
+                //db에 저장된 파일 상태
+                String status = j.getStatus();
+
+                if (status.equals("_delete")) {
+                    //DB에 저장된 파일 삭제 요청 -> 기존파일 삭제
+
+                    File f = new File(fileUploadDirByYML.getSaveDir() + i.getSavedDir() + "/" + i.getSavedName());
+
+                    if (f.exists()) {
+                        f.delete();
+                    }
+                    deleteAttach(i);
+                }
 
             }
         }
-        save(ghBoard.getSeq(), ghBoard.getGhAttach().getTableType(), file);
+        save(seq, tableType, file);
     }
 
     @Transactional
-    public int insertAttach(GhAttach ghAttach) {
-        return ghAttachRepository.insertAttach(ghAttach);
+    public int insertAttach(List<GhAttach> ghAttachList) {
+        return ghAttachRepository.insertAttach(ghAttachList);
     }
 
     @Transactional

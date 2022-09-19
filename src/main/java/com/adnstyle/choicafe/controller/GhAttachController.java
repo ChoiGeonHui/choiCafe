@@ -25,11 +25,20 @@ public class GhAttachController {
      */
     @RequestMapping("/download")
     public ResponseEntity<String> download(@RequestParam("seq") Long seq) throws Exception {
-        GhAttach ghAttach = new GhAttach();
-        ghAttach.setSeq(seq);
-        ghAttachService.download(ghAttach);
+        Boolean isDownload = true;
+        ghAttachService.download(seq,isDownload);
         return null;
     }
+
+    @RequestMapping("/viewImg")
+    public ResponseEntity<String> viewImg(@RequestParam("seq") Long seq) throws Exception {
+        Boolean isDownload = false;
+        ghAttachService.download(seq,isDownload);
+        return null;
+    }
+
+
+
 
 
 }

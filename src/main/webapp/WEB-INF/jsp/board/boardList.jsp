@@ -24,13 +24,15 @@
     <table class="table">
         <thead>
         <tr>
-            <th class="col-1"><input type="checkbox" id="selectAll" name="selectAll" onclick="selectAll()"></th>
+            <c:if test="${user.role eq 'ROLE_ADMIN'}">
+                <th class="col-1"><input type="checkbox" id="selectAll" name="selectAll" onclick="selectAll()"></th>
+            </c:if>
             <th class="col-1">번호</th>
             <th class="col-5 text-left">제목</th>
             <th class="col-1">조회</th>
             <th class="col-1">작성자</th>
             <th class="col-2">날짜</th>
-            <th class="col-1">삭제</th>
+            <th class="col-1">답글</th>
         </tr>
         </thead>
         <tbody>
@@ -40,9 +42,11 @@
                         <td colspan="7">삭제된 게시글 입니다.</td>
                     </c:if>
                     <c:if test='${list.delYN eq "N"}'>
+                    <c:if test="${user.role eq 'ROLE_ADMIN'}">
                         <td><input type="checkbox" name="selectChk" class="selectChk" data-checkbox="${list.seq}" onclick='checkedAll()'></td>
+                    </c:if>
                         <td>${list.seq}</td>
-                        <td class="text-left"><a href="/board/detail?seq=${list.seq}">
+                        <td class="text-left"><a href="/board/view?seq=${list.seq}">
                             <c:forEach var="depth" begin="1" end="${list.depth}">
                                 <c:if test="${depth ne list.depth}">&nbsp;&nbsp;</c:if>
                                 <c:if test="${depth == list.depth}"> └</c:if>
@@ -62,10 +66,12 @@
 
         </tbody>
     </table>
-    <div class="mt-2 mb-2 d-flex justify-content-end">
-        <input type="button" id="selectDel" class="btn btn-danger active" value="선택 삭제">
-    </div>
 
+    <c:if test="${user.role eq 'ROLE_ADMIN'}">
+        <div class="mt-2 mb-2 d-flex justify-content-end">
+            <input type="button" id="selectDel" class="btn btn-danger active" value="선택 삭제">
+        </div>
+    </c:if>
     <ul class="paging">
         <c:if test="${paging.prev}">
             <span><a href="#" data-page-number='${paging.startPage-1}' class="btn btn-white btnPage">이전</a></span>

@@ -3,14 +3,16 @@ package com.adnstyle.choicafe.repository;
 import com.adnstyle.choicafe.domain.GhAttach;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface GhAttachRepository {
 
     int selectAttachCount();
 
-    GhAttach selectAttach(GhAttach ghAttach);
+    List<GhAttach> selectAttach(GhAttach ghAttach);
 
-    int insertAttach(GhAttach ghAttach);
+    int insertAttach(List<GhAttach> ghAttachList);
 
     int deleteAttach(GhAttach ghAttach);
 

@@ -54,7 +54,6 @@
     <select id="selectAttach" resultMap="simpleAttach" parameterType="map">
         <include refid="simpleSelect"/>
         <include refid="whereSql"/>
-        limit 1
     </select>
 
 
@@ -69,16 +68,18 @@
                  type,
                  size
             )
-            value
-            (
-                #{tableType},
-                #{tableSeq},
-                #{displayName},
-                #{savedName},
-                #{savedDir},
-                #{type},
-                #{size}
-            )
+            values
+            <foreach collection="ghAttachList" item="list"  separator=",">
+                (
+                #{list.tableType},
+                #{list.tableSeq},
+                #{list.displayName},
+                #{list.savedName},
+                #{list.savedDir},
+                #{list.type},
+                #{list.size}
+                )
+            </foreach>
 
     </insert>
 
