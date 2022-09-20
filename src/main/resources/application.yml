@@ -1,13 +1,13 @@
 logging:
   level:
     org:
-      springframework: debug
-      objectweb: debug
+    springframework: debug
+    objectweb: debug
 
-    root: info
+    root: debug
     com.adnstyle.choicafe: debug
 
-#  config: classpath:logback-spring.xml
+
 
 spring:
   datasource:
