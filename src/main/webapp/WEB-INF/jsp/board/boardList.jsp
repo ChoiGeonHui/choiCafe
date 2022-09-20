@@ -7,9 +7,19 @@
 <div class="text-center">
 
 
-    <div class="mb-2">
-        <div class="d-flex flex-row-reverse">
-            <a class="btn btn-primary text-white ml-3" href="/board/create"> 등록</a>
+    <div class="mb-2 d-flex justify-content-between">
+
+
+        <div class="d-flex col-6">
+            <input class="btn btn-light active col-2 mx-1" value="전체">
+            <input class="btn btn-secondary col-2 mx-1" value="자유">
+            <input class="btn btn-primary active col-2 mx-1" value="이미지">
+            <input class="btn btn-success active col-2 mx-1" value="동영상">
+
+        </div>
+
+        <div class="d-flex flex-row-reverse col-6">
+            <a class="btn btn-primary text-white ml-2" href="/board/create"> 등록</a>
             <input type="button" id="btnSearch" class="btn btn-secondary ml-1" value="검색">
             <input type="text" id="search" name="search" value="${ghBoard.searchWord}">
             <select id="searchName" name="searchName" class="mr-1">
@@ -53,7 +63,7 @@
                             </c:forEach>
                                 ${list.title}</a></td>
                         <td>${list.viewCount}</td>
-                        <td>${list.createdBy}</td>
+                        <td><b>${list.createdName}</b></td>
                         <td>
                             <fmt:formatDate value="${list.createdDate}" pattern="yyyy-MM-dd"/>
                         </td>

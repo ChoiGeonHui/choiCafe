@@ -38,13 +38,14 @@ public class SecurityConfig {
                             "/**/*.js",
                             "/**/*.jsp", "/oauth/**").permitAll()
                     .antMatchers("/board/**").hasAnyRole(Role.ADMIN.name(),Role.USER.name(),Role.SOCIAL.name())
+                    .antMatchers("/admin/**").hasRole(Role.ADMIN.name())
 
                 .and()
                     .formLogin()
                     .usernameParameter("id").passwordParameter("password")
                     .loginPage("/oauth/login")
                     .loginProcessingUrl("/oauth/sginIn")
-                    .defaultSuccessUrl("/oauth/")
+                    .defaultSuccessUrl("/oauth/", true)
 
 
                 .and()
@@ -62,6 +63,10 @@ public class SecurityConfig {
                     .exceptionHandling()
                     .accessDeniedPage("/oauth/access");
 
+        http
+                    .sessionManagement()
+                    .maximumSessions(1)
+                    .maxSessionsPreventsLogin(false);
 
         return http.build();
     }

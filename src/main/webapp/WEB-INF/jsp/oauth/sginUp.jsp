@@ -26,6 +26,11 @@
                 </td>
             </tr>
             <tr>
+                <td id="idLength" class="text-danger d-none text-center" colspan="2">아이디를 4자 이상 입력하세요</td>
+                <td id="idDuc" class="text-danger d-none text-center" colspan="2">중복된 아이디 입니다</td>
+                <td id="idChk" class="text-success d-none text-center" colspan="2">사용가능한 아이디입니다</td>
+            </tr>
+            <tr>
                 <td>비밀번호</td>
                 <td>
                     <div>
@@ -35,15 +40,15 @@
 
                 </td>
             </tr>
-<%--            <tr>--%>
-<%--                <td>비밀번호 확인</td>--%>
-<%--                <td>--%>
-<%--                    <div>--%>
-<%--                        <input type="password" id="passwordChk" name="passwordChk" class="form-control">--%>
-<%--                    </div>--%>
+            <tr>
+                <td>비밀번호 확인</td>
+                <td>
+                    <div>
+                        <input type="password" id="passwordChk" name="passwordChk" class="form-control">
+                    </div>
 
-<%--                </td>--%>
-<%--            </tr>--%>
+                </td>
+            </tr>
             <tr>
                 <td>이름</td>
                 <td>
@@ -82,11 +87,41 @@
 
     $(document).ready(function () {
 
+        $("#chkId").on('click', function () {
+
+            let id = $("#id").val();
+
+            if (id == '' || id == null || id.length < 4){
+                alert('아이디를 4자이상 입력하세요.');
+                return;
+            }
+
+
+            $.ajax({
+                type:"POST",
+                url : "/oauth/idChk",
+                data : {"id": id},
+                success : function (data) {
+                    if (data.result == "success") {
+                        alert('사용 가능한 아이디 입니다.');
+                    } else {
+                        alert('중복되는 아이디 입니다.');
+                    }
+                },
+                error : function () {
+                    alert('오류 발생');
+                }
+            })
+
+        })
+
+
 
         $("#btnSgin").on('click', function () {
 
             let id = $("#id").val();
             let password = $("#password").val();
+            let passwordChk = $("#passwordChk").val();
             let name = $("#name").val();
             let email = $("#email").val();
             let emailhost = $("#emailhost").val();
@@ -96,8 +131,13 @@
                 return;
             }
 
-            if(password == ''){
-                alert('비밀번호를 입력하세요.');
+            if(password == '' || password.length < 6){
+                alert('비밀번호를 6자리 이상 입력하세요.');
+                return;
+            }
+
+            if (password != passwordChk) {
+                alert('비밀번호 확인이 일치하기 않습니다.');
                 return;
             }
 
@@ -111,6 +151,7 @@
             }
             email = email+'@'+emailhost;
 
+            return;
 
             $.ajax({
                 type: "POST",
@@ -130,11 +171,7 @@
                 }
             })
 
-
-
-
         })
-
 
 
     })

@@ -16,7 +16,7 @@
             <textarea id="content" name="content" class="col-7" style="height: 100px" placeholder="내용을 입력하세요.">${ghBoard.content}</textarea>
         </div>
         <div class="mt-2 d-flex justify-content-center">
-            <input class="form-control col-7" type="file" accept="image/*" name="fileList" id="file" multiple="multiple">
+            <input class="form-control col-7" type="file" accept="image/*, video/*" name="fileList" id="file" multiple="multiple">
         </div>
         <div>
             <c:if test="${ghBoard.ghAttachList ne null}">

@@ -2,6 +2,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 
 <div class="container text-center">
@@ -11,7 +12,7 @@
         <table class="table col-12">
             <thead class="mb-2">
             <tr>
-                <th scope="col" class="text-left" colspan="4"><h3 class="subTitle">${ghBoard.title}</h3></th>
+                <th scope="col" class="text-left" colspan="4"><h3>${ghBoard.title}</h3></th>
             </tr>
             </thead>
             <tbody>
@@ -25,7 +26,12 @@
                 <td colspan="4">
                     <p>&nbsp;</p>
                     <c:forEach items="${ghBoard.ghAttachList}" var="list" varStatus="status">
-                        <img height="300px;" class="col-10" src="/viewImg?seq=${list.seq}"/>
+                        <c:if test="${fn:contains(list.type, 'image' )}">
+                            <img height="300px;" class="col-10" src="/viewImg?seq=${list.seq}"/>
+                        </c:if>
+                        <c:if test="${fn:contains(list.type, 'video' )}">
+                            <video height="300px;" class="col-10" src="/viewImg?seq=${list.seq}" controls="controls"/>
+                        </c:if>
                         <br>
                     </c:forEach>
                     <p>&nbsp;</p>
@@ -46,7 +52,22 @@
         </div>
 
     </div>
-</div>
+
+    <br>
+
+    <table class="table text-left">
+        <tr>
+            <td class="col-2 text-center"> 이전글</td>
+            <td class="col-1"> | </td>
+            <td class="col-8"> <a href="#">이전 게시글이 없습니다.</a></td>
+        </tr>
+        <tr>
+            <td class="text-center">다음글</td>
+            <td class="col-1"> | </td>
+            <td><a href="#">다음글이 없습니다.</a></td>
+        </tr>
+    </table>
+
 
 
 </div>

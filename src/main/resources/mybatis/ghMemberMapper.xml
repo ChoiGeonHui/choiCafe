@@ -38,9 +38,6 @@
             <if test="id != null">
                 and id = #{id}
             </if>
-            <if test="password != null">
-                and password = #{password}
-            </if>
             <if test="email != null">
                 and email = #{email}
             </if>

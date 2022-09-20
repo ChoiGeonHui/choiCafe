@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class GhMemberService implements UserDetailsService {
+    
+    //UserDetailsService : spring Security 사용시 필수로 상속받아야하는 인터 페이스
 
     private final GhMemberRepository ghMemberRepository;
 
@@ -23,6 +25,16 @@ public class GhMemberService implements UserDetailsService {
     public int selectCount() {
         return ghMemberRepository.selectCount();
 
+    }
+
+    public String selectMemberById (GhMember ghMember) {
+        GhMember chkMember = ghMemberRepository.selectMember(ghMember);
+
+        if (chkMember == null) {
+            return "success";
+        } else {
+            return "is it";
+        }
     }
 
 
@@ -45,6 +57,13 @@ public class GhMemberService implements UserDetailsService {
         }
     }
 
+
+    /**
+     * 사용자의 아이디를 찾아서 암호화된 패스워드랑 매칭 확인및 인증하는 메서드
+     * @param id
+     * @return
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         GhMember ghMember = new GhMember();

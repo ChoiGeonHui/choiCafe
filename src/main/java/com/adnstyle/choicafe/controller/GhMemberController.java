@@ -1,14 +1,12 @@
 package com.adnstyle.choicafe.controller;
 
 import com.adnstyle.choicafe.domain.GhMember;
-import com.adnstyle.choicafe.domain.Role;
 import com.adnstyle.choicafe.service.GhMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
@@ -31,7 +29,12 @@ public class GhMemberController {
     }
 
 
-
+    /**
+     * 로그인 인증 성공시 항상 이동되는 api
+     * @param authentication
+     * @param session
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/")
     public Map<String, String> loginA(Authentication authentication, HttpSession session) {
@@ -42,8 +45,14 @@ public class GhMemberController {
         return result;
     }
 
-
-
+    @ResponseBody
+    @RequestMapping("/idChk")
+    public Map<String,String> checkId(GhMember ghMember) {
+        String chk = ghMemberService.selectMemberById(ghMember);
+        Map<String,String> result = new HashMap<>();
+        result.put("result",chk);
+        return result;
+    }
 
 
     @RequestMapping("/sginUp")

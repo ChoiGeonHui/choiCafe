@@ -19,6 +19,8 @@ public interface GhBoardRepository {
 
     int updateBoard(GhBoard ghBoard);
 
+    int updateViewConunt(GhBoard ghBoard);
+
     int deleteBoard(List<Long> seq);
 
 }

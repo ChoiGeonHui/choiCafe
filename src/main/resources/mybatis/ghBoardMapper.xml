@@ -8,7 +8,7 @@
         <result property="depth" column="depth"/>
         <result property="title" column="title"/>
         <result property="content" column="content"/>
-        <result property="viewCount" column="view_conunt"/>
+        <result property="viewCount" column="view_count"/>
         <result property="delYN" column="del_yn"/>
         <result property="createdBy" column="created_by"/>
         <result property="createdName" column="created_name"/>
@@ -26,7 +26,7 @@
                    0                                  as depth,
                    title,
                    content,
-                   view_conunt,
+                   view_count,
                    del_yn,
                    created_by,
                    created_date,
@@ -41,7 +41,7 @@
                     rec.depth + 1                            as depth,
                     c.title,
                     c.content,
-                    c.view_conunt,
+                    c.view_count,
                     c.del_yn,
                     c.created_by,
                     c.created_date,
@@ -50,19 +50,22 @@
              from gh_board c
                  inner join rec on c.parent_seq = rec.seq
         )
-        select seq,
-               parent_seq,
-               group_ord,
-               depth,
-               title,
-               content,
-               view_conunt,
-               del_yn,
-               created_by,
-               created_date,
-               modified_by,
-               modified_date
-        from rec
+        select r.seq,
+               r.parent_seq,
+               r.group_ord,
+               r.depth,
+               r.title,
+               r.content,
+               r.view_count,
+               r.del_yn,
+               r.created_by,
+               r.created_date,
+               r.modified_by,
+               r.modified_date,
+               m.name as created_name
+        from rec r
+                 inner join gh_member m
+                            on r.created_by = m.seq
     </sql>
 
 
@@ -72,7 +75,7 @@
                b.parent_seq,
                b.title,
                b.content,
-               b.view_conunt,
+               b.view_count,
                b.del_yn,
                b.created_by,
                m.name as created_name,
@@ -151,6 +154,13 @@
         update gh_board
         set title = #{title},
             content = #{content}
+        where seq = #{seq};
+    </update>
+
+
+    <update id="updateViewConunt">
+        update gh_board
+        set view_count = view_count + 1
         where seq = #{seq};
     </update>
 

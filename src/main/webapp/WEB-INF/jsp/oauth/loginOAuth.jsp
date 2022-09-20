@@ -15,7 +15,7 @@
             <div><h1>로그인</h1></div>
             <div class="col-12"><b>ID : </b><input type="text" id="id"></div>
             <div class="mt-3 col-12"><b>PW : </b><input type="password" id="password"></div>
-            <div><input type="submit" id="btbSginIn" class="btn btn-success mt-2 col-12" value="로그인"></div>
+            <div><input type="button" id="btbSginIn" class="btn btn-success mt-2 col-12" value="로그인"></div>
             <div><a href="/oauth/sginUp" type="button" class="btn btn-secondary mt-2 col-12">회원가입</a></div>
 <%--            <div><a href="/oauth2/authorization/google" class="btn btn-primary active col-12 mt-2" role="button">Google Login</a></div>--%>
         </div>
@@ -55,10 +55,6 @@
                     alert('에러발생');
                 }
             })
-
-
-
-
 
 
         })

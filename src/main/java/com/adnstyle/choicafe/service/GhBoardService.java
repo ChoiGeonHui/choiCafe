@@ -28,12 +28,13 @@ public class GhBoardService {
 
     /**
      * 게시물 상세보기
-     * @param seq
+     * @param seq 게시물 식별자
      * @return
      */
     public GhBoard selectGhBoardBySeq(Long seq) {
         GhBoard ghBoard = ghBoardRepository.selectGhBoardBySeq(seq);
         ghBoard.setGhAttachList(ghAttachService.selectAttach("ghBoard", ghBoard.getSeq()));
+        updateViewCount(ghBoard);  //조회수 증가
         return ghBoard;
     }
 
@@ -42,6 +43,13 @@ public class GhBoardService {
         return ghBoardRepository.selectBoardList(ghBoard);
     }
 
+
+    /**
+     * 게시물 수정, 등록
+     * @param ghBoard 게시물
+     * @param fileList 업로드할 파일
+     * @return
+     */
     @Transactional
     public int cuBoard(GhBoard ghBoard,List<MultipartFile> fileList) {
         if (ghBoard.getSeq() == null || ghBoard.getSeq() == 0) { //식별자 존재 여부에 따라 등록, 수정이 나뉜다.
@@ -56,6 +64,16 @@ public class GhBoardService {
     }
 
 
+    public void updateViewCount (GhBoard ghBoard) {
+        ghBoardRepository.updateViewConunt(ghBoard);
+    }
+
+
+    /**
+     * 게시물 삭제상태로 변경
+     * @param seq 식별자
+     * @return
+     */
     @Transactional
     public String deleteBoard(List<Long> seq) {
         int i = ghBoardRepository.deleteBoard(seq);
