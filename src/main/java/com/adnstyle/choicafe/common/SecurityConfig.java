@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -41,9 +40,10 @@ public class SecurityConfig {
                             "/**/*.css",
                             "/**/*.js",
                             "/**/*.jsp", "/oauth/**").permitAll()
-                    .antMatchers("/board/list","/board/view").hasRole(Role.SOCIAL.name())
-                    .antMatchers("/board/**").hasAnyRole(Role.ADMIN.name(),Role.USER.name())
-                    .antMatchers("/admin/**").hasRole(Role.ADMIN.name())
+                    .antMatchers("/board/list","/board/view").authenticated()
+                    .antMatchers("/board/**").hasAnyRole(Role.USER.name(),Role.ADMIN.name())
+                    .antMatchers("/**").hasRole(Role.ADMIN.name())
+                    .anyRequest().authenticated()
 
                 .and()
                     .formLogin()
