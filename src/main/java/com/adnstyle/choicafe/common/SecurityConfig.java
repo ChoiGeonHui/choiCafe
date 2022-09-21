@@ -41,8 +41,8 @@ public class SecurityConfig {
                             "/**/*.js",
                             "/**/*.jsp", "/oauth/**").permitAll()
                     .antMatchers("/board/list","/board/view").authenticated()
+                    .antMatchers("/admin/**", "/board/delete").hasRole(Role.ADMIN.name())
                     .antMatchers("/board/**").hasAnyRole(Role.USER.name(),Role.ADMIN.name())
-                    .antMatchers("/**").hasRole(Role.ADMIN.name())
                     .anyRequest().authenticated()
 
                 .and()
