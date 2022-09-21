@@ -1,6 +1,7 @@
 package com.adnstyle.choicafe.common;
 
 import com.adnstyle.choicafe.domain.Role;
+import com.adnstyle.choicafe.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,11 +11,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final CustomOAuth2UserService customOAuth2UserService;
 
 
     @Bean
@@ -37,7 +41,8 @@ public class SecurityConfig {
                             "/**/*.css",
                             "/**/*.js",
                             "/**/*.jsp", "/oauth/**").permitAll()
-                    .antMatchers("/board/**").hasAnyRole(Role.ADMIN.name(),Role.USER.name(),Role.SOCIAL.name())
+                    .antMatchers("/board/list","/board/view").hasRole(Role.SOCIAL.name())
+                    .antMatchers("/board/**").hasAnyRole(Role.ADMIN.name(),Role.USER.name())
                     .antMatchers("/admin/**").hasRole(Role.ADMIN.name())
 
                 .and()
@@ -67,6 +72,12 @@ public class SecurityConfig {
                     .sessionManagement()
                     .maximumSessions(1)
                     .maxSessionsPreventsLogin(false);
+
+        http
+                    .oauth2Login()
+                    .defaultSuccessUrl("/board/list", true)
+                    .userInfoEndpoint()
+                    .userService(customOAuth2UserService);
 
         return http.build();
     }

@@ -1,6 +1,7 @@
 package com.adnstyle.choicafe.domain;
 
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -33,6 +34,15 @@ public class GhMember implements UserDetails {
     private String delYN;
 
     private Date createdMember;
+
+
+    @Builder
+    public GhMember(String name, String email, String role) {
+        this.name = name;
+        this.email = email;
+        this.role = role;
+    }
+
 
 
     @Override

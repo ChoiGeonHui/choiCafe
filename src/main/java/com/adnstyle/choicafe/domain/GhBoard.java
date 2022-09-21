@@ -2,8 +2,10 @@ package com.adnstyle.choicafe.domain;
 
 
 import com.adnstyle.choicafe.common.Criteria;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
@@ -41,8 +43,8 @@ public class GhBoard extends Criteria implements Serializable {
 
     // 작성자 식별자
     private String createdBy;
-
-
+    
+    // 작성자 이름
     private String createdName;
 
     //작성일
@@ -56,5 +58,17 @@ public class GhBoard extends Criteria implements Serializable {
 
     //파일
     private List<GhAttach> ghAttachList;
+    
+    //이전글 번호
+    private Long prevBoard;
+    
+    //이전글 제목
+    private String prevTitle;
+    
+    //다음글 번호
+    private Long nextBoard;
+    
+    //다음글 제목
+    private String nextTitle;
 
 }

@@ -64,6 +64,11 @@ public class GhBoardService {
     }
 
 
+    /**
+     * 조회수 증가
+     * @param ghBoard
+     */
+    @Transactional
     public void updateViewCount (GhBoard ghBoard) {
         ghBoardRepository.updateViewConunt(ghBoard);
     }

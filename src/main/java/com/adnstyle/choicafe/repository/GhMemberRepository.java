@@ -15,4 +15,7 @@ public interface GhMemberRepository {
     int insertMember(GhMember ghMember);
 
 
+    int insertSocialMember(GhMember ghMember);
+
+
 }

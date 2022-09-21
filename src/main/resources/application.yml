@@ -42,12 +42,12 @@ spring:
     oauth2:
       client:
         registration:
-          goole:
+          google:
             client-id: 745491787039-461klkra8odj8oc7eg08p6ku1d366cii.apps.googleusercontent.com
             client-secret: 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
             scope:
               - profile
-              - -email
+              - email
 
 
 mybatis:

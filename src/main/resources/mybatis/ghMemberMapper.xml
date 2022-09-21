@@ -71,6 +71,23 @@
 
 
 
+    <insert id="insertSocialMember">
+        insert into gh_member
+        (
+            name,
+            email,
+            role
+        )
+        values
+            (
+                #{name},
+                #{email},
+                #{role}
+            )
+    </insert>
+
+
+
 
 
 </mapper>

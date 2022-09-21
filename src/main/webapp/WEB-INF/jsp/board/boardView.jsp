@@ -59,12 +59,26 @@
         <tr>
             <td class="col-2 text-center"> 이전글</td>
             <td class="col-1"> | </td>
-            <td class="col-8"> <a href="#">이전 게시글이 없습니다.</a></td>
+            <td class="col-8">
+                <c:if test="${ghBoard.prevBoard ne null}">
+                    <a href="/board/view?seq=${ghBoard.prevBoard}">${ghBoard.prevTitle}</a>
+                </c:if>
+                <c:if test="${ghBoard.prevBoard eq null}">
+                    <span>이전글이 없습니다.</span>
+                </c:if>
+            </td>
         </tr>
         <tr>
-            <td class="text-center">다음글</td>
+            <td class="col-2 text-center">다음글</td>
             <td class="col-1"> | </td>
-            <td><a href="#">다음글이 없습니다.</a></td>
+            <td class="col-8">
+                <c:if test="${ghBoard.nextBoard ne null}">
+                    <a href="/board/view?seq=${ghBoard.nextBoard}">${ghBoard.nextTitle}</a>
+                </c:if>
+                <c:if test="${ghBoard.nextBoard eq null}">
+                    <span>다음글이 없습니다.</span>
+                </c:if>
+            </td>
         </tr>
     </table>
 

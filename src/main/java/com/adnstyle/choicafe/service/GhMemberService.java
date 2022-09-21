@@ -27,6 +27,12 @@ public class GhMemberService implements UserDetailsService {
 
     }
 
+
+    /**
+     * 아이디 중복 확인
+     * @param ghMember
+     * @return
+     */
     public String selectMemberById (GhMember ghMember) {
         GhMember chkMember = ghMemberRepository.selectMember(ghMember);
 
@@ -38,7 +44,11 @@ public class GhMemberService implements UserDetailsService {
     }
 
 
-
+    /**
+     * 회원 가입
+     * @param ghMember
+     * @return
+     */
     @Transactional
     public String insertMember(GhMember ghMember){
 

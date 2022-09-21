@@ -15,6 +15,10 @@
         <result property="createdDate" column="created_date"/>
         <result property="modifiedBy" column="modified_by"/>
         <result property="modifiedDate" column="modified_date"/>
+        <result property="prevBoard" column="prev_board"/>
+        <result property="prevTitle" column="prev_title"/>
+        <result property="nextBoard" column="next_board"/>
+        <result property="nextTitle" column="next_title"/>
     </resultMap>
 
     <sql id="selectCTE">
@@ -62,30 +66,16 @@
                r.created_date,
                r.modified_by,
                r.modified_date,
-               m.name as created_name
+               m.name as created_name,
+               lag(r.seq, 1) over ( order by substr(group_ord, 1, 5) desc, group_ord asc)  as prev_board,
+               lag(r.title, 1) over ( order by substr(group_ord, 1, 5) desc, group_ord asc)  as prev_title,
+               lead(r.seq, 1) over ( order by substr(group_ord, 1, 5) desc, group_ord asc) as next_board,
+               lead(r.title, 1) over ( order by substr(group_ord, 1, 5) desc, group_ord asc) as next_title
         from rec r
                  inner join gh_member m
                             on r.created_by = m.seq
     </sql>
 
-
-
-    <sql id="selectBoard">
-        select b.seq,
-               b.parent_seq,
-               b.title,
-               b.content,
-               b.view_count,
-               b.del_yn,
-               b.created_by,
-               m.name as created_name,
-               b.created_date,
-               b.modified_by,
-               b.modified_date
-        from gh_board b
-                 inner join gh_member m
-                            on b.created_by = m.seq
-    </sql>
 
     <sql id="whereSQL">
         where 1 = 1
@@ -115,8 +105,28 @@
     </select>
 
     <select id="selectGhBoardBySeq" resultMap="simpleBoard">
-        <include refid="selectBoard"/>
-        where b.seq = #{seq}
+        select
+                seq,
+                parent_seq,
+                group_ord,
+                depth,
+                title,
+                content,
+                view_count,
+                del_yn,
+                created_by,
+                created_date,
+                modified_by,
+                modified_date,
+                prev_board,
+                prev_title,
+                next_board,
+                next_title
+        from    (
+                <include refid="selectCTE"/>
+                order by substr(group_ord,1,5) desc, group_ord asc
+                ) as list
+        where seq = #{seq}
     </select>
 
 
