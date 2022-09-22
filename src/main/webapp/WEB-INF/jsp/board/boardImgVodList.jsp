@@ -20,16 +20,16 @@
         <tbody>
         <c:forEach items="${ghBoardList}" var="list">
 
-            <c:if test='${list.delYN == "Y" and user.role eq "ROLE_ADMIN"}'>
-                <tr>
-                    <td  rowspan="2">삭제된 게시글 입니다.</td>
-                    <td  rowspan="1">삭제된 게시글 입니다.</td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>1</td>
-                </tr>
-            </c:if>
+<%--            <c:if test='${list.delYN == "Y" and user.role eq "ROLE_ADMIN"}'>--%>
+<%--                <tr>--%>
+<%--                    <td  rowspan="2">삭제된 게시글 입니다.</td>--%>
+<%--                    <td  rowspan="1">삭제된 게시글 입니다.</td>--%>
+<%--                </tr>--%>
+<%--                <tr>--%>
+<%--                    <td>1</td>--%>
+<%--                    <td>1</td>--%>
+<%--                </tr>--%>
+<%--            </c:if>--%>
             <c:if test="${list.delYN == 'N'}">
                 <tr>
 
