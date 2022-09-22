@@ -2,23 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.adnstyle.choicafe.repository.GhBoardRepository">
     <resultMap id="simpleBoard" type="com.adnstyle.choicafe.domain.GhBoard">
-        <id property="seq" column="seq"/>
-        <result property="parentSeq" column="parent_seq"/>
-        <result property="groupOrd" column="group_ord"/>
-        <result property="depth" column="depth"/>
-        <result property="title" column="title"/>
-        <result property="content" column="content"/>
-        <result property="viewCount" column="view_count"/>
-        <result property="delYN" column="del_yn"/>
-        <result property="createdBy" column="created_by"/>
-        <result property="createdName" column="created_name"/>
-        <result property="createdDate" column="created_date"/>
-        <result property="modifiedBy" column="modified_by"/>
+        <id property="seq"              column="seq"/>
+        <result property="parentSeq"    column="parent_seq"/>
+        <result property="category"     column="category"/>
+        <result property="groupOrd"     column="group_ord"/>
+        <result property="depth"        column="depth"/>
+        <result property="title"        column="title"/>
+        <result property="content"      column="content"/>
+        <result property="viewCount"    column="view_count"/>
+        <result property="delYN"        column="del_yn"/>
+        <result property="createdBy"    column="created_by"/>
+        <result property="createdName"  column="created_name"/>
+        <result property="createdDate"  column="created_date"/>
+        <result property="modifiedBy"   column="modified_by"/>
         <result property="modifiedDate" column="modified_date"/>
-        <result property="prevBoard" column="prev_board"/>
-        <result property="prevTitle" column="prev_title"/>
-        <result property="nextBoard" column="next_board"/>
-        <result property="nextTitle" column="next_title"/>
+        <result property="prevBoard"    column="prev_board"/>
+        <result property="prevTitle"    column="prev_title"/>
+        <result property="nextBoard"    column="next_board"/>
+        <result property="nextTitle"    column="next_title"/>
     </resultMap>
 
     <sql id="selectCTE">
@@ -28,6 +29,7 @@
                    parent_seq,
                    cast(lpad(seq, 5, 0) as char(100)) as group_ord,
                    0                                  as depth,
+                   category,
                    title,
                    content,
                    view_count,
@@ -43,6 +45,7 @@
                     c.parent_seq,
                     concat(rec.group_ord, lpad(c.seq, 5, 0)) as group_ord,
                     rec.depth + 1                            as depth,
+                    c.category,
                     c.title,
                     c.content,
                     c.view_count,
@@ -56,6 +59,7 @@
         )
         select r.seq,
                r.parent_seq,
+               r.category,
                r.group_ord,
                r.depth,
                r.title,
@@ -79,6 +83,11 @@
 
     <sql id="whereSQL">
         where 1 = 1
+
+        <if test="category != null and category != ''">
+            and category = #{category}
+        </if>
+
         <if test="searchWord != null and searchWord != ''">
 
             <choose>
@@ -108,6 +117,7 @@
         select
                 seq,
                 parent_seq,
+                category,
                 group_ord,
                 depth,
                 title,
@@ -115,6 +125,7 @@
                 view_count,
                 del_yn,
                 created_by,
+                created_name,
                 created_date,
                 modified_by,
                 modified_date,
@@ -141,7 +152,7 @@
     <insert id="insertBoard" useGeneratedKeys="true" keyProperty="seq">
         insert into gh_board
             (
-            parent_seq,
+            parent_seq,category,
             title,
             content,
             created_by
@@ -154,6 +165,7 @@
              <if test="parentSeq != null">
                  #{parentSeq},
              </if>
+             #{category},
              #{title},
              #{content},
              #{createdBy}
@@ -163,7 +175,8 @@
 
     <update id="updateBoard">
         update gh_board
-        set title = #{title},
+        set category = #{category},
+            title = #{title},
             content = #{content}
         where seq = #{seq};
     </update>

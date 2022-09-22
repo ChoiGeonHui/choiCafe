@@ -6,30 +6,31 @@
 
 <div class="text-center">
 
-
+    <form method="get" id="submitForm" name="submitForm" action="/board/list">
     <div class="mb-2 d-flex justify-content-between">
 
+            <div class="d-flex col-6">
+                <a href="/board/list" class="btn btn-light active col-2 mx-1">전체</a>
+                <a href="/board/list?category=자유" class="btn btn-secondary col-2 mx-1">자유</a>
+                <a href="/board/list?category=이미지" class="btn btn-primary active col-2 mx-1">이미지</a>
+                <a href="/board/list?category=동영상" class="btn btn-success active col-2 mx-1">동영상</a>
+            </div>
+            <input hidden="hidden" id="category" name="category" value="${ghBoard.category}">
 
-        <div class="d-flex col-6">
-            <input class="btn btn-light active col-2 mx-1" value="전체">
-            <input class="btn btn-secondary col-2 mx-1" value="자유">
-            <input class="btn btn-primary active col-2 mx-1" value="이미지">
-            <input class="btn btn-success active col-2 mx-1" value="동영상">
+            <div class="d-flex flex-row-reverse col-6">
+                <a class="btn btn-primary text-white ml-2" href="/board/create"> 등록</a>
+                <input type="submit" id="btnSearch" class="btn btn-secondary ml-1" value="검색">
+                <input type="text" id="search" name="searchWord" value="${ghBoard.searchWord}">
+                <select id="searchName" name="searchName" class="mr-1">
+                    <option ${ghBoard.searchName eq 'all' ? 'selected' : ''} value="all">전체</option>
+                    <option ${ghBoard.searchName eq 'title' ? 'selected' : ''} value="title">제목</option>
+                    <option ${ghBoard.searchName eq 'content' ? 'selected' : ''} value="content">내용</option>
+                </select>
+            </div>
 
-        </div>
-
-        <div class="d-flex flex-row-reverse col-6">
-            <a class="btn btn-primary text-white ml-2" href="/board/create"> 등록</a>
-            <input type="button" id="btnSearch" class="btn btn-secondary ml-1" value="검색">
-            <input type="text" id="search" name="search" value="${ghBoard.searchWord}">
-            <select id="searchName" name="searchName" class="mr-1">
-                <option ${ghBoard.searchName eq 'all' ? 'selected' : ''} value="all">전체</option>
-                <option ${ghBoard.searchName eq 'title' ? 'selected' : ''} value="title">제목</option>
-                <option ${ghBoard.searchName eq 'content' ? 'selected' : ''} value="content">내용</option>
-            </select>
-        </div>
     </div>
 
+            </form>
 
     <table class="table">
         <thead>
@@ -161,25 +162,32 @@
             let pageNumber = $(this).data('page-number');
             let searchWord = $('#search').val();
             let searchName = $('#searchName').val();
+            let category = $('#category').val();
 
+            let hrefString = '/board/list?page=' + pageNumber;
+
+            if (category != null && category != '') {
+                hrefString = hrefString + '&category=' + category;
+            }
             if (searchWord != null && searchWord != '') { //검색 값이 있을 경우
-                location.href = '/board/list?page=' + pageNumber + '&searchWord=' + searchWord + '&searchName=' + searchName;
-            } else {
-                location.href = '/board/list?page=' + pageNumber;
+                hrefString = hrefString + '&searchWord=' + searchWord + '&searchName=' + searchName;
             }
+
+            location.href = hrefString;
 
         });
 
-        $('#btnSearch').on('click', function () {
-            let searchWord = $('#search').val();
-            let searchName = $('#searchName').val();
-
-            if (searchWord == '' || searchWord == null) {
-                alert('최소 1글자 이상 입력해주세요.');
-                return;
-            }
-            location.href = '/board/list?searchWord=' + searchWord + '&searchName=' + searchName;
-        });
+        //검색 기능
+        // $('#btnSearch').on('click', function () {
+        //     let searchWord = $('#search').val();
+        //     let searchName = $('#searchName').val();
+        //
+        //     if (searchWord == '' || searchWord == null) {
+        //         alert('최소 1글자 이상 입력해주세요.');
+        //         return;
+        //     }
+        //     location.href = '/board/list?searchWord=' + searchWord + '&searchName=' + searchName;
+        // });
 
 
         // $('.btnDel').on('click', function () {

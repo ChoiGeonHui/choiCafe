@@ -22,6 +22,9 @@ public class GhBoard extends Criteria implements Serializable {
 
     // 부모식별자
     private Long parentSeq;
+    
+    // 카테고리
+    private String category;
 
     //답글 소속그룹
     private String groupOrd;
