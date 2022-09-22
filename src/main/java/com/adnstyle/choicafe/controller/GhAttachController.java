@@ -6,8 +6,8 @@ import com.adnstyle.choicafe.service.GhAttachService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class GhAttachController {
@@ -18,27 +18,16 @@ public class GhAttachController {
 
 
     /**
-     * 파일 다운로드
-     * @param seq
+     * 파일 다운로드, 파일 불러오기
+     * @param ghAttach
      * @return
      * @throws Exception
      */
-    @RequestMapping("/download")
-    public ResponseEntity<String> download(@RequestParam("seq") Long seq) throws Exception {
-        Boolean isDownload = true;
-        ghAttachService.download(seq,isDownload);
+    @RequestMapping("/files/{handing}")
+    public ResponseEntity<String> download(@PathVariable("handing") String handing, GhAttach ghAttach) throws Exception {
+        ghAttachService.download(ghAttach,handing);
         return null;
     }
-
-    @RequestMapping("/viewImg")
-    public ResponseEntity<String> viewImg(@RequestParam("seq") Long seq) throws Exception {
-        Boolean isDownload = false;
-        ghAttachService.download(seq,isDownload);
-        return null;
-    }
-
-
-
 
 
 }

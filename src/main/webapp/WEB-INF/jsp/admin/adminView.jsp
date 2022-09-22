@@ -10,5 +10,5 @@
 
 <div class="container text-center mt-5">
   <h2>관리자 페이지 입니다.</h2>
-  <a href="/board/list" class="btn btn-secondary">돌아가기</a>
+  <a href="/board/list/list" class="btn btn-secondary">돌아가기</a>
 </div>

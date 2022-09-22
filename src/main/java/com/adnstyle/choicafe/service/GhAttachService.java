@@ -49,14 +49,12 @@ public class GhAttachService {
 
     /**
      * 이미지 화면 보기, 파일 다운로드
-     * @param seq 파일 식별자
-     * @param isDownload
+     * @param ghAttach 파일 식별자
+     * @param handing 파일 다운로드 여부 ( download / view )
      * @throws IOException
      */
-    public void download(Long seq,Boolean isDownload) throws IOException {
+    public void download(GhAttach ghAttach,String handing) throws IOException {
 
-        GhAttach ghAttach = new GhAttach();
-        ghAttach.setSeq(seq);
 
         //DB에서 파일 데이터 가져오기
         ghAttach = ghAttachRepository.selectAttach(ghAttach).get(0);
@@ -68,7 +66,7 @@ public class GhAttachService {
 
         response.setContentType(ghAttach.getType());
         
-        if (isDownload) {
+        if (handing.equals("download")) {
             response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(ghAttach.getDisplayName(), "UTF-8") + "\"");
         }
         response.setContentLength((int) f.length());

@@ -21,7 +21,7 @@
 <body>
 <div class="container text-center">
     <header>
-        <h2 class="mt-3"><a href="/board/list">ChoiCafe</a></h2>
+        <h2 class="mt-3"><a href="/board/list/list">ChoiCafe</a></h2>
     </header>
 
     <c:if test="${user ne null}">

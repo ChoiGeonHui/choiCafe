@@ -14,7 +14,7 @@ public class ApplicationUtil implements ApplicationContextAware {
 
 
     public static void printRunningLog() {
-        log.info("http://localhost:8800/board/list");
+        log.info("http://localhost:8800/board/list/list");
     }
 
 

@@ -27,10 +27,10 @@
                     <p>&nbsp;</p>
                     <c:forEach items="${ghBoard.ghAttachList}" var="list" varStatus="status">
                         <c:if test="${fn:contains(list.type, 'image' )}">
-                            <img height="300px;" class="col-10" src="/viewImg?seq=${list.seq}"/>
+                            <img height="300px;" class="col-10" src="/files/view?seq=${list.seq}"/>
                         </c:if>
                         <c:if test="${fn:contains(list.type, 'video' )}">
-                            <video height="300px;" class="col-10" src="/viewImg?seq=${list.seq}" controls="controls"/>
+                            <video height="300px;" class="col-10" src="/files/view?seq=${list.seq}" controls="controls"/>
                         </c:if>
                         <br>
                     </c:forEach>
@@ -48,7 +48,7 @@
             <c:if test="${user.role eq 'ROLE_ADMIN' or user.seq eq ghBoard.createdBy or ghBoard.seq eq null}">
                 <a class="btn btn-success" href="/board/detail?seq=${ghBoard.seq}">수정하기</a>
             </c:if>
-            <a class="btn btn-secondary text-white" href="/board/list">목록</a>
+            <a class="btn btn-secondary text-white" href="/board/list/list">목록</a>
         </div>
 
     </div>

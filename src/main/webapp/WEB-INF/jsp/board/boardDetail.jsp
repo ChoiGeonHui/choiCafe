@@ -28,7 +28,7 @@
             <c:if test="${ghBoard.ghAttachList ne null}">
                 <span id="fileName1"> 현재 저장된 파일 :</span>
                 <c:forEach items="${ghBoard.ghAttachList}" var="list" varStatus="status">
-                    <a href="/download?seq=${list.seq}" id="btnDownload${list.seq}" class="btn ml-2">${list.displayName}</a>
+                    <a href="/files/download?seq=${list.seq}" id="btnDownload${list.seq}" class="btn ml-2">${list.displayName}</a>
                     <input type="button" data-file-seq="${list.seq}" id="btnDelFile${list.seq}" class="btnDelFile btn ml-2" value="X">
                     <input  name="ghAttachList[${status.index}].seq" value="${list.seq}" hidden>
                     <input id="attachStatus${list.seq}"  name="ghAttachList[${status.index}].status" value="exists" hidden>
@@ -42,7 +42,7 @@
         <c:if test="${user.role eq 'ROLE_ADMIN' or user.seq eq ghBoard.createdBy or ghBoard.seq eq null}">
             <div class="mt-2">
                 <button type="submit" class="btn btn-info">등록</button>
-                <a class="btn btn-secondary text-white" href="/board/list">취소</a>
+                <a class="btn btn-secondary text-white" href="/board/list/list">취소</a>
             </div>
         </c:if>
     </form>

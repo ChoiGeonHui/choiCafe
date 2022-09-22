@@ -4,33 +4,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 
-<div class="text-center">
+<div class="text-center container">
 
-    <form method="get" id="submitForm" name="submitForm" action="/board/list">
-    <div class="mb-2 d-flex justify-content-between">
-
-            <div class="d-flex col-6">
-                <a href="/board/list" class="btn btn-light active col-2 mx-1">전체</a>
-                <a href="/board/list?category=자유" class="btn btn-secondary col-2 mx-1">자유</a>
-                <a href="/board/list?category=이미지" class="btn btn-primary active col-2 mx-1">이미지</a>
-                <a href="/board/list?category=동영상" class="btn btn-success active col-2 mx-1">동영상</a>
-            </div>
-            <input hidden="hidden" id="category" name="category" value="${ghBoard.category}">
-
-            <div class="d-flex flex-row-reverse col-6">
-                <a class="btn btn-primary text-white ml-2" href="/board/create"> 등록</a>
-                <input type="submit" id="btnSearch" class="btn btn-secondary ml-1" value="검색">
-                <input type="text" id="search" name="searchWord" value="${ghBoard.searchWord}">
-                <select id="searchName" name="searchName" class="mr-1">
-                    <option ${ghBoard.searchName eq 'all' ? 'selected' : ''} value="all">전체</option>
-                    <option ${ghBoard.searchName eq 'title' ? 'selected' : ''} value="title">제목</option>
-                    <option ${ghBoard.searchName eq 'content' ? 'selected' : ''} value="content">내용</option>
-                </select>
-            </div>
-
-    </div>
-
-            </form>
+    <jsp:include page="boardSearchForm.jsp"/>
 
     <table class="table">
         <thead>
@@ -38,9 +14,10 @@
             <c:if test="${user.role eq 'ROLE_ADMIN'}">
                 <th class="col-1"><input type="checkbox" id="selectAll" name="selectAll" onclick="selectAll()"></th>
             </c:if>
-            <th class="col-1">번호</th>
-            <th class="col-5 text-left">제목</th>
-            <th class="col-1">조회</th>
+            <th class="col-1">No</th>
+            <th class="col-1">CTGR</th>
+            <th class="col-5 text-left">title</th>
+            <th class="col-1">조회수</th>
             <th class="col-1">작성자</th>
             <th class="col-2">날짜</th>
             <th class="col-1">답글</th>
@@ -49,7 +26,7 @@
         <tbody>
         <c:forEach items="${ghBoardList}" var="list">
                 <tr>
-                    <c:if test='${list.delYN == "Y"}'>
+                    <c:if test='${list.delYN == "Y" and user.role ne "ROLE_ADMIN"}'>
                         <td colspan="7">삭제된 게시글 입니다.</td>
                     </c:if>
                     <c:if test='${list.delYN eq "N"}'>
@@ -57,12 +34,23 @@
                         <td><input type="checkbox" name="selectChk" class="selectChk" data-checkbox="${list.seq}" onclick='checkedAll()'></td>
                     </c:if>
                         <td>${list.seq}</td>
-                        <td class="text-left"><a href="/board/view?seq=${list.seq}">
+                        <td>
+                            <c:choose>
+                                <c:when test="${list.category eq '자유'}"><span class="bg-secondary text-white"></c:when>
+                                <c:when test="${list.category eq '이미지'}"><span class="bg-primary text-white"></c:when>
+                                <c:when test="${list.category eq '동영상'}"><span class="bg-success text-white"></c:when>
+                            </c:choose>
+                            ${list.category}</span>
+                        </td>
+                        <td class="text-left">
+                            <a href="/board/view?seq=${list.seq}">
                             <c:forEach var="depth" begin="1" end="${list.depth}">
                                 <c:if test="${depth ne list.depth}">&nbsp;&nbsp;</c:if>
                                 <c:if test="${depth == list.depth}"> └</c:if>
                             </c:forEach>
-                                ${list.title}</a></td>
+                                ${list.title}
+                            </a>
+                        </td>
                         <td>${list.viewCount}</td>
                         <td><b>${list.createdName}</b></td>
                         <td>
@@ -97,132 +85,5 @@
 
 
 </div>
-<script type="text/javascript">
 
-    function selectAll(){
-
-        const selectAll = document.querySelector("#selectAll");
-
-        if (selectAll.checked){
-            $('.selectChk').prop('checked',true);
-        } else {
-            $('.selectChk').prop('checked',false);
-        }
-    }
-
-    function checkedAll() {
-        const totalCheckBox = document.querySelectorAll(".selectChk"); // 전체 체크박스
-        const totalCheckedBox = document.querySelectorAll(".selectChk:checked"); //선택한 체크박스
-        const selectAll = document.querySelector("#selectAll"); //일괄 선택 체크박스
-
-        if (totalCheckBox.length === totalCheckedBox.length) {
-            selectAll.checked = true;
-        } else {
-            selectAll.checked = false;
-        }
-    }
-
-    $(document).ready(function () {
-
-        $('#selectDel').on('click', function () {
-            let seq = [];
-
-            $('.selectChk:checked').each(function () {
-                seq.push($(this).data('checkbox'));
-            })
-
-            if (seq.length == 0) {
-                alert('삭제할 항목이 없습니다. test');
-                return;
-            }
-
-            if (confirm('삭제 하시겠습니까? 삭제할 항목은 ' + seq + ' 입니다.')) {
-
-                $.ajax({
-                    type: "POST",
-                    url: "/board/delete",
-                    data: {"seq" : seq},
-                    success: function (data) {
-                        if (data.result == 'success') {
-                            alert('삭제를 완료하였습니다.');
-                            location.reload();
-                        } else {
-                            alert('오류발생');
-                        }
-                    },
-                    error: function () {
-                        alert('에러발생!');
-                    }
-                })
-            }
-        })
-
-        $('.btnPage').on('click', function (e) {
-            e.preventDefault(); //href 이동 안함
-            let pageNumber = $(this).data('page-number');
-            let searchWord = $('#search').val();
-            let searchName = $('#searchName').val();
-            let category = $('#category').val();
-
-            let hrefString = '/board/list?page=' + pageNumber;
-
-            if (category != null && category != '') {
-                hrefString = hrefString + '&category=' + category;
-            }
-            if (searchWord != null && searchWord != '') { //검색 값이 있을 경우
-                hrefString = hrefString + '&searchWord=' + searchWord + '&searchName=' + searchName;
-            }
-
-            location.href = hrefString;
-
-        });
-
-        //검색 기능
-        // $('#btnSearch').on('click', function () {
-        //     let searchWord = $('#search').val();
-        //     let searchName = $('#searchName').val();
-        //
-        //     if (searchWord == '' || searchWord == null) {
-        //         alert('최소 1글자 이상 입력해주세요.');
-        //         return;
-        //     }
-        //     location.href = '/board/list?searchWord=' + searchWord + '&searchName=' + searchName;
-        // });
-
-
-        // $('.btnDel').on('click', function () {
-        //     let seq = [];
-        //     seq.push($(this).data('seq'));
-        //     if (confirm('삭제 하시겠습니까?')) {
-        //         alert('seq : ' + seq);
-        //         $.ajax({
-        //             type: "POST",
-        //             data: {'seq' : seq},
-        //             url: "/board/delete",
-        //             success: function (data) {
-        //                 if (data.result == 'success') {
-        //                     alert('삭제를 완료하였습니다.');
-        //                     location.reload();
-        //                 } else {
-        //                     alert('오류발생');
-        //                 }
-        //             },
-        //             error: function () {
-        //                 alert('에러발생');
-        //             }
-        //         })
-        //     }
-        // });
-
-        // $('#selectAll').on('click', function () {
-        //     if ($(this).prop('checked')) {
-        //         $("input[name=selectChk]").prop('checked', true);
-        //     } else {
-        //         $("input[name=selectChk]").prop('checked', false);
-        //     }
-        // })
-
-
-    });
-
-</script>
+<%@ include file="boardPagingScript.jsp"%>

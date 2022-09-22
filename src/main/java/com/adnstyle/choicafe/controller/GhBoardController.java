@@ -30,15 +30,21 @@ public class GhBoardController {
     }
 
 
-    @RequestMapping("/list")
-    public String selectBoardList(Model model, GhBoard ghBoard) throws Exception {
+    @RequestMapping("/list/{boardHandle}")
+    public String selectBoardList(@PathVariable("boardHandle") String boardHandle, Model model, GhBoard ghBoard) throws Exception {
         Pagination pagination = new Pagination();
         pagination.setCriteria(ghBoard);
         ghBoard.setPageStart();
         pagination.setTotalCount(ghBoardService.selectCount(ghBoard));
         List<GhBoard> ghBoardList = ghBoardService.selectBoardList(ghBoard);
 
-        model.addAttribute("page", "board/boardList");
+        if (boardHandle.equals("list")){
+            model.addAttribute("page", "board/boardList");
+        } else {
+            model.addAttribute("page", "board/boardImgVodList");
+        }
+
+        model.addAttribute("boardHandle",boardHandle);
         model.addAttribute("paging", pagination);
         model.addAttribute("ghBoardList", ghBoardList);
         return layout;
@@ -80,7 +86,7 @@ public class GhBoardController {
     @RequestMapping("/insertUpdate")
     public String cuBoard(GhBoard ghBoard, @RequestPart("fileList") List<MultipartFile> file) {
         ghBoardService.cuBoard(ghBoard, file);
-        return "redirect:/board/list";
+        return "redirect:/board/list/list";
     }
 
     @ResponseBody

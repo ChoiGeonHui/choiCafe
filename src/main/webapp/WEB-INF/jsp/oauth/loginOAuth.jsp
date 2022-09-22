@@ -46,7 +46,7 @@
                 data: {'id': id, 'password': password},
                 success: function (data) {
                     if (data.result == 'success') {
-                        location.href="/board/list";
+                        location.href="/board/list/list";
                     } else {
                         alert('아이디 또는 비밀번호가 틀립니다.');
                     }

@@ -40,7 +40,7 @@ public class SecurityConfig {
                             "/**/*.css",
                             "/**/*.js",
                             "/**/*.jsp", "/oauth/**").permitAll()
-                    .antMatchers("/board/list","/board/view").authenticated()
+                    .antMatchers("/board/list/list","/board/view").authenticated()
                     .antMatchers("/admin/**", "/board/delete").hasRole(Role.ADMIN.name())
                     .antMatchers("/board/**").hasAnyRole(Role.USER.name(),Role.ADMIN.name())
                     .anyRequest().authenticated()
@@ -75,7 +75,7 @@ public class SecurityConfig {
 
         http
                     .oauth2Login()
-                    .defaultSuccessUrl("/board/list", true)
+                    .defaultSuccessUrl("/board/list/list", true)
                     .userInfoEndpoint()
                     .userService(customOAuth2UserService);
 

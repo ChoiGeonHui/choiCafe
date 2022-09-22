@@ -10,6 +10,6 @@
 
 <div class="container text-center mt-5">
     <h2>해당 페이지에 접근 권한이 없습니다.</h2>
-    <a href="/board/list" class="btn btn-secondary">돌아가기</a>
+    <a href="/board/list/list" class="btn btn-secondary">돌아가기</a>
 </div>
 
