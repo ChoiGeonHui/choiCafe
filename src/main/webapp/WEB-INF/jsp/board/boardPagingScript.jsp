@@ -74,8 +74,10 @@
             let pageNumber = $(this).data('page-number');
             let searchWord = $('#search').val();
             let searchName = $('#searchName').val();
+            let boardHandle = $('#boardHandle').val();
             let category = $('#category').val();
-            let hrefString = '/board/list/list?page=' + pageNumber;
+
+            let hrefString = '/board/list/'+boardHandle+'?page=' + pageNumber;
 
             if (category != null && category != '') {
                 hrefString = hrefString + '&category=' + category;

@@ -43,7 +43,7 @@
                             ${list.category}</span>
                         </td>
                         <td class="text-left">
-                            <a href="/board/view?seq=${list.seq}">
+                            <a href="/board/view/detail?seq=${list.seq}">
                             <c:forEach var="depth" begin="1" end="${list.depth}">
                                 <c:if test="${depth ne list.depth}">&nbsp;&nbsp;</c:if>
                                 <c:if test="${depth == list.depth}"> └</c:if>

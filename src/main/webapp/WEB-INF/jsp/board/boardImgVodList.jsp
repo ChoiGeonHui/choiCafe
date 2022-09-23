@@ -44,7 +44,7 @@
 
 
                     </td>
-                    <td colspan="2"><a href="/board/view?seq=${list.seq}">${list.title}</a></td>
+                    <td colspan="2"><a href="/board/view/detail?seq=${list.seq}">${list.title}</a></td>
                 </tr>
                 <tr>
                     <td>${list.createdName}</td>

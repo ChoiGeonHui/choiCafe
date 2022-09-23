@@ -14,9 +14,9 @@
         </div>
         <div class="my-2 col-8">
             <span>카테고리 : </span>
-            <label class="radio-inline"><input type="radio" name="category" ${ghBoard.category eq '자유' or ghBoard.category eq null? 'checked' : ''} value="자유"> 자유</label>&nbsp;
-            <label><input type="radio" name="category" ${ghBoard.category eq '이미지'? 'checked' : ''}value="이미지"> 이미지</label>&nbsp;
-            <label><input type="radio" name="category" ${ghBoard.category eq '이미지'? 'checked' : ''}value="동영상"> 동영상</label>
+            <label class="radio-inline"><input type="radio" name="category" ${ghBoard.category eq '자유' or ghBoard.category eq null? 'checked = "checked"' : ''} value="자유"> 자유</label>&nbsp;
+            <label><input type="radio" name="category" ${ghBoard.category eq '이미지'? 'checked = "checked"' : ''}value="이미지"> 이미지</label>&nbsp;
+            <label><input type="radio" name="category" ${ghBoard.category eq '동영상'? 'checked = "checked"' : ''}value="동영상"> 동영상</label>
         </div>
         <div class="mt-2">
             <textarea id="content" name="content" class="col-7" style="height: 100px" placeholder="내용을 입력하세요.">${ghBoard.content}</textarea>

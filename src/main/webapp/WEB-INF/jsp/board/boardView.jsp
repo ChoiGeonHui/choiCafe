@@ -46,7 +46,7 @@
         <hr>
         <div class="mt-2">
             <c:if test="${user.role eq 'ROLE_ADMIN' or user.seq eq ghBoard.createdBy or ghBoard.seq eq null}">
-                <a class="btn btn-success" href="/board/detail?seq=${ghBoard.seq}">수정하기</a>
+                <a class="btn btn-success" href="/board/view/update?seq=${ghBoard.seq}">수정하기</a>
             </c:if>
             <a class="btn btn-secondary text-white" href="/board/list/list">목록</a>
         </div>
@@ -61,7 +61,7 @@
             <td class="col-1"> | </td>
             <td class="col-8">
                 <c:if test="${ghBoard.prevBoard ne null}">
-                    <a href="/board/view?seq=${ghBoard.prevBoard}">${ghBoard.prevTitle}</a>
+                    <a href="/board/view/detail?seq=${ghBoard.prevBoard}">${ghBoard.prevTitle}</a>
                 </c:if>
                 <c:if test="${ghBoard.prevBoard eq null}">
                     <span>이전글이 없습니다.</span>
@@ -73,7 +73,7 @@
             <td class="col-1"> | </td>
             <td class="col-8">
                 <c:if test="${ghBoard.nextBoard ne null}">
-                    <a href="/board/view?seq=${ghBoard.nextBoard}">${ghBoard.nextTitle}</a>
+                    <a href="/board/view/detail?seq=${ghBoard.nextBoard}">${ghBoard.nextTitle}</a>
                 </c:if>
                 <c:if test="${ghBoard.nextBoard eq null}">
                     <span>다음글이 없습니다.</span>

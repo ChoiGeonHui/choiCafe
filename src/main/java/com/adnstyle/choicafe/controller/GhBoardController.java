@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,22 +51,17 @@ public class GhBoardController {
         return layout;
     }
 
-    @RequestMapping("/view")
-    public String BoardView (@RequestParam("seq") Long seq, Model model) {
-        GhBoard ghBoard = ghBoardService.selectGhBoardBySeq(seq);
+    @RequestMapping("/view/{boardHandle}")
+    public String BoardView (@PathVariable("boardHandle") String boardHandle, @RequestParam("seq") Long seq, Model model, HttpServletRequest request) {
+        GhBoard ghBoard = ghBoardService.selectGhBoardBySeq(seq,boardHandle);
+
+        String url = ghBoardService.checkBoardAccess(boardHandle,ghBoard,request);
+
+        model.addAttribute("page", url);
         model.addAttribute("ghBoard", ghBoard);
-        model.addAttribute("page", "board/boardView");
         return layout;
     }
 
-
-    @RequestMapping("/detail")
-    public String detailBoard(@RequestParam("seq") Long seq, Model model) {
-        GhBoard ghBoard = ghBoardService.selectGhBoardBySeq(seq);
-        model.addAttribute("ghBoard", ghBoard);
-        model.addAttribute("page", "board/boardDetail");
-        return layout;
-    }
 
 
     @RequestMapping("/comment")
@@ -73,13 +69,13 @@ public class GhBoardController {
         GhBoard ghBoard = new GhBoard();
         ghBoard.setParentSeq(seq);
         model.addAttribute("ghBoard", ghBoard);
-        model.addAttribute("page", "board/boardDetail");
+        model.addAttribute("page", "board/boardInsertUpdate");
         return layout;
     }
 
     @RequestMapping("/create")
     public String createBoard(Model model) {
-        model.addAttribute("page", "board/boardDetail");
+        model.addAttribute("page", "board/boardInsertUpdate");
         return layout;
     }
 

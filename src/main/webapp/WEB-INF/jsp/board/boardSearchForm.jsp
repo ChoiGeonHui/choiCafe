@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: adnstyle1153
@@ -15,7 +16,12 @@
             <a href="/board/list/list?category=자유" class="btn btn-secondary col-2 mx-1">자유</a>
             <a href="/board/list/images?category=이미지" class="btn btn-primary active col-2 mx-1">이미지</a>
             <a href="/board/list/videos?category=동영상" class="btn btn-success active col-2 mx-1">동영상</a>
+            <c:if test="${user.role eq 'ROLE_ADMIN'}">
+                <a href="/admin" class="btn btn-danger col-2 mx-1">D-Board</a>
+            </c:if>
         </div>
+
+        <input hidden="hidden" id="boardHandle" value="${boardHandle}">
         <input hidden="hidden" id="category" name="category" value="${ghBoard.category}">
 
         <div class="d-flex flex-row-reverse col-6">

@@ -2,6 +2,7 @@ package com.adnstyle.choicafe.service;
 
 
 import com.adnstyle.choicafe.domain.GhBoard;
+import com.adnstyle.choicafe.domain.GhMember;
 import com.adnstyle.choicafe.repository.GhBoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Service
@@ -20,21 +23,47 @@ public class GhBoardService {
 
     private final GhAttachService ghAttachService;
 
-    @Transactional
+
+
     public int selectCount(GhBoard ghBoard) {
         return ghBoardRepository.selectCount(ghBoard);
     }
 
 
+    public String checkBoardAccess (String boardHandle, GhBoard ghBoard, HttpServletRequest request) {
+
+        //board/boardInsertUpdate
+
+        if (boardHandle.equals("detail")) {
+            return "board/boardView";
+        }
+        HttpSession httpSession = request.getSession(true);
+        GhMember ghMember = (GhMember) httpSession.getAttribute("user");
+
+        // 다른 사용자가 타인이 작성한 게시물을 무단으로 수정하려는 것을 막는다.
+        // 사용자 식별자와 게시물 제작자의 식별자가 같아햐 함. 또는 사용자가 관리자일 경우 수정 가능
+        if (ghMember.getSeq().equals(Long.valueOf(ghBoard.getCreatedBy())) || ghMember.getRole().equals("ROLE_ADMIN") ) {
+            return "board/boardInsertUpdate";
+        } else {
+            return "oauth/access";
+        }
+
+    }
+
+
     /**
-     * 게시물 상세보기
+     * 게시물 상세보기,수정   - 게시물의 해당 데이터 가져오기
      * @param seq 게시물 식별자
      * @return
      */
-    public GhBoard selectGhBoardBySeq(Long seq) {
+    public GhBoard selectGhBoardBySeq(Long seq, String boardHandle) {
         GhBoard ghBoard = ghBoardRepository.selectGhBoardBySeq(seq);
         ghBoard.setGhAttachList(ghAttachService.selectAttach("ghBoard", ghBoard.getSeq()));
-        updateViewCount(ghBoard);  //조회수 증가
+
+        if (boardHandle.equals("detail")){
+            updateViewCount(ghBoard);  //조회수 증가
+        }
+
         return ghBoard;
     }
 
