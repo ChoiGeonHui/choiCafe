@@ -151,7 +151,6 @@
             }
             email = email+'@'+emailhost;
 
-            return;
 
             $.ajax({
                 type: "POST",
