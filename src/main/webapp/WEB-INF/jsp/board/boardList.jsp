@@ -26,7 +26,7 @@
         <tbody>
         <c:forEach items="${ghBoardList}" var="list">
                 <tr>
-                    <c:if test='${list.delYN == "Y" and user.role ne "ROLE_ADMIN"}'>
+                    <c:if test='${list.delYN == "Y"}'>
                         <td colspan="7">삭제된 게시글 입니다.</td>
                     </c:if>
                     <c:if test='${list.delYN eq "N"}'>

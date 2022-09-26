@@ -31,6 +31,14 @@ public class GhBoardController {
     }
 
 
+    /**
+     * 게시물 리스트 보기 - 일반 or 이미지,동영상
+     * @param boardHandle
+     * @param model
+     * @param ghBoard
+     * @return
+     * @throws Exception
+     */
     @RequestMapping("/list/{boardHandle}")
     public String selectBoardList(@PathVariable("boardHandle") String boardHandle, Model model, GhBoard ghBoard) throws Exception {
         Pagination pagination = new Pagination();
@@ -51,10 +59,19 @@ public class GhBoardController {
         return layout;
     }
 
+
+    /**
+     * 선택한 게시물 보기
+     * @param boardHandle
+     * @param seq
+     * @param model
+     * @param request
+     * @return
+     */
     @RequestMapping("/view/{boardHandle}")
     public String BoardView (@PathVariable("boardHandle") String boardHandle, @RequestParam("seq") Long seq, Model model, HttpServletRequest request) {
-        GhBoard ghBoard = ghBoardService.selectGhBoardBySeq(seq,boardHandle);
 
+        GhBoard ghBoard = ghBoardService.selectGhBoardBySeq(seq,boardHandle);
         String url = ghBoardService.checkBoardAccess(boardHandle,ghBoard,request);
 
         model.addAttribute("page", url);

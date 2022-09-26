@@ -44,11 +44,11 @@
             })
 
             if (seq.length == 0) {
-                alert('삭제할 항목이 없습니다. test');
+                alert('삭제할 항목이 없습니다.');
                 return;
             }
 
-            if (confirm('삭제 하시겠습니까? 삭제할 항목은 ' + seq + ' 입니다.')) {
+            if (confirm('삭제 하시겠습니까? 삭제할 게시글의 번호는 ' + seq + ' 입니다.')) {
 
                 $.ajax({
                     type: "POST",

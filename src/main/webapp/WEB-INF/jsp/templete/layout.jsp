@@ -20,18 +20,8 @@
 
 <body>
 <div class="container text-center">
-    <header>
-        <h2 class="mt-3"><a href="/board/list/list">ChoiCafe</a></h2>
-    </header>
 
-    <c:if test="${user ne null}">
-
-        <div class="d-flex flex-row-reverse my-2">
-          <a href="/logout"> 로그아웃</a><span>${user.name}님 환영합니다. </span>
-        </div>
-
-    </c:if>
-
+    <jsp:include page="../info/header.jsp"/>
 
     <section>
         <jsp:include page="../${page}.jsp"/>

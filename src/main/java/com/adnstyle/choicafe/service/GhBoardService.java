@@ -32,13 +32,19 @@ public class GhBoardService {
 
     public String checkBoardAccess (String boardHandle, GhBoard ghBoard, HttpServletRequest request) {
 
-        //board/boardInsertUpdate
+        HttpSession httpSession = request.getSession(true);
+        GhMember ghMember = (GhMember) httpSession.getAttribute("user");
+
+        if (ghBoard == null) {
+
+            if (!ghMember.getRole().equals("ROLE_ADMIN")) {
+                return "board/boardDeletedPage";
+            }
+        }
 
         if (boardHandle.equals("detail")) {
             return "board/boardView"; //게시물 보기 페이지로 이동
         }
-        HttpSession httpSession = request.getSession(true);
-        GhMember ghMember = (GhMember) httpSession.getAttribute("user");
 
         // 다른 사용자가 타인이 작성한 게시물을 무단으로 수정하려는 것을 막는다.
         // 사용자 식별자와 게시물 제작자의 식별자가 같아햐 함. 또는 사용자가 관리자일 경우 수정 가능
@@ -64,7 +70,9 @@ public class GhBoardService {
      */
     public GhBoard selectGhBoardBySeq(Long seq, String boardHandle) {
         GhBoard ghBoard = ghBoardRepository.selectGhBoardBySeq(seq);
-        ghBoard.setGhAttachList(ghAttachService.selectAttach("ghBoard", ghBoard.getSeq()));
+        if (ghBoard !=null){
+            ghBoard.setGhAttachList(ghAttachService.selectAttach("ghBoard", ghBoard.getSeq()));
+        }
 
         if (boardHandle.equals("detail")){
             updateViewCount(ghBoard);  //조회수 증가
