@@ -1,6 +1,7 @@
 package com.adnstyle.choicafe.service;
 
 
+import com.adnstyle.choicafe.common.SessionMember;
 import com.adnstyle.choicafe.domain.GhBoard;
 import com.adnstyle.choicafe.domain.GhMember;
 import com.adnstyle.choicafe.repository.GhBoardRepository;
@@ -23,6 +24,8 @@ public class GhBoardService {
 
     private final GhAttachService ghAttachService;
 
+    private final GhReplyService ghReplyService;
+
 
 
     public int selectCount(GhBoard ghBoard) {
@@ -33,7 +36,7 @@ public class GhBoardService {
     public String checkBoardAccess (String boardHandle, GhBoard ghBoard, HttpServletRequest request) {
 
         HttpSession httpSession = request.getSession(true);
-        GhMember ghMember = (GhMember) httpSession.getAttribute("user");
+        SessionMember ghMember = (SessionMember) httpSession.getAttribute("user");
 
         if (ghBoard == null) {
 
@@ -72,6 +75,7 @@ public class GhBoardService {
         GhBoard ghBoard = ghBoardRepository.selectGhBoardBySeq(seq);
         if (ghBoard !=null){
             ghBoard.setGhAttachList(ghAttachService.selectAttach("ghBoard", ghBoard.getSeq()));
+            ghBoard.setGhReplyList(ghReplyService.selectReplyList(ghBoard.getSeq()));
         }
 
         if (boardHandle.equals("detail")){

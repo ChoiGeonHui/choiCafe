@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.adnstyle.choicafe.repository.GhReplyRepository">
+    <resultMap id="simpleReply" type="com.adnstyle.choicafe.domain.GhReply">
+        <id property="seq"              column="seq"/>
+        <result property="parentSeq"    column="parent_seq"/>
+        <result property="boardSeq"    column="board_seq"/>
+<!--        <result property="category"     column="category"/>-->
+<!--        <result property="groupOrd"     column="group_ord"/>-->
+<!--        <result property="depth"        column="depth"/>-->
+<!--        <result property="title"        column="title"/>-->
+        <result property="content"      column="content"/>
+        <result property="memberSeq"    column="member_seq"/>
+        <result property="delYN"        column="del_yn"/>
+<!--        <result property="createdName"  column="created_name"/>-->
+        <result property="createdDate"  column="created_date"/>
+
+    </resultMap>
+
+
+
+    <select id="selectReplyList" resultMap="simpleReply">
+        select *
+        from gh_reply where board_seq = #{boardSeq}
+    </select>
+
+
+
+    <insert id="insertReply">
+        insert into gh_reply
+            (
+             parent_seq,
+             board_seq,
+             content,
+             member_seq
+             )
+            value
+            (
+            <if test="parentSeq == null or parentSeq == ''">
+                0,
+            </if>
+            <if test="parentSeq != null">
+                #{parentSeq},
+            </if>
+            #{boardSeq},
+            #{content},
+            #{memberSeq}
+            )
+    </insert>
+</mapper>

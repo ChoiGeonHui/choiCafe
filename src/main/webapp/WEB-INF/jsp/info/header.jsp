@@ -24,5 +24,8 @@
         <c:if test="${user.role eq 'ROLE_ADMIN'}">
             <a href="/admin" class="btn btn-sm btn-outline-success mx-1"> 관리자 페이지 </a>
         </c:if>
+        <c:if test="${user.role eq 'ROLE_SOCIAL'}">
+            <a href="#" class="btn btn-sm btn-outline-secondary mx-1">계정 연결</a>
+        </c:if>
     </div>
 </c:if>

@@ -9,6 +9,8 @@
 
     <div>
 
+        <input type="text" value="${ghBoard.seq}" hidden="hidden" id="seq">
+        <input type="text" value="${user.seq}" hidden="hidden" id="useq">
         <table class="table col-12">
             <thead class="mb-2">
             <tr>
@@ -54,12 +56,37 @@
         </c:if>
 
         <hr>
+        <div class="mt-2 mb-2 input-group">
+            <div class="input-group-prepend col-12">
+                <textarea type="text" id="replyContent"
+                          class="form-control col-11" placeholder="댓글을 작성하세요"></textarea>
+                <button id="insertReplyBtn" class="text-info btn btn-white commentBtn col-1" data-board-seq="${ghBoard.seq}">게시</button>
+            </div>
+        </div>
+
+<%--        <a href="#" id="test11" data-target="commentReply">답글테스트</a>--%>
+
+        <input type="text" class="d-none" id="commentReply">
+
+        <hr>
         <div class="mt-2">
-            <c:if test="${user.role eq 'ROLE_ADMIN' or user.seq eq ghBoard.createdBy or ghBoard.seq eq null}">
+            <c:if test="${user.role eq 'ROLE_ADMIN' or user.seq eq ghBoard.createdBy}">
                 <a class="btn btn-success" href="/board/view/update?seq=${ghBoard.seq}">수정하기</a>
             </c:if>
             <a class="btn btn-secondary text-white" href="/board/list/list">목록</a>
+            <c:if test="${user.role eq 'ROLE_ADMIN' or user.seq eq ghBoard.createdBy}">
+                <a class="btn btn-danger" id="btnDel" href="#">삭제하기</a>
+            </c:if>
         </div>
+        <hr>
+
+        <c:forEach items="${ghBoard.ghReplyList}" var="list" varStatus="status">
+            <div>
+                <span>${list.seq}</span><br><span>${list.content}</span><br><span>${list.boardSeq}</span><br><span>${list.memberSeq}</span>
+            </div>
+            <br>
+        </c:forEach>
+
 
     </div>
 
@@ -92,6 +119,69 @@
         </tr>
     </table>
 
-
-
 </div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#insertReplyBtn").on('click', function (){
+            let content =  $("#replyContent").val();
+            let boardSeq =  $("#seq").val();
+            let memberSeq =  $("#useq").val();
+            alert(content+ boardSeq+ memberSeq);
+            // return;
+            if (content.length = 0) {
+                alert("댓글을 입력하세요.");
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/reply/insert",
+                data: {"content" : content, "boardSeq" : boardSeq, "memberSeq" : memberSeq},
+                success: function (data) {
+                    if (data.result == 'success') {
+                        alert('댓글 등록 완료.');
+                        location.reload();
+                    } else {
+                        alert('오류발생');
+                    }
+                },
+                error: function () {
+                    alert('에러발생!');
+                }
+            })
+
+
+        })
+
+        $("#btnDel").on('click', function (e) {
+            e.preventDefault();
+
+            let seq = [];
+            seq.push($("#seq").val());
+
+            if (confirm("게시물을 삭제하시겠습니까?")) {
+
+                $.ajax({
+                    type: "POST",
+                    url: "/board/delete",
+                    data: {"seq" : seq},
+                    success: function (data) {
+                        if (data.result == 'success') {
+                            alert('삭제를 완료하였습니다.');
+                            location.href = "/board/list/list";
+                        } else {
+                            alert('오류발생');
+                        }
+                    },
+                    error: function () {
+                        alert('에러발생!');
+                    }
+                })
+            }
+        })
+
+
+    })
+</script>

@@ -74,4 +74,6 @@ public class GhBoard extends Criteria implements Serializable {
     //다음글 제목
     private String nextTitle;
 
+    private List<GhReply> ghReplyList;
+
 }

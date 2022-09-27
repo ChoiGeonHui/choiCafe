@@ -1,5 +1,6 @@
 package com.adnstyle.choicafe.controller;
 
+import com.adnstyle.choicafe.common.SessionMember;
 import com.adnstyle.choicafe.domain.GhMember;
 import com.adnstyle.choicafe.service.GhMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ public class GhMemberController {
     @RequestMapping("/")
     public Map<String, String> loginA(Authentication authentication, HttpSession session) {
         GhMember ghMember = (GhMember) authentication.getPrincipal();
-        session.setAttribute("user", ghMember);
+        session.setAttribute("user", new SessionMember(ghMember));
         Map<String, String> result = new HashMap<>();
         result.put("result","success");
         return result;
