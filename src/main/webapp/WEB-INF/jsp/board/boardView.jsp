@@ -27,7 +27,7 @@
                     <p>&nbsp;</p>
                     <c:forEach items="${ghBoard.ghAttachList}" var="list" varStatus="status">
                         <c:if test="${fn:contains(list.type, 'image' )}">
-                            <img height="300px;" class="col-10" src="/files/view?seq=${list.seq}"/>
+                            <img height="300px;" class="col-10" src="/files/view?seq=${list.seq}" alt="${list.displayName}"/>
                         </c:if>
                         <c:if test="${fn:contains(list.type, 'video' )}">
                             <video height="300px;" class="col-10" src="/files/view?seq=${list.seq}" controls="controls"/>
@@ -42,6 +42,16 @@
 
             </tbody>
         </table>
+
+        <c:if test="${ghBoard.ghAttachList ne null and ghBoard.category eq '자료실'}">
+            <div class="text-left">
+                <span id="fileName1"> 첨부파일 :</span>
+                <c:forEach items="${ghBoard.ghAttachList}" var="list" varStatus="status">
+                    <a href="/files/download?seq=${list.seq}" id="btnDownload${list.seq}"
+                       class="btn ml-2">${list.displayName}</a>
+                </c:forEach>
+            </div>
+        </c:if>
 
         <hr>
         <div class="mt-2">

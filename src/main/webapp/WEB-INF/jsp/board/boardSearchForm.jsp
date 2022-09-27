@@ -16,6 +16,7 @@
             <a href="/board/list/list?category=자유" class="btn btn-outline-secondary col-2 mx-1">자유</a>
             <a href="/board/list/images?category=이미지" class="btn btn-outline-primary  col-2 mx-1">이미지</a>
             <a href="/board/list/videos?category=동영상" class="btn btn-outline-success col-2 mx-1">동영상</a>
+            <a href="/#" class="btn btn-outline-warning col-2 mx-1">자료실</a>
         </div>
 
         <input hidden="hidden" id="boardHandle" value="${boardHandle}">
