@@ -81,11 +81,39 @@
     </sql>
 
 
+    <sql id="simpleSelectForCTE">
+        select
+            seq,
+            parent_seq,
+            category,
+            group_ord,
+            depth,
+            title,
+            content,
+            view_count,
+            del_yn,
+            created_by,
+            created_name,
+            created_date,
+            modified_by,
+            modified_date,
+            prev_board,
+            prev_title,
+            next_board,
+            next_title
+    </sql>
+
+
     <sql id="whereSQL">
         where 1 = 1
 
         <if test="category != null and category != ''">
             and category = #{category}
+        </if>
+
+
+        <if test="delYN != null and delYN != ''">
+            and r.del_yn = #{delYN}
         </if>
 
         <if test="searchWord != null and searchWord != ''">
@@ -114,25 +142,7 @@
     </select>
 
     <select id="selectGhBoardBySeq" resultMap="simpleBoard">
-        select
-                seq,
-                parent_seq,
-                category,
-                group_ord,
-                depth,
-                title,
-                content,
-                view_count,
-                del_yn,
-                created_by,
-                created_name,
-                created_date,
-                modified_by,
-                modified_date,
-                prev_board,
-                prev_title,
-                next_board,
-                next_title
+        <include refid="simpleSelectForCTE"/>
         from    (
                 <include refid="selectCTE"/>
                 where r.del_yn = 'N'

@@ -20,7 +20,7 @@
         <span>${user.name}님 환영합니다. </span><a href="/logout" class="btn btn-outline-danger btn-sm mx-1"> 로그아웃</a>
     </div>
     <div class="d-flex my-2 justify-content-end">
-        <a href="#" class="btn btn-sm btn-outline-warning mx-1"> 내정보 </a>
+        <a href="/oauth/detail" class="btn btn-sm btn-outline-warning mx-1"> 내정보 </a>
         <c:if test="${user.role eq 'ROLE_ADMIN'}">
             <a href="/admin" class="btn btn-sm btn-outline-success mx-1"> 관리자 페이지 </a>
         </c:if>

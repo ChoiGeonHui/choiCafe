@@ -36,14 +36,15 @@
                         <td>${list.seq}</td>
                         <td>
                             <c:choose>
-                                <c:when test="${list.category eq '자유'}"><span class="bg-secondary text-white"></c:when>
-                                <c:when test="${list.category eq '이미지'}"><span class="bg-primary text-white"></c:when>
-                                <c:when test="${list.category eq '동영상'}"><span class="bg-success text-white"></c:when>
+                                <c:when test="${list.category eq '자유'}"><span class="badge badge-pill badge-secondary"></c:when>
+                                <c:when test="${list.category eq '이미지'}"><span class="badge badge-pill badge-primary"></c:when>
+                                <c:when test="${list.category eq '동영상'}"><span class="badge badge-pill badge-success"></c:when>
+                                <c:when test="${list.category eq '자료실'}"><span class="badge badge-pill badge-warning"></c:when>
                             </c:choose>
                             ${list.category}</span>
                         </td>
                         <td class="text-left">
-                            <a href="/board/view/detail?seq=${list.seq}">
+                            <a href="/board/view/detail?seq=${list.seq}" class="badge badge-light col-12 text-left">
                             <c:forEach var="depth" begin="1" end="${list.depth}">
                                 <c:if test="${depth ne list.depth}">&nbsp;&nbsp;</c:if>
                                 <c:if test="${depth == list.depth}"> └</c:if>
@@ -85,5 +86,24 @@
 
 
 </div>
+<%-- 글 삭제를 위한 Modal Layer --%>
+<div class="modal" id="moreSet" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <%-- Modal 창 안에 내용 넣기 --%>
+            <div class="w-100">
+                <div class="my-3 text-center">
+                    <a href="#" class="del-post d-block">삭제하기</a><%-- 클릭할 수 있는 영역을 넓히기 위해 d-block --%>
+                </div>
+                <div class="border-top py-3 text-center">
+                    <%-- data-dismiss: 모달창 닫힘 --%>
+                    <a href="#" class="cancel d-block" data-dismiss="modal">취소</a> <%-- 클릭할 수 있는 영역을 넓히기 위해 d-block --%>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <%@ include file="boardPagingScript.jsp"%>

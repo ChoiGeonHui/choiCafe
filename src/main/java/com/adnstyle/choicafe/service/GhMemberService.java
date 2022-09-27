@@ -12,6 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class GhMemberService implements UserDetailsService {
@@ -26,6 +28,11 @@ public class GhMemberService implements UserDetailsService {
         return ghMemberRepository.selectCount();
 
     }
+    
+    public List<GhMember> selectMemberList () {
+        return ghMemberRepository.selectMemberList();
+    }
+
 
 
     /**

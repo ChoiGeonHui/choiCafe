@@ -32,6 +32,11 @@
         from gh_member;
     </select>
 
+    <select id="selectMemberList" resultMap="simpleMember">
+        <include refid="selectSimple"/>
+    </select>
+
+
     <select id="selectMember" resultMap="simpleMember">
         <include refid="selectSimple"/>
         <where>

@@ -13,7 +13,7 @@
         <table class="col-6">
 
             <tr>
-                <td>아이디</td>
+                <td> 아이디</td>
                 <td>
                     <div class="input-group">
                         <input type="text" id="id" name="id" placeholder="아이디를 입력하세요"
@@ -87,12 +87,23 @@
 
     $(document).ready(function () {
 
+        $("#id").on("propertychange change keyup paste input",function () {
+
+            $("#idLength").addClass('d-none');
+            $("#idDuc").addClass('d-none');
+            $("#idChk").addClass('d-none');
+
+        })
+
+
         $("#chkId").on('click', function () {
 
             let id = $("#id").val();
 
             if (id == '' || id == null || id.length < 4){
-                alert('아이디를 4자이상 입력하세요.');
+                $("#idLength").removeClass('d-none');
+                $("#idDuc").addClass('d-none');
+                $("#idChk").addClass('d-none');
                 return;
             }
 
@@ -103,9 +114,15 @@
                 data : {"id": id},
                 success : function (data) {
                     if (data.result == "success") {
-                        alert('사용 가능한 아이디 입니다.');
+                        // alert('사용 가능한 아이디 입니다.');
+                        $("#idLength").addClass('d-none');
+                        $("#idDuc").addClass('d-none');
+                        $("#idChk").removeClass('d-none');
                     } else {
-                        alert('중복되는 아이디 입니다.');
+                        // alert('중복되는 아이디 입니다.');
+                        $("#idLength").addClass('d-none');
+                        $("#idDuc").removeClass('d-none');
+                        $("#idChk").addClass('d-none');
                     }
                 },
                 error : function () {
@@ -130,6 +147,12 @@
                 alert('아이디를 입력하세요.');
                 return;
             }
+
+            if ($("#idChk").hasClass("d-none")) {
+                alert('아이디 중복체크를 하세요');
+                return;
+            }
+
 
             if(password == '' || password.length < 6){
                 alert('비밀번호를 6자리 이상 입력하세요.');

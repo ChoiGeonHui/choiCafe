@@ -61,6 +61,15 @@ public class GhMemberController {
         return layout;
     }
 
+
+    @RequestMapping("/detail")
+    public String detail (Model model) {
+        model.addAttribute("page","oauth;/updateMember");
+        return layout;
+    }
+
+
+
     @ResponseBody
     @RequestMapping("/insertMember")
     public Map<String, String> sginUp(GhMember ghMember) {
