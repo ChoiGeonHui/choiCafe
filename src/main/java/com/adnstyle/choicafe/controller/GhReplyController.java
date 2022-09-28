@@ -19,10 +19,18 @@ public class GhReplyController {
     GhReplyService ghReplyService;
 
     @ResponseBody
-    @RequestMapping("insert")
+    @RequestMapping("/insert")
     public Map<String, String> insertReply(GhReply ghReply) {
         Map<String, String> result = new HashMap<>();
         result.put("result", ghReplyService.insertRely(ghReply));
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping("/delete")
+    public Map<String, String> deleteReply(GhReply ghReply) {
+        Map<String, String> result = new HashMap<>();
+        result.put("result", ghReplyService.deleteRely(ghReply));
         return result;
     }
 

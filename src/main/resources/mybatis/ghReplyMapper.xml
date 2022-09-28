@@ -4,24 +4,77 @@
     <resultMap id="simpleReply" type="com.adnstyle.choicafe.domain.GhReply">
         <id property="seq"              column="seq"/>
         <result property="parentSeq"    column="parent_seq"/>
-        <result property="boardSeq"    column="board_seq"/>
-<!--        <result property="category"     column="category"/>-->
-<!--        <result property="groupOrd"     column="group_ord"/>-->
-<!--        <result property="depth"        column="depth"/>-->
-<!--        <result property="title"        column="title"/>-->
+        <result property="boardSeq"     column="board_seq"/>
+        <result property="groupOrd"     column="group_ord"/>
+        <result property="depth"        column="depth"/>
         <result property="content"      column="content"/>
         <result property="memberSeq"    column="member_seq"/>
         <result property="delYN"        column="del_yn"/>
-<!--        <result property="createdName"  column="created_name"/>-->
+        <result property="memberName"   column="member_name"/>
         <result property="createdDate"  column="created_date"/>
 
     </resultMap>
 
+    <sql id="selectCTE">
+        with recursive rec as
+                           (select seq,
+                                   parent_seq,
+                                   board_seq,
+                                   cast(lpad(seq, 5, 0) as char(100)) as group_ord,
+                                   0                                  as depth,
+                                   content,
+                                   member_seq,
+                                   del_yn,
+                                   created_date
+                            from gh_reply
+                            where parent_seq = 0
+                            union all
+                            select c.seq,
+                                   c.parent_seq,
+                                   c.board_seq,
+                                   concat(rec.group_ord, lpad(c.seq, 5, 0)) as group_ord,
+                                   rec.depth + 1                            as depth,
+                                   c.content,
+                                   c.member_seq,
+                                   c.del_yn,
+                                   c.created_date
+                            from gh_reply c
+                                     inner join rec on c.parent_seq = rec.seq)
+        select r.seq,
+               r.parent_seq,
+               r.board_seq,
+               r.group_ord,
+               r.depth,
+               r.content,
+               r.member_seq,
+               r.del_yn,
+               r.created_date,
+               m.name as member_name
+        from rec r
+                 inner join gh_member m
+                            on r.member_seq = m.seq
+
+    </sql>
+
+
 
 
     <select id="selectReplyList" resultMap="simpleReply">
-        select *
-        from gh_reply where board_seq = #{boardSeq}
+        select a.seq,
+               a.parent_seq,
+               a.board_seq,
+               a.group_ord,
+               a.depth,
+               a.content,
+               a.member_seq,
+               a.del_yn,
+               a.created_date,
+               a.member_name
+        from (
+            <include refid="selectCTE"/>
+            ) a
+        where a.board_seq = #{boardSeq}
+        order by substr(group_ord, 1, 5) asc, group_ord asc
     </select>
 
 
@@ -47,4 +100,14 @@
             #{memberSeq}
             )
     </insert>
+
+
+    <update id="deleteReply">
+        update
+            gh_reply
+        set del_yn = 'Y'
+        where seq = #{seq}
+
+    </update>
+
 </mapper>

@@ -28,13 +28,21 @@ public class GhReply {
     //작성자 식별자
     private Long memberSeq;
 
+    //작성자 이름
+    private String memberName;
+
     //삭제 여부
     private String delYN;
 
     //생성일자
     private Date createdDate;
+    
+    //댓글 소속그룹
+    private String groupOrd;
 
-
+    //댓글 깊이
+    private int depth;
+    
 
 
 }

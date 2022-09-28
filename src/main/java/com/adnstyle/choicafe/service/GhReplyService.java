@@ -37,6 +37,16 @@ public class GhReplyService {
         }
 
     }
+    public String deleteRely(GhReply ghReply) {
+        int chk = ghReplyRepository.deleteReply(ghReply);
+
+        if (chk > 0) {
+            return "success";
+        } else {
+            return "fail";
+        }
+
+    }
 
 
 

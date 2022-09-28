@@ -14,4 +14,6 @@ public interface GhReplyRepository {
 
     int insertReply(GhReply ghReply);
 
+    int deleteReply(GhReply ghReply);
+
 }
