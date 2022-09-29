@@ -25,6 +25,7 @@ public class AdminController {
     GhMemberService ghMemberService;
 
 
+    //관리자 페이지 사용자 리스트
     @RequestMapping("")
     public String adminMemberView(Model model) {
 

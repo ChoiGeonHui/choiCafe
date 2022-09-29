@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +46,7 @@ public class GhBoardController {
         pagination.setTotalCount(ghBoardService.selectCount(ghBoard));
         List<GhBoard> ghBoardList = ghBoardService.selectBoardList(ghBoard);
 
-        if (boardHandle.equals("list")){
+        if (boardHandle.equals("list")) {
             model.addAttribute("page", "board/boardList");
         } else {
             model.addAttribute("page", "board/boardImgVodList");
@@ -65,14 +64,13 @@ public class GhBoardController {
      * @param boardHandle
      * @param seq
      * @param model
-     * @param request
      * @return
      */
     @RequestMapping("/view/{boardHandle}")
-    public String BoardView (@PathVariable("boardHandle") String boardHandle, @RequestParam("seq") Long seq, Model model, HttpServletRequest request) {
+    public String BoardView (@PathVariable("boardHandle") String boardHandle, @RequestParam("seq") Long seq, Model model) {
 
         GhBoard ghBoard = ghBoardService.selectGhBoardBySeq(seq,boardHandle);
-        String url = ghBoardService.checkBoardAccess(boardHandle,ghBoard,request);
+        String url = ghBoardService.checkBoardAccess(boardHandle,ghBoard);
 
         model.addAttribute("page", url);
         model.addAttribute("ghBoard", ghBoard);

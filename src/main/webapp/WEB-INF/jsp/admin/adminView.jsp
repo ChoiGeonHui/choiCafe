@@ -46,5 +46,5 @@
     </table>
 
 
-    <a href="/board/list/list" class="btn btn-secondary">돌아가기</a>
+    <a href="javascript:history.back()" class="btn btn-secondary">돌아가기</a>
 </div>

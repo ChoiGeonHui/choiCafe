@@ -3,15 +3,15 @@ package com.adnstyle.choicafe.service;
 
 import com.adnstyle.choicafe.common.SessionMember;
 import com.adnstyle.choicafe.domain.GhBoard;
-import com.adnstyle.choicafe.domain.GhMember;
 import com.adnstyle.choicafe.repository.GhBoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -19,6 +19,8 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class GhBoardService {
+
+    private final HttpSession httpSession;
 
     private final GhBoardRepository ghBoardRepository;
 
@@ -33,13 +35,13 @@ public class GhBoardService {
     }
 
 
-    public String checkBoardAccess (String boardHandle, GhBoard ghBoard, HttpServletRequest request) {
+    public String checkBoardAccess (String boardHandle, GhBoard ghBoard) {
 
-        HttpSession httpSession = request.getSession(true);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object login = authentication.getPrincipal().getClass();
         SessionMember ghMember = (SessionMember) httpSession.getAttribute("user");
 
-        if (ghBoard == null) {
-
+        if (ghBoard == null) { // 삭제된 게시물 접근 시
             if (!ghMember.getRole().equals("ROLE_ADMIN")) {
                 return "board/boardDeletedPage";
             }
@@ -71,6 +73,7 @@ public class GhBoardService {
      * @param seq 게시물 식별자
      * @return
      */
+    @Transactional
     public GhBoard selectGhBoardBySeq(Long seq, String boardHandle) {
         GhBoard ghBoard = ghBoardRepository.selectGhBoardBySeq(seq);
         if (ghBoard !=null){
@@ -78,14 +81,14 @@ public class GhBoardService {
             ghBoard.setGhReplyList(ghReplyService.selectReplyList(ghBoard.getSeq()));
         }
 
+        //상세보기시 증가하는 조회수 (수정페이지는 증가 안 함)
         if (boardHandle.equals("detail")){
             updateViewCount(ghBoard);  //조회수 증가
         }
-
         return ghBoard;
     }
 
-    @Transactional
+    //게시물 리스트 보기
     public List<GhBoard> selectBoardList(GhBoard ghBoard) {
         return ghBoardRepository.selectBoardList(ghBoard);
     }

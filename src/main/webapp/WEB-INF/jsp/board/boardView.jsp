@@ -47,7 +47,7 @@
 
         <c:if test="${ghBoard.ghAttachList ne null and ghBoard.category eq '자료실'}">
             <div class="text-left">
-                <span id="fileName1"> 첨부파일 :</span>
+                <span id="fileName1"> 첨부파일 : </span>
                 <c:forEach items="${ghBoard.ghAttachList}" var="list" varStatus="status">
                     <a href="/files/download?seq=${list.seq}" id="btnDownload${list.seq}"
                        class="btn ml-2">${list.displayName}</a>
@@ -68,10 +68,6 @@
             </div>
         </div>
 
-<%--        <a href="#" id="test11" data-target="commentReply">답글테스트</a>--%>
-
-        <input type="text" class="d-none" id="commentReply">
-
         <hr>
 
 <%--        댓글 작성리스트--%>
@@ -84,7 +80,7 @@
                         <span><fmt:formatDate value="${list.createdDate}" pattern="yyyy-MM-dd"/></span>
                         <small><fmt:formatDate value="${list.createdDate}" pattern="HH:mm:ss"/></small>
                     </div>
-                    <a type="button" href="#" data-reply="${list.seq}" class="addBtn btn-info btn btn-sm col-1">댓글
+                    <a type="button" href="#" data-reply="${list.seq}" class="addBtn btn-info btn btn-sm col-1">대댓글
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"/>
                         </svg>
@@ -99,7 +95,7 @@
                             ${list.content}
                     </span>
                     <c:if test="${list.memberSeq eq user.seq}">
-                        <a type="button" href="#" data-del-reply="${list.seq}" class="delReply btn-danger btn btn-sm col-1">삭제
+                        <a type="button" href="#" data-del-reply="${list.seq}" data-member-reply="${list.memberSeq}" class="delReply btn-danger btn btn-sm col-1">삭제
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
                                 <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
                             </svg>
@@ -124,7 +120,8 @@
             <c:if test="${user.role eq 'ROLE_ADMIN' or user.seq eq ghBoard.createdBy}">
                 <a class="btn btn-success" href="/board/view/update?seq=${ghBoard.seq}">수정하기</a>
             </c:if>
-            <a class="btn btn-secondary text-white" href="/board/list/list">목록</a>
+            <a class="btn btn-secondary text-white" href="javascript:history.back()">목록</a>
+<%--            뒤로 가기--%>
             <c:if test="${user.role eq 'ROLE_ADMIN' or user.seq eq ghBoard.createdBy}">
                 <a class="btn btn-danger" id="btnDel" href="#">삭제하기</a>
             </c:if>
@@ -172,15 +169,15 @@
 
             let datareply = $(this).data('reply');
 
-            if ($(this).hasClass("showReply")){
-                $('#btnRemove'+datareply).prev().remove();
-                $('#btnRemove'+datareply).next().remove();
-                $('#btnRemove'+datareply).remove();
+            if ($(this).hasClass("showReply")){ //특정 클래스가 존재여부에 따라 대글란 생성, 삭제가 된다.
+                $('#btnComment'+datareply).prev().remove(); //input 삭제   prev : 자신을 기준으로 앞에 있는 태그 지정
+                $('#btnComment'+datareply).next().remove(); //br 삭제      next : 자신을 기준으로 뒤에 있는 태그 지정
+                $('#btnComment'+datareply).remove();  // 버튼 삭제
                 $(this).removeClass("showReply");
             } else {
                 $('#addInput'+datareply).append(
-                    '<input type="text" name="test" class="col-10" value="">' +
-                    '<button type="button" data-parent="'+datareply+'"  id="btnRemove'+datareply+'" class="btnRemove btn btn-success btn-sm">등록</button><br>'
+                    '<input type="text" name="test" class="col-10">' +
+                    '<button type="button" data-parent="'+datareply+'" id="btnComment'+datareply+'" class="btnComment btn btn-success btn-sm">등록</button><br>'
                 );
                 $(this).addClass("showReply");
 
@@ -188,7 +185,7 @@
         })
 
         //대댓글 등록
-        $('.addInput').on('click','.btnRemove' ,function () { //동적으로 생성된 태그는 함수를 사용하기위해서 직접 클래스 이름을 작성해야함
+        $('.addInput').on('click','.btnComment', function () { //동적으로 생성된 태그는 함수를 사용하기위해서 직접 클래스 이름을 작성해야함
             let content = $(this).prev().val();
             let parentSeq = $(this).data('parent');
             let boardSeq =  $("#seq").val();
@@ -200,7 +197,6 @@
                 data: {"parentSeq" : parentSeq, "content" : content, "boardSeq" : boardSeq, "memberSeq" : memberSeq},
                 success: function (data) {
                     if (data.result == 'success') {
-                        alert('댓글 등록 완료.');
                         location.reload();
                     } else {
                         alert('오류발생');
@@ -210,13 +206,10 @@
                     alert('에러발생!');
                 }
             })
-
         })
 
-
-
         //댓글 등록
-        $("#insertReplyBtn").on('click', function (){
+        $("#insertReplyBtn").on('click', function () {
             let content =  $("#replyContent").val();
             let boardSeq =  $("#seq").val();
             let memberSeq =  $("#useq").val();
@@ -232,7 +225,6 @@
                 data: {"content" : content, "boardSeq" : boardSeq, "memberSeq" : memberSeq},
                 success: function (data) {
                     if (data.result == 'success') {
-                        alert('댓글 등록 완료.');
                         location.reload();
                     } else {
                         alert('오류발생');
@@ -244,16 +236,17 @@
             })
         })
 
+        //댓글 삭제 버튼
         $(".delReply").on('click', function (e) {
             e.preventDefault();
             let seq = $(this).data('del-reply');
-            alert(seq);
+            let memberSeq = $(this).data('member-reply');
 
             if (confirm('댓글을 삭제하시겠습니까?')) {
                 $.ajax({
                     type: "POST",
                     url: "/reply/delete",
-                    data: {"seq" : seq},
+                    data: {"seq" : seq, "memberSeq" : memberSeq},
                     success: function (data) {
                         if (data.result == 'success') {
                             alert('삭제를 완료하였습니다.');
@@ -268,11 +261,10 @@
                 })
             }
 
-
         })
 
 
-
+        //게시물 삭제 버튼
         $("#btnDel").on('click', function (e) {
             e.preventDefault();
 

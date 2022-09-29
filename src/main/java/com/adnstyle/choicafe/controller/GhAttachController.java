@@ -25,7 +25,7 @@ public class GhAttachController {
      */
     @RequestMapping("/files/{handing}")
     public ResponseEntity<String> download(@PathVariable("handing") String handing, GhAttach ghAttach) throws Exception {
-        ghAttachService.download(ghAttach,handing);
+        ghAttachService.download(ghAttach, handing);
         return null;
     }
 
