@@ -16,9 +16,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class GhMemberService implements UserDetailsService {
-    
-    //UserDetailsService : spring Security 사용시 필수로 상속받아야하는 인터 페이스
+public class GhMemberService implements UserDetailsService {//UserDetailsService : spring Security 사용시 필수로 상속받아야하는 인터 페이스
 
     private final GhMemberRepository ghMemberRepository;
 
@@ -57,7 +55,7 @@ public class GhMemberService implements UserDetailsService {
      * @return
      */
     @Transactional
-    public String insertMember(GhMember ghMember){
+    public String insertMember(GhMember ghMember) {
 
         ghMember.setRole(Role.USER.getKey());
         String password = ghMember.getPassword();
@@ -72,6 +70,26 @@ public class GhMemberService implements UserDetailsService {
         } else {
             return "fail";
         }
+    }
+
+    /**
+     * 소셜가입자 -> 일반회원으로 변경
+     * @param ghMember 소셜 가입자 정보
+     * @return
+     */
+    @Transactional
+    public String updateMember(GhMember ghMember) {
+
+        String password = ghMember.getPassword();
+        String encPW = encoder.encode(password);
+
+        ghMember.setPassword(encPW);
+
+        int chk = ghMemberRepository.updateMember(ghMember);
+        if(chk > 0){
+            return "success";
+        }
+        return "fail";
     }
 
 

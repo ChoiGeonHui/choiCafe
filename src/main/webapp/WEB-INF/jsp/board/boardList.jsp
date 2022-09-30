@@ -74,36 +74,28 @@
     </c:if>
     <ul class="paging">
         <c:if test="${paging.prev}">
-            <span><a href="#" data-page-number='${paging.startPage-1}' class="btn btn-white btnPage">이전</a></span>
+            <span><a href="#" data-page-number='${paging.startPage-1}' class="btn btn-white btnPage">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                </svg>
+            </a></span>
         </c:if>
         <c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="num">
             <span><a href="javascript:void(0);" data-page-number='${num}' class="btn btn-white ${ghBoard.page ne num ? 'btnPage' : 'btn-info'} ">${num}</a></span>
         </c:forEach>
         <c:if test="${paging.next && paging.endPage>0}">
-            <span><a href="#" data-page-number='${paging.endPage+1}' class="btn btn-white btnPage">다음</a></span>
+            <span>
+                <a href="#" data-page-number='${paging.endPage+1}' class="btn btn-white btnPage">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                    </svg>
+                </a>
+            </span>
         </c:if>
     </ul>
 
 
 </div>
-<%-- 글 삭제를 위한 Modal Layer --%>
-<div class="modal" id="moreSet" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <%-- Modal 창 안에 내용 넣기 --%>
-            <div class="w-100">
-                <div class="my-3 text-center">
-                    <a href="#" class="del-post d-block">삭제하기</a><%-- 클릭할 수 있는 영역을 넓히기 위해 d-block --%>
-                </div>
-                <div class="border-top py-3 text-center">
-                    <%-- data-dismiss: 모달창 닫힘 --%>
-                    <a href="#" class="cancel d-block" data-dismiss="modal">취소</a> <%-- 클릭할 수 있는 영역을 넓히기 위해 d-block --%>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 
 <%@ include file="boardPagingScript.jsp"%>

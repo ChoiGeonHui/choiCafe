@@ -55,3 +55,6 @@ mybatis:
 
 server:
   port: 8800
+  error:
+    whitelabel:
+      enabled: false

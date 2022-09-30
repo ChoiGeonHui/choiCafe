@@ -30,8 +30,27 @@ public class GhMemberController {
     }
 
 
+    //소셜회원 전환 페이지
+    @RequestMapping("/transform")
+    public String transformMember(Model model) {
+        model.addAttribute("page", "/oauth/transformMember");
+        return layout;
+    }
+
+
+    //소셜회원 전환 api
+    @ResponseBody
+    @RequestMapping("/transformMember")
+    public Map<String, String> transformMember(GhMember ghMember) {
+        Map<String, String> result = new HashMap<>();
+        result.put("result", ghMemberService.updateMember(ghMember));
+        return result;
+    }
+
+
     /**
      * 로그인 인증 성공시 항상 이동되는 api
+     *
      * @param authentication
      * @param session
      * @return
@@ -42,16 +61,16 @@ public class GhMemberController {
         GhMember ghMember = (GhMember) authentication.getPrincipal();
         session.setAttribute("user", new SessionMember(ghMember));
         Map<String, String> result = new HashMap<>();
-        result.put("result","success");
+        result.put("result", "success");
         return result;
     }
 
     @ResponseBody
     @RequestMapping("/idChk")
-    public Map<String,String> checkId(GhMember ghMember) {
+    public Map<String, String> checkId(GhMember ghMember) {
         String chk = ghMemberService.selectMemberById(ghMember);
-        Map<String,String> result = new HashMap<>();
-        result.put("result",chk);
+        Map<String, String> result = new HashMap<>();
+        result.put("result", chk);
         return result;
     }
 
@@ -64,11 +83,10 @@ public class GhMemberController {
 
 
     @RequestMapping("/detail")
-    public String detail (Model model) {
-        model.addAttribute("page","oauth;/updateMember");
+    public String detail(Model model) {
+        model.addAttribute("page", "oauth;/updateMember");
         return layout;
     }
-
 
 
     @ResponseBody
@@ -76,7 +94,7 @@ public class GhMemberController {
     public Map<String, String> sginUp(GhMember ghMember) {
         String s = ghMemberService.insertMember(ghMember);
         Map<String, String> result = new HashMap<>();
-        result.put("result",s);
+        result.put("result", s);
         return result;
     }
 

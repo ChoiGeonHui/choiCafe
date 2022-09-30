@@ -40,7 +40,8 @@ public class SecurityConfig {
                             "/**/*.css",
                             "/**/*.js",
                             "/**/*.jsp", "/oauth/**").permitAll()
-                    .antMatchers("/board/list/list","/board/view/detail").authenticated()
+                    .antMatchers("/board/list/**","/board/view/detail").authenticated()
+                    .antMatchers("/oauth/transform","oauth/transformMember").hasRole(Role.SOCIAL.name())
                     .antMatchers("/admin/**").hasRole(Role.ADMIN.name())
                     .antMatchers("/board/**").hasAnyRole(Role.USER.name(),Role.ADMIN.name())
                     .anyRequest().authenticated()

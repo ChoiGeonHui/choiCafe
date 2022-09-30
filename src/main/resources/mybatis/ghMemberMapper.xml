@@ -3,14 +3,14 @@
 <mapper namespace="com.adnstyle.choicafe.repository.GhMemberRepository">
 
     <resultMap id="simpleMember" type="com.adnstyle.choicafe.domain.GhMember">
-        <id property="seq" column="seq"/>
-        <result property="id" column="id"/>
-        <result property="password" column="password"/>
-        <result property="name" column="name"/>
-        <result property="email" column="email"/>
-        <result property="role" column="role"/>
-        <result property="delYN" column="del_yn"/>
-        <result property="createdMember" column="created_member"/>
+        <id property="seq"                  column="seq"/>
+        <result property="id"               column="id"/>
+        <result property="password"         column="password"/>
+        <result property="name"             column="name"/>
+        <result property="email"            column="email"/>
+        <result property="role"             column="role"/>
+        <result property="delYN"            column="del_yn"/>
+        <result property="createdMember"    column="created_member"/>
     </resultMap>
 
     <sql id="selectSimple">
@@ -90,6 +90,13 @@
                 #{role}
             )
     </insert>
+
+    <update id="updateMember">
+        update gh_member
+        set
+            id = #{id}, password = #{password}, role = 'ROLE_USER'
+        where name = #{name} and email = #{email} and role = #{role}
+    </update>
 
 
 
