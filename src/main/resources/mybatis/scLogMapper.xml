@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.adnstyle.choicafe.repository.subdb.ScLogRepository">
+
+    <resultMap id="simpleSCLog" type="com.adnstyle.choicafe.domain.ScLog">
+        <id property="trNum"              column="TR_NUM"/>
+        <result property="trSendDate"    column="TR_SENDDATE"/>
+        <result property="trPhone"     column="TR_PHONE"/>
+        <result property="trCallBack"     column="TR_CALLBACK"/>
+        <result property="trMsg"        column="TR_MSG"/>
+
+    </resultMap>
+
+
+    <select id="selectList" resultMap="simpleSCLog">
+        select top 10 TR_NUM, TR_SENDDATE, TR_PHONE, TR_CALLBACK, TR_MSG
+        from SC_LOG
+        order by TR_SENDDATE desc
+    </select>
+
+</mapper>

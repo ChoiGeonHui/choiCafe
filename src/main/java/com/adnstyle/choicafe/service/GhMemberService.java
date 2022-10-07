@@ -3,7 +3,7 @@ package com.adnstyle.choicafe.service;
 
 import com.adnstyle.choicafe.domain.GhMember;
 import com.adnstyle.choicafe.domain.Role;
-import com.adnstyle.choicafe.repository.GhMemberRepository;
+import com.adnstyle.choicafe.repository.maindb.GhMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

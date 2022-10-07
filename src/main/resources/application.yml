@@ -10,11 +10,21 @@ logging:
 
 
 spring:
-  datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://192.168.1.84:3306/a_ljy_db?useSSL=false&allowMultiQueries=true
-    username: a_ljy_user
-    password: '!adnstyleDB'
+  maindb:
+    datasource:
+      driver-class-name: org.mariadb.jdbc.Driver
+      jdbc-url: jdbc:mariadb://192.168.1.84:3306/a_ljy_db?useSSL=false&allowMultiQueries=true
+      username: a_ljy_user
+      password: '!adnstyleDB'
+  subdb:
+    datasource:
+      driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+      jdbc-url: jdbc:sqlserver://14.63.223.139:1432;databaseName=pms;encrypt=true;trustServerCertificate=true
+      username: sms_auth
+      password: dptmdpadptm12#
+
+
+
 
   file-upload:
     save-dir: D:/saveChoi/save
@@ -55,6 +65,6 @@ mybatis:
 
 server:
   port: 8800
-  error:
-    whitelabel:
-      enabled: false
+#  error:
+#    whitelabel:
+#      enabled: false

@@ -1,4 +1,4 @@
-package com.adnstyle.choicafe.repository;
+package com.adnstyle.choicafe.repository.maindb;
 
 import com.adnstyle.choicafe.domain.GhAttach;
 import org.apache.ibatis.annotations.Mapper;

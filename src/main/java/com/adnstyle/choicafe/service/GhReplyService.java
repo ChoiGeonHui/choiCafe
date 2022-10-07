@@ -3,7 +3,7 @@ package com.adnstyle.choicafe.service;
 
 import com.adnstyle.choicafe.common.SessionMember;
 import com.adnstyle.choicafe.domain.GhReply;
-import com.adnstyle.choicafe.repository.GhReplyRepository;
+import com.adnstyle.choicafe.repository.maindb.GhReplyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

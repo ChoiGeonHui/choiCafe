@@ -3,7 +3,7 @@ package com.adnstyle.choicafe.service;
 
 import com.adnstyle.choicafe.common.SessionMember;
 import com.adnstyle.choicafe.domain.GhBoard;
-import com.adnstyle.choicafe.repository.GhBoardRepository;
+import com.adnstyle.choicafe.repository.maindb.GhBoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

@@ -4,7 +4,7 @@ package com.adnstyle.choicafe.service;
 import com.adnstyle.choicafe.common.OAuthAttributes;
 import com.adnstyle.choicafe.common.SessionMember;
 import com.adnstyle.choicafe.domain.GhMember;
-import com.adnstyle.choicafe.repository.GhMemberRepository;
+import com.adnstyle.choicafe.repository.maindb.GhMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;

@@ -2,7 +2,7 @@ package com.adnstyle.choicafe.service;
 
 import com.adnstyle.choicafe.common.FileUploadDirByYML;
 import com.adnstyle.choicafe.domain.GhAttach;
-import com.adnstyle.choicafe.repository.GhAttachRepository;
+import com.adnstyle.choicafe.repository.maindb.GhAttachRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
