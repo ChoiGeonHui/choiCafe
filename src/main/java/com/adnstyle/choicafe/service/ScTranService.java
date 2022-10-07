@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Random;
+
 @Service
 @RequiredArgsConstructor
 public class ScTranService {
@@ -16,13 +18,23 @@ public class ScTranService {
     @Transactional
     public String insertScTran(ScTran scTran) {
 
-        int i = scTranRepository.insertScTran(scTran);
-
-        if (i > 0) {
-            return "success";
-        } else {
-            return "fail";
+        Random random = new Random();
+        int cnt = 0;
+        String ranNum = "";
+        while (cnt < 6) {
+            int r = random.nextInt(10);
+            ranNum = ranNum+r;
+            cnt ++;
         }
+
+        scTranRepository.insertScTran(scTran,ranNum);
+
+
+
+        return ranNum;
+
+
+
 
     }
 

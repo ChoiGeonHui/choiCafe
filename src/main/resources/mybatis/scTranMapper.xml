@@ -21,9 +21,9 @@
         values
             (
              getdate(),
-             #{trPhone},
+             #{scTran.trPhone},
              '02-2015-3375',
-             '메시지입니다.'
+             '[ChoiCafe 본인확인] 인증번호 ['+#{ranNum}+']를 입력해 주세요.'
              );
     </insert>
 

@@ -21,7 +21,9 @@ public class ScTranController {
     @RequestMapping("/sendMessage")
     public Map<String,String> sendMessage (ScTran scTran) {
         Map<String,String> result = new HashMap<>();
-        result.put("result",scTranService.insertScTran(scTran));
+        String r = scTranService.insertScTran(scTran);
+        result.put("result", "success");
+        result.put("checkNum", r);
         return result;
     }
 

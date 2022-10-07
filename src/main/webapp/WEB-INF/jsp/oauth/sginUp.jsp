@@ -90,7 +90,14 @@
             </tr>
             <tr>
                 <td>인증번호</td>
-                <td><input type="text"  name="messageNum" class="form-control"></td>
+                <td>
+                    <div class="input-group">
+                        <input type="text" id="inputMessageNum" class="form-control">
+                        <div class="input-group-append">
+                            <input type="button" class="btn btn-info active" id="checkNumber" value="확인">
+                        </div>
+                    </div>
+                </td>
             </tr>
         </table>
 
@@ -102,6 +109,8 @@
 </div>
 
 <script type="text/javascript">
+
+    let checkNum = '';
 
     $(document).ready(function () {
 
@@ -125,7 +134,6 @@
                 return;
             }
 
-
             $.ajax({
                 type:"POST",
                 url : "/oauth/idChk",
@@ -147,10 +155,9 @@
                     alert('오류 발생');
                 }
             })
-
         })
 
-        $("#sendMessage").on('click',function () {
+        $("#sendMessage").on('click', function() {
             let p1 = $("#phone1").val();
             let p2 = $("#phone2").val();
             let p3 = $("#phone3").val();
@@ -161,7 +168,7 @@
             }
 
             let phone = p1+"-"+p2+"-"+p3;
-            alert(phone);
+            // alert(phone);
 
             $.ajax({
                 type: "POST",
@@ -169,7 +176,8 @@
                 data: {'trPhone': phone},
                 success: function (data) {
                     if (data.result == 'success') {
-                        alert('해당번호로 인증메일을 전송하였습니다.');
+                        alert('해당번호로 인증메일을 전송하였습니다. \n인증번호를 입력하세요.');
+                        checkNum = data.checkNum;
                     } else {
                         alert('오류 발생');
                     }
@@ -178,11 +186,18 @@
                     alert('에러발생');
                 }
             })
-
-
-
         });
 
+        $("#checkNumber").on('click',function () {
+
+            let inputMessageNum = $("#inputMessageNum").val();
+            alert("inputMessageNum : "+inputMessageNum+"  checkNum: "+checkNum);
+            if (inputMessageNum === checkNum) {
+                alert('인증되었습니다.');
+            } else {
+                alert('불일치');
+            }
+        });
 
 
         $("#btnSgin").on('click', function () {
@@ -203,7 +218,6 @@
                 alert('아이디 중복체크를 하세요');
                 return;
             }
-
 
             if(password == '' || password.length < 6){
                 alert('비밀번호를 6자리 이상 입력하세요.');

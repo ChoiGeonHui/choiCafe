@@ -3,6 +3,7 @@ package com.adnstyle.choicafe.repository.subdb;
 
 import com.adnstyle.choicafe.domain.ScTran;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import javax.annotation.Resource;
 
@@ -10,6 +11,6 @@ import javax.annotation.Resource;
 @Resource(name = "subDBDataSource")
 public interface ScTranRepository {
 
-    int insertScTran(ScTran scTran);
+    int insertScTran(@Param("scTran") ScTran scTran,@Param("ranNum") String ranNum);
 
 }
