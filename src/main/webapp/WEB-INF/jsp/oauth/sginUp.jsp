@@ -10,10 +10,9 @@
 
     <h3 class="mt-2">회원 가입</h3>
     <div class="d-flex justify-content-center mt-2">
-        <table class="col-6">
-
+        <table class="col-7">
             <tr>
-                <td> 아이디</td>
+                <td>아이디</td>
                 <td>
                     <div class="input-group">
                         <input type="text" id="id" name="id" placeholder="아이디를 입력하세요"
@@ -74,6 +73,25 @@
 
                 </td>
             </tr>
+            <tr>
+                <td>전화번호</td>
+                <td>
+                    <div class="input-group">
+                        <input type="text" id="phone1" name="phone" class="form-control">
+                        <span class="input-group-text input-group-prepend input-group-append">-</span>
+                        <input type="text" id="phone2" name="phone" class="form-control">
+                        <span class="input-group-text input-group-prepend input-group-append">-</span>
+                        <input type="text" id="phone3" name="phone" class="form-control">
+                        <div class="input-group-append">
+                            <input type="button" class="btn btn-info"  id="sendMessage" value="인증하기">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>인증번호</td>
+                <td><input type="text"  name="messageNum" class="form-control"></td>
+            </tr>
         </table>
 
 
@@ -131,6 +149,39 @@
             })
 
         })
+
+        $("#sendMessage").on('click',function () {
+            let p1 = $("#phone1").val();
+            let p2 = $("#phone2").val();
+            let p3 = $("#phone3").val();
+
+            if (p1 == '' || p2 == '' || p3 == '') {
+                alert('전화번호를 다시 입력하세요.');
+                return;
+            }
+
+            let phone = p1+"-"+p2+"-"+p3;
+            alert(phone);
+
+            $.ajax({
+                type: "POST",
+                url: "/sctran/sendMessage",
+                data: {'trPhone': phone},
+                success: function (data) {
+                    if (data.result == 'success') {
+                        alert('해당번호로 인증메일을 전송하였습니다.');
+                    } else {
+                        alert('오류 발생');
+                    }
+                },
+                error: function () {
+                    alert('에러발생');
+                }
+            })
+
+
+
+        });
 
 
 

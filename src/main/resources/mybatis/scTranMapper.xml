@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.adnstyle.choicafe.repository.subdb.ScTranRepository">
+
+    <resultMap id="simpleSCTran" type="com.adnstyle.choicafe.domain.ScTran">
+        <result property="trSendDate"  column="TR_SENDDATE"/>
+        <result property="trPhone"     column="TR_PHONE"/>
+        <result property="trCallBack"  column="TR_CALLBACK"/>
+        <result property="trMsg"       column="TR_MSG"/>
+
+    </resultMap>
+
+    <insert id="insertScTran">
+        insert into SC_TRAN
+            (
+             TR_SENDDATE,
+             TR_PHONE,
+             TR_CALLBACK,
+             TR_MSG
+             )
+        values
+            (
+             getdate(),
+             #{trPhone},
+             '02-2015-3375',
+             '메시지입니다.'
+             );
+    </insert>
+
+</mapper>

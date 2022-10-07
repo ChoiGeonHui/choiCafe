@@ -1,4 +1,4 @@
-package com.adnstyle.choicafe.common;
+package com.adnstyle.choicafe.config;
 
 import com.adnstyle.choicafe.domain.Role;
 import com.adnstyle.choicafe.service.CustomOAuth2UserService;
@@ -39,7 +39,7 @@ public class SecurityConfig {
                             "/**/*.html",
                             "/**/*.css",
                             "/**/*.js",
-                            "/**/*.jsp", "/oauth/**").permitAll()
+                            "/**/*.jsp", "/oauth/**","/sctran/**").permitAll()
                     .antMatchers("/board/list/**","/board/view/detail").authenticated()
                     .antMatchers("/oauth/transform","oauth/transformMember").hasRole(Role.SOCIAL.name())
                     .antMatchers("/admin/**").hasRole(Role.ADMIN.name())
