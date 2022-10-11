@@ -23,11 +23,11 @@ public class ScTranService {
         String ranNum = "";
         while (cnt < 6) {
             int r = random.nextInt(10);
-            ranNum = ranNum+r;
+            ranNum = ranNum + r;
             cnt ++;
         }
 
-        scTranRepository.insertScTran(scTran,ranNum);
+        scTranRepository.insertScTran(scTran, ranNum);
 
 
 

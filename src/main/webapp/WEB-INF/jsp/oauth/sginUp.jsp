@@ -77,13 +77,13 @@
                 <td>전화번호</td>
                 <td>
                     <div class="input-group">
-                        <input type="text" id="phone1" name="phone" class="form-control">
-                        <span class="input-group-text input-group-prepend input-group-append">-</span>
-                        <input type="text" id="phone2" name="phone" class="form-control">
-                        <span class="input-group-text input-group-prepend input-group-append">-</span>
-                        <input type="text" id="phone3" name="phone" class="form-control">
+                        <input type="text" id="phone1" name="phone" class="form-control phoneInput">
+                            <span class="input-group-text input-group-prepend input-group-append">-</span>
+                        <input type="text" id="phone2" name="phone" class="form-control phoneInput">
+                            <span class="input-group-text input-group-prepend input-group-append">-</span>
+                        <input type="text" id="phone3" name="phone" class="form-control phoneInput">
                         <div class="input-group-append">
-                            <input type="button" class="btn btn-info"  id="sendMessage" value="인증하기">
+                            <input type="button" class="btn btn-info smsCheck"  id="sendMessage" value="인증하기">
                         </div>
                     </div>
                 </td>
@@ -92,9 +92,9 @@
                 <td>인증번호</td>
                 <td>
                     <div class="input-group">
-                        <input type="text" id="inputMessageNum" class="form-control">
+                        <input type="text" id="inputMessageNum" class="form-control phoneInput">
                         <div class="input-group-append">
-                            <input type="button" class="btn btn-info active" id="checkNumber" value="확인">
+                            <input type="button" class="btn btn-info active smsCheck" id="checkNumber" value="확인">
                         </div>
                     </div>
                 </td>
@@ -114,7 +114,8 @@
 
     $(document).ready(function () {
 
-        $("#id").on("propertychange change keyup paste input",function () {
+        /** 아이디를 새로 입력시 중복확인여부 초기화 */
+        $("#id").on("propertychange change keyup paste input", function () {
 
             $("#idLength").addClass('d-none');
             $("#idDuc").addClass('d-none');
@@ -123,6 +124,7 @@
         })
 
 
+        /** 아이디 중복확인 함수 */
         $("#chkId").on('click', function () {
 
             let id = $("#id").val();
@@ -157,6 +159,7 @@
             })
         })
 
+        /** SMS 인증메일 전송 */
         $("#sendMessage").on('click', function() {
             let p1 = $("#phone1").val();
             let p2 = $("#phone2").val();
@@ -168,7 +171,6 @@
             }
 
             let phone = p1+"-"+p2+"-"+p3;
-            // alert(phone);
 
             $.ajax({
                 type: "POST",
@@ -188,18 +190,27 @@
             })
         });
 
+        /** 인증번호 입력시 실행되는 함수 */
         $("#checkNumber").on('click',function () {
 
             let inputMessageNum = $("#inputMessageNum").val();
-            alert("inputMessageNum : "+inputMessageNum+"  checkNum: "+checkNum);
+            // alert("inputMessageNum : "+inputMessageNum+"  checkNum: "+checkNum);
+            if (checkNum == '' || checkNum == null) {
+                alert("전화번호 입력 후 인증번호를 받으세요.");
+                return;
+            }
+
             if (inputMessageNum === checkNum) {
                 alert('인증되었습니다.');
+                $(".phoneInput").prop("readonly", true);
+                $(".smsCheck").prop("disabled", true);
             } else {
                 alert('불일치');
             }
         });
 
 
+        /** 회원가입 실행  */
         $("#btnSgin").on('click', function () {
 
             let id = $("#id").val();
@@ -208,6 +219,9 @@
             let name = $("#name").val();
             let email = $("#email").val();
             let emailhost = $("#emailhost").val();
+            let p1 = $("#phone1").val();
+            let p2 = $("#phone2").val();
+            let p3 = $("#phone3").val();
 
             if(id == ''){
                 alert('아이디를 입력하세요.');
@@ -219,7 +233,7 @@
                 return;
             }
 
-            if(password == '' || password.length < 6){
+            if(password == '' || password.length < 6) {
                 alert('비밀번호를 6자리 이상 입력하세요.');
                 return;
             }
@@ -229,21 +243,33 @@
                 return;
             }
 
-            if(name == ''){
+            if(name == '') {
                 alert('이름을 입력하세요.');
                 return;
             }
-            if(email == ''){
+            if(email == '') {
                 alert('이메일을 입력하세요.');
                 return;
             }
-            email = email+'@'+emailhost;
 
+            email = email + '@' + emailhost;
+
+            if (p1 == '' || p2 == '' || p3 == '') {
+                alert('전화번호를 다시 입력하세요.');
+                return;
+            }
+
+            let phone = p1 + "-" + p2 + "-" + p3;
+
+            if($("#inputMessageNum").attr("readonly") == false) {
+                alert("인증번호를 확인 하세요.");
+                return;
+            }
 
             $.ajax({
                 type: "POST",
                 url: "/oauth/insertMember",
-                data: {'id': id, 'password': password, 'name': name, 'email': email},
+                data: {'id': id, 'password': password, 'name': name, 'email': email, "phone" : phone},
                 success: function (data) {
                     if (data.result == 'success') {
                         alert('회원가입이 완료되었습니다.');
@@ -251,7 +277,6 @@
                     } else {
                         alert('오류 발생');
                     }
-
                 },
                 error: function () {
                     alert('에러발생');
@@ -259,8 +284,6 @@
             })
 
         })
-
-
     })
 
 

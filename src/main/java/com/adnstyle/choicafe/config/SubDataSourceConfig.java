@@ -27,16 +27,16 @@ public class SubDataSourceConfig {
         return DataSourceBuilder.create().build();
     }
 
-    @Bean(name="subDBSessionFactory")
-    public SqlSessionFactory sqlSessionFactory(@Qualifier("subDBDataSource") DataSource db2DataSource, ApplicationContext applicationContext) throws Exception{
+    @Bean(name = "subDBSessionFactory")
+    public SqlSessionFactory sqlSessionFactory(@Qualifier("subDBDataSource") DataSource db2DataSource, ApplicationContext applicationContext) throws Exception {
         final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(db2DataSource);
         sessionFactory.setMapperLocations(applicationContext.getResources("classpath:mybatis/**/*Mapper.xml"));
         return sessionFactory.getObject();
     }
 
-    @Bean(name="subDBSessionTemplate")
-    public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory db2sqlSessionFactory) throws Exception{
+    @Bean(name = "subDBSessionTemplate")
+    public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory db2sqlSessionFactory) throws Exception {
         return new SqlSessionTemplate(db2sqlSessionFactory);
     }
 

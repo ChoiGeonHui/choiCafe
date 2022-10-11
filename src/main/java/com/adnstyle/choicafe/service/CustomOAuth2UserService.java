@@ -61,9 +61,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             ghMember = attributes.toEntity();
             ghMemberRepository.insertSocialMember(ghMember);
             ghMember = ghMemberRepository.selectMember(ghMember);
-
         }
-
         return ghMember;
     }
 

@@ -8,6 +8,7 @@
         <result property="password"         column="password"/>
         <result property="name"             column="name"/>
         <result property="email"            column="email"/>
+        <result property="phone"            column="phone"/>
         <result property="role"             column="role"/>
         <result property="delYN"            column="del_yn"/>
         <result property="createdMember"    column="created_member"/>
@@ -20,6 +21,7 @@
             password,
             name,
             email,
+            phone,
             role,
             del_yn,
             created_member
@@ -49,6 +51,9 @@
             <if test="name != null">
                 and name = #{name}
             </if>
+            <if test="phone != null">
+                and name = #{phone}
+            </if>
 
         </where>
 
@@ -62,6 +67,7 @@
              password,
              name,
              email,
+             phone,
              role
              )
         values
@@ -70,6 +76,7 @@
              #{password},
              #{name},
              #{email},
+             #{phone},
              #{role}
              )
     </insert>
@@ -94,7 +101,7 @@
     <update id="updateMember">
         update gh_member
         set
-            id = #{id}, password = #{password}, role = 'ROLE_USER'
+            id = #{id}, password = #{password}, phone = #{phone}, role = 'ROLE_USER'
         where name = #{name} and email = #{email} and role = #{role}
     </update>
 

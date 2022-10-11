@@ -13,7 +13,7 @@ public class SessionMember implements Serializable {
 
     private Long seq;
 
-    private String id, password, name, email;
+    private String id, password, name, email, phone;
 
     private String role;
 
@@ -27,6 +27,7 @@ public class SessionMember implements Serializable {
         this.password = ghMember.getPassword();
         this.name = ghMember.getName();
         this.email = ghMember.getEmail();
+        this.phone = ghMember.getPhone();
         this.role = ghMember.getRole();
         this.delYN = ghMember.getRole();
         this.createdMember = ghMember.getCreatedMember();

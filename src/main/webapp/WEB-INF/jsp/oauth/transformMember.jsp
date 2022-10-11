@@ -34,6 +34,22 @@
             <input type="password" id="passwordChk" class="form-control">
         </div>
 
+        <div class="d-flex mx-auto input-group my-1 col-6">
+            <span class="input-group-text col-3">전화번호</span>
+            <input type="text" id="phone1"  name="phone" class="form-control phoneInput" placeholder="'-'를 포함해 작성하세요.">
+            <div class="input-group-append">
+                <input type="button" class="btn btn-info smsCheck" id="sendMessage" value="인증번호받기">
+            </div>
+        </div>
+
+        <div class="d-flex mx-auto input-group my-1 col-6">
+            <span class="input-group-text col-3">인증번호</span>
+            <input type="text" id="inputMessageNum" class="form-control phoneInput">
+            <div class="input-group-append">
+                <input type="button" class="btn btn-info active smsCheck" id="checkNumber" value="인증확인">
+            </div>
+        </div>
+
         <div class="d-flex mx-auto input-group mx-auto col-6 my-1">
             <span class="input-group-text col-3">이름</span>
             <input type="text" class="form-control" name="name" readonly="readonly" value="${user.name}">
@@ -54,6 +70,8 @@
     </div>
 </div>
 <script type="text/javascript">
+
+    let checkNumSocial = '';
 
     $(document).ready(function () {
 
@@ -98,16 +116,59 @@
                     alert('오류 발생');
                 }
             })
+        });
 
-        })
+        /** SMS 인증메일 전송 */
+        $("#sendMessage").on('click', function() {
+            let phone = $("#phone1").val();
 
+            if (phone == '' || phone == null) {
+                alert('전화번호를 다시 입력하세요.');
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/sctran/sendMessage",
+                data: {'trPhone': phone},
+                success: function (data) {
+                    if (data.result == 'success') {
+                        alert('해당번호로 인증메일을 전송하였습니다. \n인증번호를 입력하세요.');
+                        checkNumSocial = data.checkNum;
+                    } else {
+                        alert('오류 발생');
+                    }
+                },
+                error: function () {
+                    alert('에러발생');
+                }
+            })
+        });
+
+        /** 인증번호 입력시 실행되는 함수 */
+        $("#checkNumber").on('click',function () {
+
+            let inputMessageNum = $("#inputMessageNum").val();
+            if (checkNumSocial == '' || checkNumSocial == null) {
+                alert("전화번호 입력 후 인증번호를 받으세요.");
+                return;
+            }
+
+            if (inputMessageNum === checkNumSocial) {
+                alert('인증되었습니다.');
+                $(".phoneInput").prop("readonly", true);
+                $(".smsCheck").prop("disabled", true);
+            } else {
+                alert('불일치');
+            }
+        });
 
         $("form").submit(function (e) {
             let id = $("#id").val();
             let password = $("#password").val();
             let passwordChk = $("#passwordChk").val();
 
-            if(id == ''){
+            if(id == '') {
                 alert('아이디를 입력하세요.');
                 e.preventDefault();
                 return;
@@ -119,7 +180,7 @@
                 return;
             }
 
-            if(password == '' || password.length < 6){
+            if(password == '' || password.length < 6) {
                 alert('비밀번호를 6자리 이상 입력하세요.');
                 e.preventDefault();
                 return;
@@ -128,6 +189,11 @@
             if (password != passwordChk) {
                 alert('비밀번호 확인이 일치하기 않습니다.');
                 e.preventDefault();
+                return;
+            }
+
+            if($("#inputMessageNum").attr("readonly") == false) {
+                alert("인증번호를 확인 하세요.");
                 return;
             }
 
@@ -146,16 +212,13 @@
                 error: function () {
                     alert('에러 발생');
                 }
-
             })
             return false;
-
         });
 
         $("#btnSubmit").click(function () {
             $("form").submit();
         })
-
     })
 
 
