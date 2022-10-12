@@ -75,14 +75,14 @@
 
     $(document).ready(function () {
 
-        $("#id").on("propertychange change keyup paste input",function () {
+        $("#id").on("propertychange change keyup paste input", function () { //input의 값이 실시간으로 변경될 경우 실행되는 함수
 
             $("#idLength").addClass('d-none');
             $("#idDuc").addClass('d-none');
             $("#idChk").addClass('d-none');
-        })
+        });
 
-
+        /** 아이디 중복 확인 */
         $("#chkId").on('click', function () {
 
             let id = $("#id").val();
@@ -94,9 +94,8 @@
                 return;
             }
 
-
             $.ajax({
-                type:"POST",
+                type: "POST",
                 url : "/oauth/idChk",
                 data : {"id": id},
                 success : function (data) {

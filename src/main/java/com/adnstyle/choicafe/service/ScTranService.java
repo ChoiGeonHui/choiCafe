@@ -27,14 +27,9 @@ public class ScTranService {
             cnt ++;
         }
 
-        scTranRepository.insertScTran(scTran, ranNum);
-
-
+//        scTranRepository.insertScTran(scTran, ranNum);
 
         return ranNum;
-
-
-
 
     }
 
