@@ -1,6 +1,7 @@
 package com.adnstyle.choicafe.service;
 
 
+import com.adnstyle.choicafe.common.MemberDetail;
 import com.adnstyle.choicafe.domain.GhMember;
 import com.adnstyle.choicafe.domain.Role;
 import com.adnstyle.choicafe.repository.maindb.GhMemberRepository;
@@ -108,7 +109,6 @@ public class GhMemberService implements UserDetailsService {//UserDetailsService
         if (ghMember == null) {
             throw new UsernameNotFoundException("User not authorizied");
         }
-        ghMember.getAuthorities();
-        return ghMember;
+        return new MemberDetail(ghMember);
     }
 }

@@ -1,7 +1,7 @@
 package com.adnstyle.choicafe.config;
 
 import com.adnstyle.choicafe.domain.Role;
-import com.adnstyle.choicafe.service.CustomOAuth2UserService;
+import com.adnstyle.choicafe.oauth2.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -50,7 +50,7 @@ public class SecurityConfig {
                     .formLogin()
                     .usernameParameter("id").passwordParameter("password")
                     .loginPage("/oauth/login")
-                    .loginProcessingUrl("/oauth/sginIn")
+                    .loginProcessingUrl("/oauth/sginIn") //해당 주소로 오는 로그인을 가로채서 요청 처리
                     .defaultSuccessUrl("/oauth/", true)
 
 
@@ -87,6 +87,5 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
-
     }
 }

@@ -188,7 +188,7 @@
                 $(this).removeClass("showReply");
             } else {
                 $('#addInput'+datareply).append(
-                    '<input type="text" name="test" class="col-10">' +
+                    '<input type="text" class="col-10">' +
                     '<button type="button" data-parent="'+datareply+'" id="btnComment'+datareply+'" class="btnComment btn btn-success btn-sm">등록</button><br>'
                 );
                 $(this).addClass("showReply");
@@ -197,7 +197,7 @@
         })
 
         //대댓글 등록
-        $('.addInput').on('click','.btnComment', function () { //동적으로 생성된 태그는 함수를 사용하기위해서 직접 클래스 이름을 작성해야함
+        $('.addInput').on('click', '.btnComment', function () { //동적으로 생성된 태그는 함수를 사용하기위해서 직접 클래스 이름을 작성해야함
             let content = $(this).prev().val();
             let parentSeq = $(this).data('parent');
             let boardSeq =  $("#seq").val();

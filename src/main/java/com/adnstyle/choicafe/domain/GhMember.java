@@ -3,21 +3,15 @@ package com.adnstyle.choicafe.domain;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.Alias;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 
 @Alias("ghMember")
 @Data
 @NoArgsConstructor
-public class GhMember implements UserDetails {
+public class GhMember {
 
     private Long seq;
 
@@ -33,52 +27,22 @@ public class GhMember implements UserDetails {
 
     private String role;
 
+    private String provider;
+
+    private String providerId;
+
     private String delYN;
 
     private Date createdMember;
 
 
     @Builder
-    public GhMember(String name, String email, String role) {
+    public GhMember(String name, String email, String role,String provider, String providerId) {
         this.name = name;
         this.email = email;
         this.role = role;
+        this.provider = provider;
+        this.providerId = providerId;
     }
 
-
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority(this.role));
-    }
-
-    @Override
-    public String getPassword() {
-        return this.password;
-    }
-
-    @Override
-    public String getUsername() {
-        return this.id;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

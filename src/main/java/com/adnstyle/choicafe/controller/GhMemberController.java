@@ -1,5 +1,6 @@
 package com.adnstyle.choicafe.controller;
 
+import com.adnstyle.choicafe.common.MemberDetail;
 import com.adnstyle.choicafe.common.SessionMember;
 import com.adnstyle.choicafe.domain.GhMember;
 import com.adnstyle.choicafe.service.GhMemberService;
@@ -58,8 +59,8 @@ public class GhMemberController {
     @ResponseBody
     @RequestMapping("/")
     public Map<String, String> loginA(Authentication authentication, HttpSession session) {
-        GhMember ghMember = (GhMember) authentication.getPrincipal();
-        session.setAttribute("user", new SessionMember(ghMember));
+        MemberDetail ghMember = (MemberDetail) authentication.getPrincipal();
+        session.setAttribute("user", new SessionMember(ghMember.getGhMember()));
         Map<String, String> result = new HashMap<>();
         result.put("result", "success");
         return result;

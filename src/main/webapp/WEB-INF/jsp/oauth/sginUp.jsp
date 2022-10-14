@@ -197,7 +197,7 @@
                     if (data.result == 'success') {
                         alert('해당번호로 인증메일을 전송하였습니다. \n제한 시간 내 인증번호를 입력하세요.');
                         checkNum = data.checkNum;
-                        seconds = 120;
+                        seconds = 10;
                     } else {
                         alert('오류 발생');
                     }
