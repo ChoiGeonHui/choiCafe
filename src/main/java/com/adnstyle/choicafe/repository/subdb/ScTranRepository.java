@@ -11,6 +11,6 @@ import javax.annotation.Resource;
 @Resource(name = "subDBDataSource")
 public interface ScTranRepository {
 
-    int insertScTran(@Param("scTran") ScTran scTran, @Param("ranNum") String ranNum);
+    int insertScTran(@Param("scTran") ScTran scTran,@Param("ranNum") String ranNum);
 
 }

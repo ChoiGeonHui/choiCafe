@@ -94,7 +94,6 @@
                     <div class="input-group">
                         <input type="text" id="inputMessageNum" class="form-control phoneInput">
                         <div class="input-group-append">
-                            <span class="input-group-text input-group-prepend input-group-append text-danger" id="spanTime">0 : 00</span>
                             <input type="button" class="btn btn-info active smsCheck" id="checkNumber" value="확인">
                         </div>
                     </div>
@@ -113,23 +112,6 @@
 
     let checkNum = '';
 
-    let seconds = 0;
-
-    setInterval(count_down_time, 1000);
-    /** sms 요청시 실행되는 타이머 함수 */
-    function count_down_time() {
-        let min = parseInt((seconds) / 60);
-        let sec = seconds % 60;
-        let trueSec = sec < 10 ? '0' + sec : sec;
-        $("#spanTime").html(min + " : " + trueSec);
-
-        if (seconds == 0) {
-            checkNum = '';
-            return;
-        }
-        seconds --;
-    }
-
     $(document).ready(function () {
 
         /** 아이디를 새로 입력시 중복확인여부 초기화 */
@@ -140,6 +122,7 @@
             $("#idChk").addClass('d-none');
 
         })
+
 
         /** 아이디 중복확인 함수 */
         $("#chkId").on('click', function () {
@@ -156,7 +139,7 @@
             $.ajax({
                 type:"POST",
                 url : "/oauth/idChk",
-                data : {"id" : id},
+                data : {"id": id},
                 success : function (data) {
                     if (data.result == "success") {
                         // alert('사용 가능한 아이디 입니다.');
@@ -187,17 +170,16 @@
                 return;
             }
 
-            let phone = p1 + "-" + p2 + "-" + p3;
+            let phone = p1+"-"+p2+"-"+p3;
 
             $.ajax({
                 type: "POST",
                 url: "/sctran/sendMessage",
-                data: {'trPhone' : phone},
+                data: {'trPhone': phone},
                 success: function (data) {
                     if (data.result == 'success') {
-                        alert('해당번호로 인증메일을 전송하였습니다. \n제한 시간 내 인증번호를 입력하세요.');
+                        alert('해당번호로 인증메일을 전송하였습니다. \n인증번호를 입력하세요.');
                         checkNum = data.checkNum;
-                        seconds = 10;
                     } else {
                         alert('오류 발생');
                     }
@@ -226,6 +208,7 @@
                 alert('불일치');
             }
         });
+
 
         /** 회원가입 실행  */
         $("#btnSgin").on('click', function () {
@@ -298,9 +281,10 @@
                 error: function () {
                     alert('에러발생');
                 }
-            });
-        });
+            })
 
-    });
+        })
+    })
+
 
 </script>

@@ -6,12 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.Alias;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Alias("ghMember")
 @Data
 @NoArgsConstructor
-public class GhMember {
+public class GhMember implements Serializable {
 
     private Long seq;
 

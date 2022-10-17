@@ -21,13 +21,16 @@ public class MemberDetail implements UserDetails, OAuth2User, Serializable {
 
     private Map<String, Object> attributes;
 
+    private String nameAttributeName;
+
     public MemberDetail (GhMember ghMember) {
         this.ghMember = ghMember;
     }
 
-    public MemberDetail (GhMember ghMember, Map<String, Object> attributes) {
+    public MemberDetail (GhMember ghMember, Map<String, Object> attributes, String name) {
         this.ghMember = ghMember;
         this.attributes = attributes;
+        this.nameAttributeName = name;
     }
 
 
@@ -35,7 +38,6 @@ public class MemberDetail implements UserDetails, OAuth2User, Serializable {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority(ghMember.getRole()));
     }
-
 
     @Override
     public String getPassword() {
@@ -67,13 +69,18 @@ public class MemberDetail implements UserDetails, OAuth2User, Serializable {
         return true;
     }
 
+
     @Override
     public String getName() {
         return null;
     }
 
     @Override
-    public Map<String, Object> getAttributes() {
+    public  Map<String, Object> getAttribute(String name) {
         return attributes;
+    }
+
+    public String getNameAttributeName() {
+        return nameAttributeName;
     }
 }
