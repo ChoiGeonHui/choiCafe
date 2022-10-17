@@ -12,7 +12,6 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class ScTranService {
 
-
     private final ScTranRepository scTranRepository;
 
     @Transactional
@@ -29,12 +28,7 @@ public class ScTranService {
 
         scTranRepository.insertScTran(scTran, ranNum);
 
-
-
         return ranNum;
-
-
-
 
     }
 

@@ -1,4 +1,4 @@
-package com.adnstyle.choicafe.service;
+package com.adnstyle.choicafe.oauth2;
 
 
 import com.adnstyle.choicafe.common.OAuthAttributes;

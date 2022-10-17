@@ -1,8 +1,8 @@
 package com.adnstyle.choicafe.config;
 
 import com.adnstyle.choicafe.domain.Role;
+import com.adnstyle.choicafe.oauth2.CustomOAuth2UserService;
 import com.adnstyle.choicafe.oauth2.CustomOAuth2UserService2;
-import com.adnstyle.choicafe.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final CustomOAuth2UserService customOAuth2UserService;
+    private final CustomOAuth2UserService2 customOAuth2UserService;
 
 
     @Bean

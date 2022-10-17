@@ -20,7 +20,7 @@ public class OAuthAttributes {
         this.attributes = attributes;
         this.nameAttributeKey = nameAttributeKey;
         this.name = name;
-        this.email =email;
+        this.email = email;
     }
 
     public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {

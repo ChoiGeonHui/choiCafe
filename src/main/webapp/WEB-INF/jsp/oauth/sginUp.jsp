@@ -94,6 +94,7 @@
                     <div class="input-group">
                         <input type="text" id="inputMessageNum" class="form-control phoneInput">
                         <div class="input-group-append">
+                            <span class="input-group-text input-group-prepend input-group-append text-danger" id="spanTime">0 : 00</span>
                             <input type="button" class="btn btn-info active smsCheck" id="checkNumber" value="확인">
                         </div>
                     </div>
@@ -111,6 +112,23 @@
 <script type="text/javascript">
 
     let checkNum = '';
+
+    let seconds = 0;
+
+    let countTime;
+    /** sms 요청시 실행되는 타이머 함수 */
+    function count_down_time() {
+        let min = parseInt((seconds) / 60);
+        let sec = seconds % 60;
+        let trueSec = sec < 10 ? '0' + sec : sec;
+        $("#spanTime").html(min + " : " + trueSec);
+
+        if (seconds == 0) {
+            checkNum = '';
+            clearInterval(countTime);
+        }
+        seconds --;
+    }
 
     $(document).ready(function () {
 
@@ -178,8 +196,10 @@
                 data: {'trPhone': phone},
                 success: function (data) {
                     if (data.result == 'success') {
-                        alert('해당번호로 인증메일을 전송하였습니다. \n인증번호를 입력하세요.');
+                        alert('해당번호로 인증메일을 전송하였습니다. \n제한시간 안에 인증번호를 입력하세요.');
                         checkNum = data.checkNum;
+                        seconds = 30;
+                        countTime = setInterval(count_down_time, 1000);
                     } else {
                         alert('오류 발생');
                     }

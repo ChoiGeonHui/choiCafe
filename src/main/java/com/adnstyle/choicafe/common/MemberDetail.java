@@ -33,7 +33,6 @@ public class MemberDetail implements UserDetails, OAuth2User, Serializable {
         this.nameAttributeName = name;
     }
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority(ghMember.getRole()));

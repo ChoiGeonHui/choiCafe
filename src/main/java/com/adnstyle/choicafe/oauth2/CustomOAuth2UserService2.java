@@ -6,14 +6,17 @@ import com.adnstyle.choicafe.common.SessionMember;
 import com.adnstyle.choicafe.domain.GhMember;
 import com.adnstyle.choicafe.repository.maindb.GhMemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
+import java.util.Collections;
 
 
 @Service
@@ -67,7 +70,10 @@ public class CustomOAuth2UserService2 extends DefaultOAuth2UserService {
 
         httpSession.setAttribute("user", new SessionMember(memberDetail.getGhMember()));
 
-        return memberDetail;
+        return new DefaultOAuth2User(
+                Collections.singleton(new SimpleGrantedAuthority(ghMember.getRole())),
+                oAuth2User.getAttributes(),
+                userNameAttributeName);
     }
 
 }
