@@ -224,6 +224,7 @@
                 alert('인증되었습니다.');
                 $(".phoneInput").prop("readonly", true);
                 $(".smsCheck").prop("disabled", true);
+                seconds = 0;
             } else {
                 alert('불일치');
             }
