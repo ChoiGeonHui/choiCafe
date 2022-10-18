@@ -141,13 +141,12 @@
 
         })
 
-
         /** 아이디 중복확인 함수 */
         $("#chkId").on('click', function () {
 
             let id = $("#id").val();
 
-            if (id == '' || id == null || id.length < 4){
+            if (id == '' || id == null || id.length < 4) {
                 $("#idLength").removeClass('d-none');
                 $("#idDuc").addClass('d-none');
                 $("#idChk").addClass('d-none');

@@ -4,6 +4,7 @@ package com.adnstyle.choicafe.oauth2;
 import com.adnstyle.choicafe.common.MemberDetail;
 import com.adnstyle.choicafe.common.SessionMember;
 import com.adnstyle.choicafe.domain.GhMember;
+import com.adnstyle.choicafe.domain.Role;
 import com.adnstyle.choicafe.repository.maindb.GhMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
+import java.util.Map;
 
 
 @Service
@@ -36,12 +38,13 @@ public class CustomOAuth2UserService2 extends DefaultOAuth2UserService {
 
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
 
-        String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 
         CustomOAuth2User customOAuth2User = null;
 
         if (registrationId.equals("google")) {
             customOAuth2User = new GoogleOAuth2User(oAuth2User.getAttributes());
+        } else {
+            customOAuth2User = new NaverOAuthUser((Map<String, Object>) oAuth2User.getAttributes().get("response"));
         }
 
         String providerId = customOAuth2User.getProviderId();
@@ -53,27 +56,26 @@ public class CustomOAuth2UserService2 extends DefaultOAuth2UserService {
         ghMember.setEmail(email);
 
 
-        if (ghMemberRepository.selectMember(ghMember) != null) {
-            ghMember = ghMemberRepository.selectMember(ghMember);
-        } else {
-            ghMember = GhMember.builder()
-                    .name(name)
-                    .email(email)
-                    .role("ROLE_SOCIAL")
-                    .provider(provider)
-                    .providerId(providerId)
-                    .build();
+        if (ghMemberRepository.selectMember(ghMember) == null) {
+            ghMember.setProvider(provider);
+            ghMember.setProviderId(providerId);
+            ghMember.setName(name);
+            ghMember.setRole("ROLE_SOCIAL");
             ghMemberRepository.insertSocialMember(ghMember);
             ghMember = ghMemberRepository.selectMember(ghMember);
+        } else {
+            ghMember = ghMemberRepository.selectMember(ghMember);
         }
-        MemberDetail memberDetail = new MemberDetail(ghMember, oAuth2User.getAttributes(),userNameAttributeName);
+        MemberDetail memberDetail = new MemberDetail(ghMember, oAuth2User.getAttributes());
 
         httpSession.setAttribute("user", new SessionMember(memberDetail.getGhMember()));
 
-        return new DefaultOAuth2User(
-                Collections.singleton(new SimpleGrantedAuthority(ghMember.getRole())),
-                oAuth2User.getAttributes(),
-                userNameAttributeName);
+//        return new DefaultOAuth2User(
+//                Collections.singleton(new SimpleGrantedAuthority(ghMember.getRole())),
+//                oAuth2User.getAttributes(),
+//                userNameAttributeName);
+
+        return memberDetail;
     }
 
 }

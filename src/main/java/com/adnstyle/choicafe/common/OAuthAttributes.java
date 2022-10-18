@@ -39,13 +39,13 @@ public class OAuthAttributes {
                 .build();
     }
 
-    public GhMember toEntity() {
-        return GhMember.builder()
-                .name(name)
-                .email(email)
-                .role(Role.SOCIAL.getKey())
-                .build();
-    }
+//    public GhMember toEntity() {
+//        return GhMember.builder()
+//                .name(name)
+//                .email(email)
+//                .role(Role.SOCIAL.getKey())
+//                .build();
+//    }
 
 
 }

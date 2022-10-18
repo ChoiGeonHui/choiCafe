@@ -18,53 +18,53 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
-
-@RequiredArgsConstructor
-@Service
-@Transactional
-public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
-
-    private final GhMemberRepository ghMemberRepository;
-
-    private final HttpSession httpSession;
-
-    @Override
-    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
-        OAuth2User oAuth2User = delegate.loadUser(userRequest);
-
-        String registrationId = userRequest
-                .getClientRegistration()
-                .getRegistrationId();
-
-        String userNameAttributeName = userRequest.getClientRegistration()
-                .getProviderDetails()
-                .getUserInfoEndpoint()
-                .getUserNameAttributeName();
-
-        OAuthAttributes attributes = OAuthAttributes
-                .of(registrationId, userNameAttributeName,oAuth2User.getAttributes());
-
-        GhMember ghMember = SaveOrUpdate(attributes);
-        httpSession.setAttribute("user", new SessionMember(ghMember));
-        return new DefaultOAuth2User(
-                Collections.singleton(new SimpleGrantedAuthority(ghMember.getRole())),
-                attributes.getAttributes(),
-                attributes.getNameAttributeKey()
-        );
-    }
-
-    private GhMember SaveOrUpdate (OAuthAttributes attributes) {
-        GhMember ghMember = new GhMember();
-        ghMember.setEmail(attributes.getEmail());
-        if (ghMemberRepository.selectMember(ghMember) != null) {
-            ghMember = ghMemberRepository.selectMember(ghMember);
-        } else {
-            ghMember = attributes.toEntity();
-            ghMemberRepository.insertSocialMember(ghMember);
-            ghMember = ghMemberRepository.selectMember(ghMember);
-        }
-        return ghMember;
-    }
-
-}
+//
+//@RequiredArgsConstructor
+//@Service
+//@Transactional
+//public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
+//
+//    private final GhMemberRepository ghMemberRepository;
+//
+//    private final HttpSession httpSession;
+//
+//    @Override
+//    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+//        OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
+//        OAuth2User oAuth2User = delegate.loadUser(userRequest);
+//
+//        String registrationId = userRequest
+//                .getClientRegistration()
+//                .getRegistrationId();
+//
+//        String userNameAttributeName = userRequest.getClientRegistration()
+//                .getProviderDetails()
+//                .getUserInfoEndpoint()
+//                .getUserNameAttributeName();
+//
+//        OAuthAttributes attributes = OAuthAttributes
+//                .of(registrationId, userNameAttributeName,oAuth2User.getAttributes());
+//
+//        GhMember ghMember = SaveOrUpdate(attributes);
+//        httpSession.setAttribute("user", new SessionMember(ghMember));
+//        return new DefaultOAuth2User(
+//                Collections.singleton(new SimpleGrantedAuthority(ghMember.getRole())),
+//                attributes.getAttributes(),
+//                attributes.getNameAttributeKey()
+//        );
+//    }
+//
+//    private GhMember SaveOrUpdate (OAuthAttributes attributes) {
+//        GhMember ghMember = new GhMember();
+//        ghMember.setEmail(attributes.getEmail());
+//        if (ghMemberRepository.selectMember(ghMember) != null) {
+//            ghMember = ghMemberRepository.selectMember(ghMember);
+//        } else {
+//            ghMember = attributes.toEntity();
+//            ghMemberRepository.insertSocialMember(ghMember);
+//            ghMember = ghMemberRepository.selectMember(ghMember);
+//        }
+//        return ghMember;
+//    }
+//
+//}

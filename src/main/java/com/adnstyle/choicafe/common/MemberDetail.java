@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -21,16 +22,14 @@ public class MemberDetail implements UserDetails, OAuth2User, Serializable {
 
     private Map<String, Object> attributes;
 
-    private String nameAttributeName;
 
     public MemberDetail (GhMember ghMember) {
         this.ghMember = ghMember;
     }
 
-    public MemberDetail (GhMember ghMember, Map<String, Object> attributes, String name) {
+    public MemberDetail (GhMember ghMember, Map<String, Object> attributes) {
         this.ghMember = ghMember;
         this.attributes = attributes;
-        this.nameAttributeName = name;
     }
 
     @Override
@@ -68,18 +67,16 @@ public class MemberDetail implements UserDetails, OAuth2User, Serializable {
         return true;
     }
 
+    @Override
+    public  Map<String, Object> getAttribute(String name) {
+        return attributes;
+    }
+
 
     @Override
     public String getName() {
         return null;
     }
 
-    @Override
-    public  Map<String, Object> getAttribute(String name) {
-        return attributes;
-    }
 
-    public String getNameAttributeName() {
-        return nameAttributeName;
-    }
 }

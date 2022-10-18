@@ -1,7 +1,7 @@
 package com.adnstyle.choicafe.config;
 
 import com.adnstyle.choicafe.domain.Role;
-import com.adnstyle.choicafe.oauth2.CustomOAuth2UserService;
+//import com.adnstyle.choicafe.oauth2.CustomOAuth2UserService;
 import com.adnstyle.choicafe.oauth2.CustomOAuth2UserService2;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

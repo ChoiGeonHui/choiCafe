@@ -37,13 +37,13 @@ public class GhMember implements Serializable {
     private Date createdMember;
 
 
-    @Builder
-    public GhMember(String name, String email, String role,String provider, String providerId) {
-        this.name = name;
-        this.email = email;
-        this.role = role;
-        this.provider = provider;
-        this.providerId = providerId;
-    }
+//    @Builder
+//    public GhMember(String name, String email, String role,String provider, String providerId) {
+//        this.name = name;
+//        this.email = email;
+//        this.role = role;
+//        this.provider = provider;
+//        this.providerId = providerId;
+//    }
 
 }
