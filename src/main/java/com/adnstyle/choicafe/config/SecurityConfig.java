@@ -72,6 +72,7 @@ public class SecurityConfig {
 
         http
                     .sessionManagement()
+                    .invalidSessionUrl("/oauth/login")
                     .maximumSessions(1)
                     .maxSessionsPreventsLogin(false);
 

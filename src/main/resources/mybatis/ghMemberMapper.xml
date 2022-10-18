@@ -90,6 +90,8 @@
     <insert id="insertSocialMember">
         insert into gh_member
         (
+            id,
+            password,
             name,
             email,
             role,
@@ -98,6 +100,8 @@
         )
         values
             (
+                #{id},
+                #{password},
                 #{name},
                 #{email},
                 #{role},

@@ -8,6 +8,7 @@ import com.adnstyle.choicafe.domain.Role;
 import com.adnstyle.choicafe.repository.maindb.GhMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -26,6 +27,7 @@ import java.util.Map;
 @Transactional
 public class CustomOAuth2UserService2 extends DefaultOAuth2UserService {
 
+//    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     private final GhMemberRepository ghMemberRepository;
 
     private  final HttpSession httpSession;
@@ -38,7 +40,6 @@ public class CustomOAuth2UserService2 extends DefaultOAuth2UserService {
 
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
 
-
         CustomOAuth2User customOAuth2User = null;
 
         if (registrationId.equals("google")) {
@@ -47,8 +48,12 @@ public class CustomOAuth2UserService2 extends DefaultOAuth2UserService {
             customOAuth2User = new NaverOAuthUser((Map<String, Object>) oAuth2User.getAttributes().get("response"));
         }
 
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
         String providerId = customOAuth2User.getProviderId();
         String provider = customOAuth2User.getProvider();
+        String id = provider+"_"+providerId;
+        String password = encoder.encode("aa");
         String email = customOAuth2User.getEmail();
         String name = customOAuth2User.GetName();
 
@@ -57,6 +62,8 @@ public class CustomOAuth2UserService2 extends DefaultOAuth2UserService {
 
 
         if (ghMemberRepository.selectMember(ghMember) == null) {
+            ghMember.setId(id);
+            ghMember.setPassword(password);
             ghMember.setProvider(provider);
             ghMember.setProviderId(providerId);
             ghMember.setName(name);
@@ -69,11 +76,6 @@ public class CustomOAuth2UserService2 extends DefaultOAuth2UserService {
         MemberDetail memberDetail = new MemberDetail(ghMember, oAuth2User.getAttributes());
 
         httpSession.setAttribute("user", new SessionMember(memberDetail.getGhMember()));
-
-//        return new DefaultOAuth2User(
-//                Collections.singleton(new SimpleGrantedAuthority(ghMember.getRole())),
-//                oAuth2User.getAttributes(),
-//                userNameAttributeName);
 
         return memberDetail;
     }
