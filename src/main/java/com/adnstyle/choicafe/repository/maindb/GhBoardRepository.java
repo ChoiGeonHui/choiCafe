@@ -23,4 +23,6 @@ public interface GhBoardRepository {
 
     int deleteBoard(List<Long> seq);
 
+    int deleteRollback(GhBoard ghBoard);
+
 }

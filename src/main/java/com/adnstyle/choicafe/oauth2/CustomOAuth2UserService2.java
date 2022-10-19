@@ -59,14 +59,13 @@ public class CustomOAuth2UserService2 extends DefaultOAuth2UserService {
 
         GhMember ghMember = new GhMember();
         ghMember.setEmail(email);
-
+        ghMember.setProvider(provider);
+        ghMember.setName(name);
 
         if (ghMemberRepository.selectMember(ghMember) == null) {
             ghMember.setId(id);
             ghMember.setPassword(password);
-            ghMember.setProvider(provider);
             ghMember.setProviderId(providerId);
-            ghMember.setName(name);
             ghMember.setRole("ROLE_SOCIAL");
             ghMemberRepository.insertSocialMember(ghMember);
             ghMember = ghMemberRepository.selectMember(ghMember);

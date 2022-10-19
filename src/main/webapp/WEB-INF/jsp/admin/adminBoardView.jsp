@@ -19,30 +19,21 @@
     </div>
 
 
-    <table class="table">
+    <table class="table mt-3">
         <thead>
         <tr>
-            <%--            <c:if test="${user.role eq 'ROLE_ADMIN'}">--%>
-            <%--                <th class="col-1"><input type="checkbox" id="selectAll" name="selectAll" onclick="selectAll()"></th>--%>
-            <%--            </c:if>--%>
             <th class="col-1">No</th>
             <th class="col-1">CTGR</th>
             <th class="col-5 text-left">title</th>
             <th class="col-1">조회수</th>
             <th class="col-1">작성자</th>
             <th class="col-2">날짜</th>
-            <%--            <th class="col-1">답글</th>--%>
+            <th class="col-1">복구</th>
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${ghBoardList}" var="list">
             <tr>
-                    <%--                <c:if test='${list.delYN == "Y"}'>--%>
-                    <%--                    <td colspan="7">삭제된 게시글 입니다.</td>--%>
-                    <%--                </c:if>--%>
-                    <%--                    <c:if test="${user.role eq 'ROLE_ADMIN'}">--%>
-                    <%--                        <td><input type="checkbox" name="selectChk" class="selectChk" data-checkbox="${list.seq}" onclick='checkedAll()'></td>--%>
-                    <%--                    </c:if>--%>
                 <td>${list.seq}</td>
                 <td>
                     <c:choose>
@@ -67,16 +58,46 @@
                 <td>
                     <fmt:formatDate value="${list.createdDate}" pattern="yyyy-MM-dd"/>
                 </td>
-                    <%--                    <td>--%>
-                    <%--                        <a href="/board/comment?seq=${list.seq}" class="btn btn-info btnComment" data-seq='${list.seq}'>답글</a>--%>
-                    <%--                    </td>--%>
-
+                <td>
+                    <a href="#" class="btn btn-success active btnRollback"
+                       data-seq='${list.seq}'>복구</a>
+                </td>
             </tr>
         </c:forEach>
 
         </tbody>
     </table>
 
-
     <a href="javascript:history.back()" class="btn btn-secondary">돌아가기</a>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('.btnRollback').on('click', function (e) {
+            e.preventDefault();
+
+           let seq = $(this).data('seq');
+           alert("복구 게시물 번호 번호 : " + seq);
+
+           if (confirm("해당 게시물을 복구 하시겠습니까?")) {
+               $.ajax({
+                   type: "POST",
+                   data: {"seq": seq},
+                   url: "/board/deleteRollback",
+                   success : function (data) {
+                       if (data.result == 'success') {
+                           alert('해당 게시글을 복구 하였습니다.');
+                           location.reload();
+                       }
+                   },
+                   error : function () {
+                       alert('에러 발생!');
+                   }
+
+               })
+           }
+        });
+
+    });
+</script>

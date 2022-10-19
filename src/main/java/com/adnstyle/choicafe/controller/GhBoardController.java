@@ -109,5 +109,16 @@ public class GhBoardController {
         return result;
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/deleteRollback", method = RequestMethod.POST)
+    public Map<String, String> deleteRollback(GhBoard ghBoard) {
+
+        String r = ghBoardService.deleteRollback(ghBoard);
+        Map<String, String> result = new HashMap<>();
+
+        result.put("result", r);
+        return result;
+    }
+
 
 }

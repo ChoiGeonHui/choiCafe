@@ -138,6 +138,21 @@ public class GhBoardService {
         } else {
             return "fail";
         }
+    }
+
+    /**
+     * 삭제된 게시물 원상복구
+     * @param ghBoard
+     * @return
+     */
+    @Transactional
+    public String deleteRollback (GhBoard ghBoard) {
+        int i = ghBoardRepository.deleteRollback(ghBoard);
+        if (i > 0) {
+            return "success";
+        } else {
+            return "fail";
+        }
 
     }
 

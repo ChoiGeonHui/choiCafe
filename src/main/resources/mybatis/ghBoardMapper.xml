@@ -207,5 +207,11 @@
         </foreach>
     </update>
 
+    <update id="deleteRollback">
+        update gh_board
+        set del_yn = 'N'
+        where seq = #{seq}
+    </update>
+
 
 </mapper>
