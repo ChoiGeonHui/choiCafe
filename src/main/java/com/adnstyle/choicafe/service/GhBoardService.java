@@ -6,8 +6,6 @@ import com.adnstyle.choicafe.domain.GhBoard;
 import com.adnstyle.choicafe.repository.maindb.GhBoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,11 +35,9 @@ public class GhBoardService {
 
     public String checkBoardAccess (String boardHandle, GhBoard ghBoard) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object login = authentication.getPrincipal().getClass();
         SessionMember ghMember = (SessionMember) httpSession.getAttribute("user");
 
-        if (ghBoard == null) { // 삭제된 게시물 접근 시
+        if (ghBoard.getDelYN().equals("Y")) { // 삭제된 게시물 접근 시
             if (!ghMember.getRole().equals("ROLE_ADMIN")) {
                 return "board/boardDeletedPage";
             }
@@ -53,7 +49,7 @@ public class GhBoardService {
 
         // 다른 사용자가 타인이 작성한 게시물을 무단으로 수정하려는 것을 막는다.
         // 사용자 식별자와 게시물 제작자의 식별자가 같아햐 함. 또는 사용자가 관리자일 경우 수정 가능
-        if (ghMember.getSeq().equals(Long.valueOf(ghBoard.getCreatedBy())) && ghBoard.getDelYN().equals("N") ) {
+        if (ghMember.getSeq().equals(Long.valueOf(ghBoard.getCreatedBy()))) {
 
             return "board/boardInsertUpdate";
 
@@ -76,7 +72,7 @@ public class GhBoardService {
     @Transactional
     public GhBoard selectGhBoardBySeq(Long seq, String boardHandle) {
         GhBoard ghBoard = ghBoardRepository.selectGhBoardBySeq(seq);
-        if (ghBoard !=null){
+        if (ghBoard.getDelYN().equals("N")){
             ghBoard.setGhAttachList(ghAttachService.selectAttach("ghBoard", ghBoard.getSeq()));
             ghBoard.setGhReplyList(ghReplyService.selectReplyList(ghBoard.getSeq()));
         }

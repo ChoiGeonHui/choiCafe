@@ -53,7 +53,7 @@ public class GhAttachService {
      * @param handing 파일 다운로드 여부 ( download / view )
      * @throws IOException
      */
-    public void download(GhAttach ghAttach,String handing) throws IOException {
+    public void download(GhAttach ghAttach, String handing) throws IOException {
 
 
         //DB에서 파일 데이터 가져오기
@@ -172,13 +172,13 @@ public class GhAttachService {
 
         for (GhAttach i : DBghAttach) {
 
-            for (GhAttach j : ghAttachList) {
+            for (GhAttach j : ghAttachList) { //submit 해서 가져온 파일
 
                 if (i.getSeq() != j.getSeq()){
                     continue;
                 }
 
-                //db에 저장된 파일 상태
+                //저장된 파일 상태
                 String status = j.getStatus();
 
                 if (status.equals("_delete")) {
