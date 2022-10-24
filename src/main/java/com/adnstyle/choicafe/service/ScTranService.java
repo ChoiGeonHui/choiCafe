@@ -17,6 +17,7 @@ public class ScTranService {
     @Transactional
     public String insertScTran(ScTran scTran) {
 
+        /** 무작위 인증번호 6자리 생성 */
         Random random = new Random();
         int cnt = 0;
         String ranNum = "";
@@ -26,7 +27,7 @@ public class ScTranService {
             cnt ++;
         }
 
-        scTranRepository.insertScTran(scTran, ranNum);
+//        scTranRepository.insertScTran(scTran, ranNum);
 
         return ranNum;
 

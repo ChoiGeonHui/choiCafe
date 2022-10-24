@@ -11,6 +11,7 @@
 
         <input type="text" value="${ghBoard.seq}" hidden="hidden" id="seq">
         <input type="text" value="${user.seq}" hidden="hidden" id="useq">
+        <input type="text" value="${user.role}" hidden="hidden" id="useRole">
         <table class="table col-12">
             <thead class="mb-2">
             <tr>
@@ -174,6 +175,7 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
+        let role = $("#useRole").val();
 
         //대댓글란 생성
         $(".addBtn").on('click', function (e) {
@@ -203,6 +205,10 @@
             let boardSeq =  $("#seq").val();
             let memberSeq =  $("#useq").val();
 
+            if (role == 'ROLE_SOCIAL') {
+                alert("해당 계정은 댓글 작성 권한이 없습니다.");
+                return;
+            }
             if (content.trim().length == 0) {
                 alert("댓글을 입력하세요.");
                 return;
@@ -231,6 +237,10 @@
             let boardSeq =  $("#seq").val();
             let memberSeq =  $("#useq").val();
 
+            if (role == 'ROLE_SOCIAL') {
+                alert("해당 계정은 댓글 작성 권한이 없습니다.");
+                return;
+            }
             if (content.trim().length == 0) {
                 alert("댓글을 입력하세요.");
                 return;

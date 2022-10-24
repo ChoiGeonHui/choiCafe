@@ -31,7 +31,7 @@
   </div>
 
   <div class="d-flex mx-auto input-group my-1 col-6">
-    <span class="input-group-text col-2">등급</span>
+    <span class="input-group-text col-2">Role</span>
     <input type="text" class="form-control" readonly="readonly" value="${user.role}">
   </div>
 

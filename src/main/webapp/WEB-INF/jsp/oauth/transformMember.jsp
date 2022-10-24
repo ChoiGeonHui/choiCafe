@@ -36,7 +36,7 @@
 
         <div class="d-flex mx-auto input-group my-1 col-6">
             <span class="input-group-text col-3">전화번호</span>
-            <input type="text" id="phone1"  name="phone" class="form-control phoneInput" placeholder="'-'를 포함해 작성하세요.">
+            <input type="text" id="phone" placeholder="전화번호를 입력하세요." maxlength="13" class="form-control" oninput="autoHyphen(this)">
             <div class="input-group-append">
                 <input type="button" class="btn btn-info smsCheck" id="sendMessage" value="인증번호받기">
             </div>
@@ -62,7 +62,7 @@
         </div>
 
         <div class="d-flex mx-auto input-group my-1 col-6">
-            <span class="input-group-text col-3">등급</span>
+            <span class="input-group-text col-3">Role</span>
             <input type="text" class="form-control" name="role" readonly="readonly" value="${user.role}">
         </div>
     </form>
@@ -71,6 +71,11 @@
     </div>
 </div>
 <script type="text/javascript">
+
+    const autoHyphen = (target) => {
+        target.value = target.value
+            .replace(/[^0-9]/g,'').replace(/^(\d{3})(\d{3,4})(\d{4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
+    }
 
     let checkNumSocial = '';
 
@@ -94,7 +99,7 @@
 
     $(document).ready(function () {
 
-        $("#id").on("propertychange change keyup paste input",function () {
+        $("#id").on("propertychange change keyup paste input", function () {
 
             $("#idLength").addClass('d-none');
             $("#idDuc").addClass('d-none');
@@ -139,9 +144,11 @@
 
         /** SMS 인증메일 전송 */
         $("#sendMessage").on('click', function() {
-            let phone = $("#phone1").val();
+            let phone = $("#phone").val();
 
-            if (phone == '' || phone == null) {
+            var regExp =/(01[016789])([1-9]{1}[0-9]{2,3})([0-9]{4})$/;
+
+            if (!regExp.test(phone.replace(/-/g,''))) {
                 alert('전화번호를 다시 입력하세요.');
                 return;
             }
@@ -154,7 +161,7 @@
                     if (data.result == 'success') {
                         alert('해당번호로 인증메일을 전송하였습니다. \n제한시간 안에 인증번호를 입력하세요.');
                         checkNumSocial = data.checkNum;
-                        seconds = 30;
+                        seconds = 90;
                         countTime = setInterval(count_down_time, 1000);
                     } else {
                         alert('오류 발생');
@@ -211,6 +218,11 @@
             if (password != passwordChk) {
                 alert('비밀번호 확인이 일치하기 않습니다.');
                 e.preventDefault();
+                return;
+            }
+            let regExpEn = /[!@#$%?]/;
+            if (!regExpEn.test(password)) {
+                alert('비밀번호에 특수문자(!@#$%?)가 포함 되어야 합니다.');
                 return;
             }
 

@@ -42,7 +42,6 @@
                             <video width="100%" height="80px;" src="/files/view?tableSeq=${list.seq}&tableType=ghBoard"/>
                         </c:if>
 
-
                     </td>
                     <td colspan="2"><a href="/board/view/detail?seq=${list.seq}">${list.title}</a></td>
                 </tr>
@@ -68,7 +67,6 @@
             <span><a href="#" data-page-number='${paging.endPage+1}' class="btn btn-white btnPage">다음</a></span>
         </c:if>
     </ul>
-
 
 </div>
 

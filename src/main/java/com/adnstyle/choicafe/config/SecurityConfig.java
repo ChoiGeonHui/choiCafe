@@ -1,7 +1,6 @@
 package com.adnstyle.choicafe.config;
 
 import com.adnstyle.choicafe.domain.Role;
-//import com.adnstyle.choicafe.oauth2.CustomOAuth2UserService;
 import com.adnstyle.choicafe.oauth2.CustomOAuth2UserService2;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -44,7 +43,7 @@ public class SecurityConfig {
                     .antMatchers("/board/list/**","/board/view/detail").authenticated()
                     .antMatchers("/oauth/transform", "oauth/transformMember").hasRole(Role.SOCIAL.name())
                     .antMatchers("/admin/**").hasRole(Role.ADMIN.name())
-                    .antMatchers("/board/**").hasAnyRole(Role.USER.name(),Role.ADMIN.name())
+                    .antMatchers("/board/**","/reply/**").hasAnyRole(Role.USER.name(),Role.ADMIN.name())
                     .anyRequest().authenticated()
 
                 .and()

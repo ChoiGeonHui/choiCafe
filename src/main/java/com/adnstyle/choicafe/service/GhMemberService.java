@@ -58,6 +58,14 @@ public class GhMemberService implements UserDetailsService {//UserDetailsService
     @Transactional
     public String insertMember(GhMember ghMember) {
 
+        GhMember testMember = new GhMember();
+        testMember.setEmail(ghMember.getEmail());
+
+        //소셜 또는 이미 회원 가입된 이메일일 경우 가입을 못하게 한다.
+        if (ghMemberRepository.selectMember(testMember) != null) {
+            return "hasEmail";
+        }
+
         ghMember.setRole(Role.USER.getKey());
         String password = ghMember.getPassword();
         String encPW = encoder.encode(password);

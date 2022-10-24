@@ -75,12 +75,11 @@ spring:
             user_name_attribute: response
 
 
-
 mybatis:
   mapper-locations: mybatis/**/*Mapper.xml
 
 server:
   port: 8800
-#  error:
-#    whitelabel:
-#      enabled: false
+  error:
+    whitelabel:
+      enabled: false

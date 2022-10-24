@@ -15,7 +15,7 @@
                 <td>아이디</td>
                 <td>
                     <div class="input-group">
-                        <input type="text" id="id" name="id" placeholder="아이디를 입력하세요"
+                        <input type="text" id="id" name="id" placeholder="아이디를 입력하세요 (4자리 이상)"
                                class="form-control">
                         <div class="input-group-append">
                             <input type="button" class="btn btn-success" id="chkId" value="중복체크">
@@ -77,11 +77,7 @@
                 <td>전화번호</td>
                 <td>
                     <div class="input-group">
-                        <input type="text" id="phone1" name="phone" class="form-control phoneInput">
-                            <span class="input-group-text input-group-prepend input-group-append">-</span>
-                        <input type="text" id="phone2" name="phone" class="form-control phoneInput">
-                            <span class="input-group-text input-group-prepend input-group-append">-</span>
-                        <input type="text" id="phone3" name="phone" class="form-control phoneInput">
+                        <input type="text" id="phone" placeholder="전화번호를 입력하세요." maxlength="13" class="form-control" oninput="autoHyphen(this)">
                         <div class="input-group-append">
                             <input type="button" class="btn btn-info smsCheck"  id="sendMessage" value="인증하기">
                         </div>
@@ -110,6 +106,11 @@
 </div>
 
 <script type="text/javascript">
+
+    const autoHyphen = (target) => {
+        target.value = target.value
+            .replace(/[^0-9]/g,'').replace(/^(\d{3})(\d{3,4})(\d{4})$/g, "$1-$2-$3");
+    }
 
     let checkNum = '';
 
@@ -178,16 +179,15 @@
 
         /** SMS 인증메일 전송 */
         $("#sendMessage").on('click', function() {
-            let p1 = $("#phone1").val();
-            let p2 = $("#phone2").val();
-            let p3 = $("#phone3").val();
 
-            if (p1 == '' || p2 == '' || p3 == '') {
+            let phone = $("#phone").val();
+
+            var regExp =/(01[016789])([1-9]{1}[0-9]{2,3})([0-9]{4})$/;
+
+            if (!regExp.test(phone.replace(/-/g,''))) {
                 alert('전화번호를 다시 입력하세요.');
                 return;
             }
-
-            let phone = p1+"-"+p2+"-"+p3;
 
             $.ajax({
                 type: "POST",
@@ -197,7 +197,7 @@
                     if (data.result == 'success') {
                         alert('해당번호로 인증메일을 전송하였습니다. \n제한시간 안에 인증번호를 입력하세요.');
                         checkNum = data.checkNum;
-                        seconds = 30;
+                        seconds = 90;
                         countTime = setInterval(count_down_time, 1000);
                     } else {
                         alert('오류 발생');
@@ -239,9 +239,8 @@
             let name = $("#name").val();
             let email = $("#email").val();
             let emailhost = $("#emailhost").val();
-            let p1 = $("#phone1").val();
-            let p2 = $("#phone2").val();
-            let p3 = $("#phone3").val();
+            let phone = $("#phone").val();
+
 
             if(id == ''){
                 alert('아이디를 입력하세요.');
@@ -263,6 +262,12 @@
                 return;
             }
 
+            let regExpEn = /[!@#$%?]/;
+            if (!regExpEn.test(password)) {
+                alert('비밀번호에 특수문자(!@#$%?)가 포함 되어야 합니다.');
+                return;
+            }
+
             if(name == '') {
                 alert('이름을 입력하세요.');
                 return;
@@ -274,12 +279,6 @@
 
             email = email + '@' + emailhost;
 
-            if (p1 == '' || p2 == '' || p3 == '') {
-                alert('전화번호를 다시 입력하세요.');
-                return;
-            }
-
-            let phone = p1 + "-" + p2 + "-" + p3;
 
             if($("#inputMessageNum").attr("readonly") == false) {
                 alert("인증번호를 확인 하세요.");
@@ -294,6 +293,8 @@
                     if (data.result == 'success') {
                         alert('회원가입이 완료되었습니다.');
                         location.href = '/oauth/login';
+                    } else if (data.result == 'hasEmail') {
+                        alert('해당 이메일은 소셜 로그인 또는 회원가입이 되어 있는 이메일 입니다.'+'\n 다른 이메일로 변경해 주세요.');
                     } else {
                         alert('오류 발생');
                     }

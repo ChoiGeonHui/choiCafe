@@ -7,18 +7,15 @@ import com.adnstyle.choicafe.domain.GhMember;
 import com.adnstyle.choicafe.domain.Role;
 import com.adnstyle.choicafe.repository.maindb.GhMemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
-import java.util.Collections;
 import java.util.Map;
 
 
@@ -27,11 +24,9 @@ import java.util.Map;
 @Transactional
 public class CustomOAuth2UserService2 extends DefaultOAuth2UserService {
 
-//    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     private final GhMemberRepository ghMemberRepository;
 
     private  final HttpSession httpSession;
-
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -66,7 +61,7 @@ public class CustomOAuth2UserService2 extends DefaultOAuth2UserService {
             ghMember.setId(id);
             ghMember.setPassword(password);
             ghMember.setProviderId(providerId);
-            ghMember.setRole("ROLE_SOCIAL");
+            ghMember.setRole(Role.SOCIAL.getKey());
             ghMemberRepository.insertSocialMember(ghMember);
             ghMember = ghMemberRepository.selectMember(ghMember);
         } else {
