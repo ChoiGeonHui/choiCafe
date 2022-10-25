@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.adnstyle.choicafe.repository.maindb.SmsCheckRepository">
+
+    <resultMap id="simpleSmsCheck" type="com.adnstyle.choicafe.domain.SmsCheck">
+        <result property="seq"     column="seq"/>
+        <result property="phone"  column="phone"/>
+        <result property="checkNumber"       column="check_number"/>
+
+    </resultMap>
+
+    <select id="selectsmsCheck" resultMap="simpleSmsCheck">
+        select seq, phone, check_number
+        from sms_check
+        where phone = #{phone} and check_number = #{checkNumber}
+
+    </select>
+
+
+    <insert id="insertsmsCheck">
+        insert into sms_check
+            (
+             phone,
+             check_number
+             )
+        values
+            (
+             #{phone},
+             #{checkNumber}
+             )
+    </insert>
+
+</mapper>
