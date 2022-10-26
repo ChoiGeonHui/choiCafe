@@ -6,11 +6,11 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface SmsCheckRepository {
 
-
-
     SmsCheck selectsmsCheck (SmsCheck smsCheck);
 
     int insertsmsCheck(SmsCheck smsCheck);
+
+    void deleteSmsCheck (SmsCheck smsCheck);
 
 
 }

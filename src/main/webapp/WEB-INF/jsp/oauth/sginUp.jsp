@@ -112,8 +112,6 @@
             .replace(/[^0-9]/g,'').replace(/^(\d{3})(\d{3,4})(\d{4})$/g, "$1-$2-$3");
     }
 
-    let checkNum = '';
-
     let seconds = 0;
 
     let countTime;
@@ -125,7 +123,6 @@
         $("#spanTime").html(min + " : " + trueSec);
 
         if (seconds == 0) {
-            // checkNum = '';
             clearInterval(countTime);
         }
         seconds --;
@@ -189,36 +186,55 @@
                 return;
             }
 
-            new Promise((succ, fail)=> {
-                $.ajax({
-                    type: "POST",
-                    url: "http://localhost:8880/sendMessage",
-                    data: {'trPhone': phone},
-                    success: function (data) {
-                        succ(data);
-                    },
-                    error: function () {
-                        alert('에러발생');
-                    }
-                });
 
-            }).then((arg) => {
-                $.ajax({
-                    type: "POST",
-                    url: "/smsCheck/insert",
-                    data: {'phone': phone, 'checkNumber' : arg.checkNum},
-                    success : function (data2) {
-                        if (data2.result == 'success') {
-                            alert('해당번호로 인증메일을 전송하였습니다. \n제한시간 안에 인증번호를 입력하세요.');
-                            seconds = 90;
-                            countTime = setInterval(count_down_time, 1000);
-                        }
-                    },
-                    error : function () {
-                        alert("오류발생2");
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:8880/sendMessage",
+                data: {'trPhone': phone},
+                success: function (data) {
+                    if (data.result == 'success') {
+                        alert('해당번호로 인증메일을 전송하였습니다. \n제한시간 안에 인증번호를 입력하세요.');
+                        seconds = 90;
+                        countTime = setInterval(count_down_time, 1000);
+                    } else {
+                        alert('오류발생.');
                     }
-                })
-            })
+                },
+                error: function () {
+                    alert('에러발생');
+                }
+            });
+
+            // new Promise((succ, fail)=> {
+            //     $.ajax({
+            //         type: "POST",
+            //         url: "http://localhost:8880/sendMessage",
+            //         data: {'trPhone': phone},
+            //         success: function (data) {
+            //             succ(data);
+            //         },
+            //         error: function () {
+            //             alert('에러발생');
+            //         }
+            //     });
+            //
+            // }).then((arg) => {
+            //     $.ajax({
+            //         type: "POST",
+            //         url: "/smsCheck/insert",
+            //         data: {'phone': phone, 'checkNumber' : arg.checkNum},
+            //         success : function (data2) {
+            //             if (data2.result == 'success') {
+            //                 alert('해당번호로 인증메일을 전송하였습니다. \n제한시간 안에 인증번호를 입력하세요.');
+            //                 seconds = 90;
+            //                 countTime = setInterval(count_down_time, 1000);
+            //             }
+            //         },
+            //         error : function () {
+            //             alert("에러발생2");
+            //         }
+            //     })
+            // })
 
         });
 
@@ -236,8 +252,8 @@
 
             $.ajax({
                 type: "POST",
-                url: "/smsCheck/select",
-                data: {'phone': phone, 'checkNumber' : inputMessageNum},
+                url: "http://localhost:8880/smsCheck/select",
+                data: {'phone' : phone, 'checkNumber' : inputMessageNum},
                 success : function (data) {
                     if (data.result == 'success') {
                         alert('인증되었습니다.');

@@ -29,5 +29,9 @@
              #{checkNumber}
              )
     </insert>
+    
+    <delete id="deleteSmsCheck">
+        delete from sms_check where seq = (max(seq));
+    </delete>
 
 </mapper>
