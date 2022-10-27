@@ -10,7 +10,5 @@ public interface SmsCheckRepository {
 
     int insertsmsCheck(SmsCheck smsCheck);
 
-    void deleteSmsCheck (SmsCheck smsCheck);
-
 
 }

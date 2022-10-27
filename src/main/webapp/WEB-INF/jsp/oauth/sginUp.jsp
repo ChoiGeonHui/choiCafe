@@ -77,7 +77,7 @@
                 <td>전화번호</td>
                 <td>
                     <div class="input-group">
-                        <input type="text" id="phone" placeholder="전화번호를 입력하세요." maxlength="13" class="form-control" oninput="autoHyphen(this)">
+                        <input type="text" id="phone" placeholder="전화번호를 입력하세요." maxlength="13" class="form-control phoneInput" oninput="autoHyphen(this)">
                         <div class="input-group-append">
                             <input type="button" class="btn btn-info smsCheck"  id="sendMessage" value="인증하기">
                         </div>
@@ -186,7 +186,6 @@
                 return;
             }
 
-
             $.ajax({
                 type: "POST",
                 url: "http://localhost:8880/sendMessage",
@@ -248,7 +247,6 @@
                 alert('인증번호를 다시 받으세요.');
                 return;
             }
-
 
             $.ajax({
                 type: "POST",
