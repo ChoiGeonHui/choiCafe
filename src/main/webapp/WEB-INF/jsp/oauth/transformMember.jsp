@@ -44,7 +44,7 @@
 
         <div class="d-flex mx-auto input-group my-1 col-6">
             <span class="input-group-text col-3">인증번호</span>
-            <input type="text" id="inputMessageNum" class="form-control phoneInput">
+            <input type="text" id="inputMessageNum" class="form-control phoneInput" oninput="autoHyphen(this)">
             <div class="input-group-append">
                 <span class="input-group-text input-group-prepend input-group-append text-danger" id="spanTime">0 : 00</span>
                 <input type="button" class="btn btn-info active smsCheck" id="checkNumber" value="인증확인">
@@ -77,8 +77,6 @@
             .replace(/[^0-9]/g,'').replace(/^(\d{3})(\d{3,4})(\d{4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
     }
 
-    let checkNumSocial = '';
-
     let seconds = 0;
 
     let countTime;
@@ -90,7 +88,6 @@
         $("#spanTime").html(min + " : " + trueSec);
 
         if (seconds == 0) {
-            checkNumSocial = '';
             clearInterval(countTime);
         }
         seconds --;
@@ -117,7 +114,6 @@
                 $("#idChk").addClass('d-none');
                 return;
             }
-
 
             $.ajax({
                 type:"POST",
@@ -155,14 +151,17 @@
 
             $.ajax({
                 type: "POST",
-                url: "/sctran/sendMessage",
+                url: "http://localhost:8880/sendMessage",
                 data: {'trPhone': phone},
                 success: function (data) {
                     if (data.result == 'success') {
                         alert('해당번호로 인증메일을 전송하였습니다. \n제한시간 안에 인증번호를 입력하세요.');
-                        checkNumSocial = data.checkNum;
-                        seconds = 90;
-                        countTime = setInterval(count_down_time, 1000);
+                        if (seconds > 0) {
+                            seconds = 120;
+                        } else {
+                            seconds = 120;
+                            countTime = setInterval(count_down_time, 1000);
+                        }
                     } else {
                         alert('오류 발생');
                     }
@@ -176,20 +175,32 @@
         /** 인증번호 입력시 실행되는 함수 */
         $("#checkNumber").on('click',function () {
 
+            let phone = $("#phone").val();
             let inputMessageNum = $("#inputMessageNum").val();
-            if (checkNumSocial == '' || checkNumSocial == null) {
-                alert("전화번호 입력 후 인증번호를 받으세요.");
+            if (seconds <= 0) {
+                alert('인증번호를 다시 받으세요.');
                 return;
             }
 
-            if (inputMessageNum === checkNumSocial) {
-                alert('인증되었습니다.');
-                $(".phoneInput").prop("readonly", true);
-                $(".smsCheck").prop("disabled", true);
-                seconds = 0;
-            } else {
-                alert('불일치');
-            }
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:8880/smsCheck/select",
+                data: {'phone' : phone, 'checkNumber' : inputMessageNum},
+                success : function (data) {
+                    if (data.result == 'success') {
+                        alert('인증되었습니다.');
+                        $(".phoneInput").prop("readonly", true);
+                        $(".smsCheck").prop("disabled", true);
+                        seconds = 0;
+                    } else {
+                        alert('불일치');
+                    }
+                },
+                error : function () {
+                    alert("오류발생!");
+                }
+            });
+
         });
 
         $("form").submit(function (e) {

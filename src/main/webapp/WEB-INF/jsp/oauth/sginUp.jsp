@@ -36,7 +36,6 @@
                         <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요."
                                class="form-control">
                     </div>
-
                 </td>
             </tr>
             <tr>
@@ -54,7 +53,6 @@
                     <div>
                         <input type="text" id="name" name="name" class="form-control">
                     </div>
-
                 </td>
             </tr>
             <tr>
@@ -70,7 +68,6 @@
                             <option value="kakao.com">kakao.com</option>
                         </select>
                     </div>
-
                 </td>
             </tr>
             <tr>
@@ -98,7 +95,6 @@
             </tr>
         </table>
 
-
     </div>
     <div class="my-2">
         <button id="btnSgin" class="btn btn-primary col-3">가입하기</button>
@@ -107,6 +103,7 @@
 
 <script type="text/javascript">
 
+    //전화번호 입력시 '-' 자동생성
     const autoHyphen = (target) => {
         target.value = target.value
             .replace(/[^0-9]/g,'').replace(/^(\d{3})(\d{3,4})(\d{4})$/g, "$1-$2-$3");
@@ -115,6 +112,7 @@
     let seconds = 0;
 
     let countTime;
+
     /** sms 요청시 실행되는 타이머 함수 */
     function count_down_time() {
         let min = parseInt((seconds) / 60);
@@ -179,6 +177,7 @@
 
             let phone = $("#phone").val();
 
+            //전화번호 정규식 확인 하기
             var regExp =/(01[016789])([1-9]{1}[0-9]{2,3})([0-9]{4})$/;
 
             if (!regExp.test(phone.replace(/-/g,''))) {
@@ -193,8 +192,12 @@
                 success: function (data) {
                     if (data.result == 'success') {
                         alert('해당번호로 인증메일을 전송하였습니다. \n제한시간 안에 인증번호를 입력하세요.');
-                        seconds = 90;
-                        countTime = setInterval(count_down_time, 1000);
+                        if (seconds > 0) {
+                            seconds = 120;
+                        } else {
+                            seconds = 120;
+                            countTime = setInterval(count_down_time, 1000);
+                        }
                     } else {
                         alert('오류발생.');
                     }
