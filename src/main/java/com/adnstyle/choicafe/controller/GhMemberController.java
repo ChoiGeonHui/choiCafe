@@ -30,6 +30,12 @@ public class GhMemberController {
         return layout;
     }
 
+    @RequestMapping("/findUser")
+    public String findUser(Model model) {
+        model.addAttribute("page", "oauth/findUser");
+        return layout;
+    }
+
 
     //소셜회원 전환 페이지
     @RequestMapping("/transform")

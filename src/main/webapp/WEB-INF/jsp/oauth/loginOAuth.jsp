@@ -17,6 +17,7 @@
             <div class="mt-3 col-12 d-flex"><span class="col-2 font-weight-bold input-group-text input-group-append">PW  </span><input type="password" id="password" class="form-control"></div>
             <div><input type="button" id="btbSginIn" class="btn btn-success active mt-2 col-12" value="로그인"></div>
             <div><a href="/oauth/sginUp" type="button" class="btn btn-secondary mt-2 col-12">회원가입</a></div>
+            <div><a href="/oauth/findUser" type="button" class="btn btn-warning mt-2 col-12">비밀번호 찾기</a></div>
             <div><a href="/oauth2/authorization/google" class="btn btn-primary active col-12 mt-2" role="button">Google Login</a></div>
             <div><a href="/oauth2/authorization/naver" class="btn btn-success col-12 mt-2" role="button">Naver Login</a></div>
         </div>
