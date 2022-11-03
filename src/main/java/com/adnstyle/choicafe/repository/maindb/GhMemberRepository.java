@@ -23,6 +23,8 @@ public interface GhMemberRepository {
 
     int updateMember(GhMember ghMember);
 
+    int updatePassword(GhMember ghMember);
+
 
 
 }

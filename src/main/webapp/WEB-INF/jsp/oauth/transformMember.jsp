@@ -70,9 +70,8 @@
         <button id="btnSubmit" class="btn btn-success">계정 전환</button>
     </div>
 </div>
+<jsp:include page="smsOAuthScript.jsp"/>
 <script type="text/javascript" charset="UTF-8">
-
-    <%@ include file="phoneComponent.js" %>
 
     $(document).ready(function () {
 
@@ -119,8 +118,6 @@
                 }
             })
         });
-
-        <%@ include file="smsAuthComponent.js" %>
 
         //계정전환
         $("form").submit(function (e) {

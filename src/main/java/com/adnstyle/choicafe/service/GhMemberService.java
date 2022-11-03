@@ -101,6 +101,26 @@ public class GhMemberService implements UserDetailsService {//UserDetailsService
         return "fail";
     }
 
+    @Transactional
+    public String updatePassword(GhMember ghMember) {
+
+        if(ghMemberRepository.selectMember(ghMember) == null) {
+            return "notUser";
+        }
+
+        String encPW = encoder.encode(ghMember.getPassword());
+
+        ghMember.setPassword(encPW);
+
+        int chk = ghMemberRepository.updatePassword(ghMember);
+
+        if (chk > 0) {
+            return "success";
+        } else {
+            return "fail";
+        }
+    }
+
 
     /**
      * 사용자의 아이디를 찾아서 암호화된 패스워드랑 매칭 확인및 인증하는 메서드

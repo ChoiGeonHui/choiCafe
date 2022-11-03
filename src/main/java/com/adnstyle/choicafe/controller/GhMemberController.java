@@ -91,7 +91,7 @@ public class GhMemberController {
 
     @RequestMapping("/detail")
     public String detail(Model model) {
-        model.addAttribute("page", "oauth;/updateMember");
+        model.addAttribute("page", "oauth/updateMember");
         return layout;
     }
 
@@ -102,6 +102,14 @@ public class GhMemberController {
         String s = ghMemberService.insertMember(ghMember);
         Map<String, String> result = new HashMap<>();
         result.put("result", s);
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping("/updatePW")
+    public Map<String, String> updatePW(GhMember ghMember) {
+        Map<String, String> result = new HashMap<>();
+        result.put("result", ghMemberService.updatePassword(ghMember));
         return result;
     }
 

@@ -5,7 +5,7 @@
   Time: 오후 1:02
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="utf-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <div class="container text-center">
 
     <h3 class="mt-2">회원 가입</h3>
@@ -102,10 +102,8 @@
         <button id="btnSgin" class="btn btn-primary col-3">가입하기</button>
     </div>
 </div>
-
+<jsp:include page="smsOAuthScript.jsp"/>
 <script type="text/javascript" charset="UTF-8">
-
-    <%@ include file="phoneComponent.js" %>
 
     $(document).ready(function () {
 
@@ -115,7 +113,6 @@
             $("#idLength").addClass('d-none');
             $("#idDuc").addClass('d-none');
             $("#idChk").addClass('d-none');
-
         })
 
         /** 아이디 중복확인 함수 */
@@ -152,12 +149,6 @@
                 }
             })
         })
-
-        /** SMS 인증메일 전송 */
-        <%@ include file="smsAuthComponent.js" %>
-
-
-
 
         /** 회원가입 실행  */
         $("#btnSgin").on('click', function () {
