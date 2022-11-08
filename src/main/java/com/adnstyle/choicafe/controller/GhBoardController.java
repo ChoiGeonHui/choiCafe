@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,9 +25,9 @@ public class GhBoardController {
     String layout = "templete/layout";
 
 
-    @RequestMapping("/count")
+    @RequestMapping("/editor")
     public String test() {
-        return layout;
+        return "comment/testEditor";
     }
 
 

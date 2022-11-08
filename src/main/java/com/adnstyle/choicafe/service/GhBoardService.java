@@ -84,7 +84,9 @@ public class GhBoardService {
         return ghBoard;
     }
 
-    //게시물 리스트 보기
+    /**
+     * 게시물 리스트 보기
+     */
     public List<GhBoard> selectBoardList(GhBoard ghBoard) {
         return ghBoardRepository.selectBoardList(ghBoard);
     }

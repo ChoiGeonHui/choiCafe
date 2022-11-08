@@ -101,6 +101,11 @@ public class GhMemberService implements UserDetailsService {//UserDetailsService
         return "fail";
     }
 
+    /**
+     * 비밀번호 찾기,변경하기
+     * @param ghMember
+     * @return
+     */
     @Transactional
     public String updatePassword(GhMember ghMember) {
 

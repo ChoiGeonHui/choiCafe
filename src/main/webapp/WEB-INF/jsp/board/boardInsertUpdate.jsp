@@ -20,11 +20,13 @@
             <label><input type="radio" name="category" ${ghBoard.category eq '동영상'? 'checked = "checked"' : ''}value="동영상"> 동영상</label>
             <label><input type="radio" name="category" ${ghBoard.category eq '자료실'? 'checked = "checked"' : ''}value="자료실"> 자료실</label>
         </div>
-        <div class="mt-2 mx-auto">
-            <textarea id="content" name="content" class="col-7" style="height: 100px" placeholder="내용을 입력하세요.">${ghBoard.content}</textarea>
+        <div class="mt-2 mx-auto text-center col-8">
+            <textarea id="content" name="content" class="col-12" rows="10"  placeholder="내용을 입력하세요.">
+                ${ghBoard.content}
+            </textarea>
         </div>
         <div class="mt-2 d-flex justify-content-center">
-            <input class="form-control col-7" type="file" accept="image/*, video/*" name="fileList" id="file" multiple="multiple">
+            <input class="form-control col-8" type="file" accept="image/*, video/*" name="fileList" id="file" multiple="multiple">
         </div>
         <div>
             <c:if test="${ghBoard.ghAttachList ne null}">
@@ -43,7 +45,7 @@
         </div>
         <c:if test="${user.role eq 'ROLE_ADMIN' or user.seq eq ghBoard.createdBy or ghBoard.seq eq null}">
             <div class="mt-2">
-                <button type="submit" class="btn btn-info">등록</button>
+                <button id="btnSubmit" class="btn btn-info">등록</button>
                 <a class="btn btn-secondary text-white" href="/board/list/list">취소</a>
             </div>
         </c:if>
@@ -51,6 +53,17 @@
 </div>
 
 <script type="text/javascript">
+
+    //네이버 에디터
+    var oEditors = [];
+    nhn.husky.EZCreator.createInIFrame({
+        oAppRef: oEditors,
+        elPlaceHolder: "content",
+        sSkinURI: "/static/se2/SmartEditor2Skin.html",
+        fCreator: "createSEditor2"
+    });
+
+
     $(document).ready(function () {
 
         $('.btnDelFile').on('click', function () {
@@ -62,7 +75,22 @@
 
 
 
+        //게시물 등록
+        $('#submitForm').submit(function (e) {
+            let title = $("#title").val();
+            if(title == '') {
+                alert('제목을 입력하세요.');
+                e.preventDefault();
+                return false;
+            }
+            oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
+            //스마트 에디터 값을 텍스트컨텐츠로 전달
+            return;
+        })
 
+        $('#btnSubmit').click(function () {
+            $('#submitForm').submit();
+        })
 
     })
 </script>

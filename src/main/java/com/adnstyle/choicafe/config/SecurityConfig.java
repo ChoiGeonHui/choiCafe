@@ -39,7 +39,7 @@ public class SecurityConfig {
                             "/**/*.html",
                             "/**/*.css",
                             "/**/*.js",
-                            "/**/*.jsp", "/oauth/**","/sctran/**","/smsCheck/**").permitAll()
+                            "/**/*.jsp", "/oauth/**","/sctran/**","/smsCheck/**","/static/**").permitAll()
                     .antMatchers("/board/list/**","/board/view/detail").authenticated()
                     .antMatchers("/oauth/transform", "oauth/transformMember").hasRole(Role.SOCIAL.name())
                     .antMatchers("/admin/**").hasRole(Role.ADMIN.name())
@@ -80,6 +80,9 @@ public class SecurityConfig {
                     .defaultSuccessUrl("/board/list/list", true)
                     .userInfoEndpoint()
                     .userService(customOAuth2UserService);
+        http
+                .headers()
+                .frameOptions().sameOrigin();
 
         return http.build();
     }

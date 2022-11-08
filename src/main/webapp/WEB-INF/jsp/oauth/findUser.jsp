@@ -66,7 +66,7 @@
           let passwordChk = $("#passwordChk").val();
           let phone = $("#phone").val();
 
-          if(id == ''){
+          if(id == '') {
               alert('아이디를 입력하세요.');
               return;
           }
