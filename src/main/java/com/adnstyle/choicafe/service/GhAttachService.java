@@ -66,7 +66,7 @@ public class GhAttachService {
 
         response.setContentType(ghAttach.getType());
         
-        if (handing.equals("download")) {
+        if (handing.equals("download")) { //파일 다운로드 하기
             response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(ghAttach.getDisplayName(), "UTF-8") + "\"");
         }
         response.setContentLength((int) f.length());
