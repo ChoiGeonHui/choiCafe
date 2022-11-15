@@ -15,7 +15,7 @@
                 <th class="col-1"><input type="checkbox" id="selectAll" name="selectAll" onclick="selectAll()"></th>
             </c:if>
             <th class="col-1">No</th>
-            <th class="col-1">CTGR</th>
+            <th class="col-1">구분</th>
             <th class="col-5 text-left">title</th>
             <th class="col-1">조회수</th>
             <th class="col-1">작성자</th>

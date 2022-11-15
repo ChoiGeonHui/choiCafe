@@ -21,8 +21,8 @@
             <div><a href="/oauth2/authorization/google" class="btn btn-primary active col-12 mt-2" role="button">Google Login</a></div>
             <div><a href="/oauth2/authorization/naver" class="btn btn-success col-12 mt-2" role="button">Naver Login</a></div>
         </div>
-
     </div>
+
 </div>
 <script type="text/javascript">
     $(document).ready(function () {

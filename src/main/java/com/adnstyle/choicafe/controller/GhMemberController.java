@@ -25,7 +25,10 @@ public class GhMemberController {
     String layout = "templete/layout";
 
     @RequestMapping("/login")
-    public String loginPage(Model model) {
+    public String loginPage(Model model, HttpSession session) {
+        if (session.getAttribute("user") != null) {
+            return "redirect:/board/list/list";
+        }
         model.addAttribute("page", "oauth/loginOAuth");
         return layout;
     }
