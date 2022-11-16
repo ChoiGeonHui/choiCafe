@@ -44,7 +44,9 @@
 
 
     </table>
+    <div>
+        <a href="javascript:history.back()" class="btn btn-secondary">뒤로가기</a>
+    </div>
 
 
-    <a href="javascript:history.back()" class="btn btn-secondary">돌아가기</a>
 </div>

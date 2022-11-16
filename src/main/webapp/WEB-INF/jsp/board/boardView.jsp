@@ -125,7 +125,7 @@
                     </svg>
                 </a>
             </c:if>
-            <a class="btn btn-secondary text-white" href="javascript:history.back()">목록
+            <a class="btn btn-secondary text-white" href="/board/list/list">목록
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
                 </svg>
@@ -183,7 +183,7 @@
 
             let datareply = $(this).data('reply');
 
-            if ($(this).hasClass("showReply")){ //특정 클래스가 존재여부에 따라 대글란 생성, 삭제가 된다.
+            if ($(this).hasClass("showReply")){ //특정 클래스가 존재여부에 따라 댓글란 생성, 삭제가 된다.
                 $('#btnComment'+datareply).prev().remove(); //input 삭제   prev : 자신을 기준으로 앞에 있는 태그 지정
                 $('#btnComment'+datareply).next().remove(); //br 삭제      next : 자신을 기준으로 뒤에 있는 태그 지정
                 $('#btnComment'+datareply).remove();  // 버튼 삭제

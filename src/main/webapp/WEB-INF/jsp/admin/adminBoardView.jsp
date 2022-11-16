@@ -23,7 +23,7 @@
         <thead>
         <tr>
             <th class="col-1">No</th>
-            <th class="col-1">CTGR</th>
+            <th class="col-1">구분</th>
             <th class="col-5 text-left">title</th>
             <th class="col-1">조회수</th>
             <th class="col-1">작성자</th>
@@ -68,7 +68,7 @@
         </tbody>
     </table>
 
-    <a href="javascript:history.back()" class="btn btn-secondary">돌아가기</a>
+    <a href="/board/list/list" class="btn btn-secondary">돌아가기</a>
 </div>
 
 <script type="text/javascript">
@@ -78,7 +78,6 @@
             e.preventDefault();
 
            let seq = $(this).data('seq');
-           alert("복구 게시물 번호 번호 : " + seq);
 
            if (confirm("해당 게시물을 복구 하시겠습니까?")) {
                $.ajax({

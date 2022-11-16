@@ -25,44 +25,51 @@
 
 </div>
 <script type="text/javascript">
-    $(document).ready(function () {
 
-        $("#btbSginIn").on('click', function () {
+    function login() {
 
-            let id = $("#id").val();
-            let password = $("#password").val();
+        let id = $("#id").val();
+        let password = $("#password").val();
 
-            if(id == ''){
-                alert('아이디를 입력하세요.')
-                return;
-            }
+        if(id == '') {
+            alert('아이디를 입력하세요.')
+            return;
+        }
 
-            if(password == ''){
-                alert('비밀번호를 입력하세요.')
-                return;
-            }
+        if(password == '') {
+            alert('비밀번호를 입력하세요.')
+            return;
+        }
 
-            $.ajax({
-                type: "POST",
-                url: "/oauth/sginIn",
-                data: {'id': id, 'password': password},
-                success: function (data) {
-                    if (data.result == 'success') {
-                        location.href="/board/list/list";
-                    } else {
-                        alert('아이디 또는 비밀번호가 틀립니다.');
-                    }
-                },
-                error: function () {
-                    alert('에러발생');
+        $.ajax({
+            type: "POST",
+            url: "/oauth/sginIn",
+            data: {'id': id, 'password': password},
+            success: function (data) {
+                if (data.result == 'success') {
+                    location.href="/board/list/list";
+                } else {
+                    alert('아이디 또는 비밀번호가 틀립니다.');
                 }
-            })
-
+            },
+            error: function () {
+                alert('에러발생');
+            }
         })
 
+    }
+
+    $(function () {
+
+        $("#password").on('keypress',function (e) {
+            if (e.keyCode === 13) {
+                login();
+            }
+        })
+
+        $("#btbSginIn").on('click', login)
+
     })
-
-
 
 </script>
 

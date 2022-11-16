@@ -24,6 +24,12 @@ public class GhMemberController {
 
     String layout = "templete/layout";
 
+    /**
+     * 로그인 페이지
+     * @param model
+     * @param session
+     * @return
+     */
     @RequestMapping("/login")
     public String loginPage(Model model, HttpSession session) {
         if (session.getAttribute("user") != null) {
@@ -33,6 +39,11 @@ public class GhMemberController {
         return layout;
     }
 
+    /**
+     * 비밀번호 찾기페이지
+     * @param model
+     * @return
+     */
     @RequestMapping("/findUser")
     public String findUser(Model model) {
         model.addAttribute("page", "oauth/findUser");
@@ -40,7 +51,7 @@ public class GhMemberController {
     }
 
 
-    //소셜회원 전환 페이지
+    /** 소셜회원 전환 페이지 */
     @RequestMapping("/transform")
     public String transformMember(Model model) {
         model.addAttribute("page", "/oauth/transformMember");
@@ -48,7 +59,7 @@ public class GhMemberController {
     }
 
 
-    //소셜회원 전환 api
+    /** 소셜회원 전환 api */
     @ResponseBody
     @RequestMapping("/transformMember")
     public Map<String, String> transformMember(GhMember ghMember) {
@@ -59,7 +70,7 @@ public class GhMemberController {
 
 
     /**
-     * 로그인 인증 성공시 항상 이동되는 api
+     * 로그인 인증 성공시 항상 이동되는 API
      *
      * @param authentication
      * @param session
@@ -75,6 +86,11 @@ public class GhMemberController {
         return result;
     }
 
+    /**
+     * 아이디 중복확인 API
+     * @param ghMember
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/idChk")
     public Map<String, String> checkId(GhMember ghMember) {
@@ -84,7 +100,11 @@ public class GhMemberController {
         return result;
     }
 
-
+    /**
+     * 회원가입 페이지
+     * @param model
+     * @return
+     */
     @RequestMapping("/sginUp")
     public String sginUpPage(Model model) {
         model.addAttribute("page", "oauth/sginUp");
@@ -92,6 +112,11 @@ public class GhMemberController {
     }
 
 
+    /**
+     * 사용자 상세보기 페이지
+     * @param model
+     * @return
+     */
     @RequestMapping("/detail")
     public String detail(Model model) {
         model.addAttribute("page", "oauth/updateMember");
@@ -99,6 +124,11 @@ public class GhMemberController {
     }
 
 
+    /**
+     * 신규 회원 정보 insert API
+     * @param ghMember
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/insertMember")
     public Map<String, String> sginUp(GhMember ghMember) {
@@ -108,6 +138,11 @@ public class GhMemberController {
         return result;
     }
 
+    /**
+     * 비밀번호 변경 API
+     * @param ghMember
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/updatePW")
     public Map<String, String> updatePW(GhMember ghMember) {
@@ -116,6 +151,11 @@ public class GhMemberController {
         return result;
     }
 
+    /**
+     * 사용자 접근 제어 페이지
+     * @param model
+     * @return
+     */
     @RequestMapping("/access")
     public String access(Model model) {
         model.addAttribute("page", "oauth/access");
