@@ -102,3 +102,7 @@ server:
   error:
     whitelabel:
       enabled: false
+
+logging:
+  file:
+    path: /data/sf-rnd-prj/cgh-svc/logs
