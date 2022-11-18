@@ -4,7 +4,7 @@ logging:
     springframework: debug
     objectweb: debug
 
-    root: warn
+    root: debug
     com.adnstyle.choicafe: debug
 
 
