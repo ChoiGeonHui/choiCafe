@@ -48,7 +48,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "http://192.168.3.116:8880/sendMessage",
+                url: "https://sms-auth.adnstyle.com/sendMessage",
                 data: {'trPhone': phone},
                 success: function (data) {
                     if (data.result == 'success') {
@@ -113,7 +113,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "http://192.168.3.116:8880/smsCheck/select",
+                url: "https://sms-auth.adnstyle.com/smsCheck/select",
                 data: {'phone': phone, 'checkNumber': inputMessageNum},
                 success: function (data) {
                     if (data.result == 'success') {

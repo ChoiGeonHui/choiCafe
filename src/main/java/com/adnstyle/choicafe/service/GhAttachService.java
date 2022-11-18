@@ -208,7 +208,10 @@ public class GhAttachService {
     }
 
 
-
+    /**
+     * 파일 저장 디렉토리 생성
+     * @param saveDir
+     */
     private void createDirectory(String saveDir) {
         Path path = Paths.get(saveDir);
         // if directory exists?
@@ -226,6 +229,12 @@ public class GhAttachService {
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
+
+    /**
+     * 파일 저장 경로 생성
+     * @param tableName
+     * @return
+     */
     public String getSaveDir(String tableName) {
         if (tableName == null || tableName.equals("")) {
             return null;

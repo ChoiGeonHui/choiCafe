@@ -68,12 +68,12 @@
     <logger name="org.springframework.data.convert.CustomConversions" level="ERROR"/>
     <logger name="org.springframework.data.elasticsearch.support.VersionInfo" level="ERROR"/>
 
-<!--    <springProfile name="local">-->
+    <springProfile name="local">
         <root level="DEBUG">
             <appender-ref ref="CONSOLE"/>
 <!--            <appender-ref ref="STDOUT"/>-->
         </root>
-<!--    </springProfile>-->
+    </springProfile>
 
 <!--    <springProfile name="dev">-->
 <!--        <root level="DEBUG">-->
@@ -82,11 +82,11 @@
 <!--        </root>-->
 <!--    </springProfile>-->
 
-<!--    <springProfile name="prod">-->
-<!--        <root level="DEBUG">-->
-<!--            <appender-ref ref="CONSOLE"/>-->
-<!--            <appender-ref ref="ROLLING"/>-->
-<!--        </root>-->
-<!--    </springProfile>-->
+    <springProfile name="prod">
+        <root level="DEBUG">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="ROLLING"/>
+        </root>
+    </springProfile>
 
 </configuration>

@@ -30,10 +30,10 @@
                     <p>&nbsp;</p>
                     <c:forEach items="${ghBoard.ghAttachList}" var="list" varStatus="status">
                         <c:if test="${fn:contains(list.type, 'image' )}">
-                            <img height="300px;" class="col-10" src="/files/view?seq=${list.seq}" alt="${list.displayName}"/>
+                            <img class="col-10" src="/files/view?seq=${list.seq}" alt="${list.displayName}"/>
                         </c:if>
                         <c:if test="${fn:contains(list.type, 'video' )}">
-                            <video height="300px;" class="col-10" src="/files/view?seq=${list.seq}" controls="controls"/>
+                            <video class="col-10" src="/files/view?seq=${list.seq}" controls="controls"/>
                         </c:if>
                         <br>
                     </c:forEach>
