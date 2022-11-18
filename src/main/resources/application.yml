@@ -92,9 +92,9 @@ spring:
 
 
   file-upload:
-    save-dir: /data/ChoiCafe/upload/save
-    save-editor-dir: /data/ChoiCafe/upload/editor
-    temp-dir: /data/ChoiCafe/upload/temp
+    save-dir: /data/sf-rnd-prj/cgh/upload/save
+    save-editor-dir: /data/sf-rnd-prj/cgh/upload/editor
+    temp-dir: /data/sf-rnd-prj/cgh/upload/temp
 
 
 server:
