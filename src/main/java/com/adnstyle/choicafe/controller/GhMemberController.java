@@ -24,6 +24,13 @@ public class GhMemberController {
 
     String layout = "templete/layout";
 
+
+    @RequestMapping("")
+    public String test1 () {
+        return "test";
+    }
+
+
     /**
      * 로그인 페이지
      * @param model
