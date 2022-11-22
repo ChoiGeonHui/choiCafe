@@ -31,7 +31,6 @@ public class SecurityConfig {
         http
                     .authorizeRequests()
                     .antMatchers("/error",
-                            "/favicon.ico",
                             "/**/*.png",
                             "/**/*.gif",
                             "/**/*.svg",

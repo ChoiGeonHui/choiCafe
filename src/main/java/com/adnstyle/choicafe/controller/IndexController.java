@@ -11,4 +11,9 @@ public class IndexController {
         return "redirect:/board/list/list";
     }
 
+    @RequestMapping("/index")
+    public String index(){
+        return "index";
+    }
+
 }
