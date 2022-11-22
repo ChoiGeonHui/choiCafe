@@ -201,7 +201,7 @@
             email = email + '@' + emailhost;
 
 
-            if($("#inputMessageNum").attr("readonly") == false) {
+            if($("#inputMessageNum").prop("readonly") == false) {
                 alert("인증번호를 확인 하세요.");
                 return;
             }

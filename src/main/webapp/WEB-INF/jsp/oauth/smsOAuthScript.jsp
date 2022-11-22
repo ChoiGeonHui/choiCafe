@@ -13,9 +13,11 @@
             .replace(/[^0-9]/g,'').replace(/^(\d{3})(\d{3,4})(\d{4})$/g, "$1-$2-$3");
     }
 
-    let seconds = 0;
+    let seconds = 0; // 남은시간
 
-    let countTime;
+    let inputCount = 0; //입력 횟수
+
+    let countTime; //타이머 함수
 
     /** sms 요청시 실행되는 타이머 함수 */
     function count_down_time() {
@@ -46,6 +48,11 @@
                 return;
             }
 
+            if (seconds > 60) {
+                alert("1분이 지난 다음에 인즌번호를 다시 받으세요.");
+                return;
+            }
+
             $.ajax({
                 type: "POST",
                 url: "https://sms-auth.adnstyle.com/sendMessage",
@@ -59,6 +66,7 @@
                             seconds = 120;
                             countTime = setInterval(count_down_time, 1000);
                         }
+                        inputCount = 0;
                     } else {
                         alert('오류발생.');
                     }
@@ -68,36 +76,6 @@
                 }
             });
 
-            // new Promise((succ, fail)=> {
-            //     $.ajax({
-            //         type: "POST",
-            //         url: "http://localhost:8880/sendMessage",
-            //         data: {'trPhone': phone},
-            //         success: function (data) {
-            //             succ(data);
-            //         },
-            //         error: function () {
-            //             alert('에러발생');
-            //         }
-            //     });
-            //
-            // }).then((arg) => {
-            //     $.ajax({
-            //         type: "POST",
-            //         url: "/smsCheck/insert",
-            //         data: {'phone': phone, 'checkNumber' : arg.checkNum},
-            //         success : function (data2) {
-            //             if (data2.result == 'success') {
-            //                 alert('해당번호로 인증메일을 전송하였습니다. \n제한시간 안에 인증번호를 입력하세요.');
-            //                 seconds = 90;
-            //                 countTime = setInterval(count_down_time, 1000);
-            //             }
-            //         },
-            //         error : function () {
-            //             alert("에러발생2");
-            //         }
-            //     })
-            // })
         });
 
         /** 인증번호 입력시 실행되는 함수 */
@@ -106,8 +84,14 @@
             let phone = $("#phone").val();
             let inputMessageNum = $("#inputMessageNum").val();
 
-            if (seconds <= 0) {
+            if (seconds <= 0) { //시간초과 했을 경우
                 alert('인증번호를 다시 받으세요.');
+                return;
+            }
+
+            if (inputCount > 4) { // 입력횟수 초과
+                alert('인증번호를 5회 틀리셨습니다. \n 인증번호를 재발급 받으세요.');
+                seconds = 1;
                 return;
             }
 
@@ -124,6 +108,7 @@
                         seconds = 0;
                     } else {
                         alert('불일치');
+                        inputCount = inputCount + 1;
                     }
                 },
                 error: function () {
