@@ -18,8 +18,10 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final CustomOAuth2UserService2 customOAuth2UserService;
+
     private final LoginFailHandler loginFailHandler;
-//    private final LoginSuccessHandler loginSuccessHandler;
+
+    private final LoginSuccessHandler loginSuccessHandler;
 
 
     @Bean
@@ -54,8 +56,8 @@ public class SecurityConfig {
                     .loginPage("/oauth/login")
                     .loginProcessingUrl("/oauth/sginIn") //해당 주소로 오는 로그인을 가로채서 요청 처리
                     .failureHandler(loginFailHandler)
-//                    .successHandler(LoginSuccessHandler)
-                    .defaultSuccessUrl("/oauth/", true)
+                    .successHandler(loginSuccessHandler)
+//                    .defaultSuccessUrl("/oauth/", true)
 
 
                 .and()

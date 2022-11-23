@@ -21,8 +21,6 @@ public class GhMemberService implements UserDetailsService {//UserDetailsService
 
     private final GhMemberRepository ghMemberRepository;
 
-    private final BCryptPasswordEncoder encoder;
-
     public int selectCount() {
         return ghMemberRepository.selectCount();
 
@@ -70,6 +68,7 @@ public class GhMemberService implements UserDetailsService {//UserDetailsService
         if (ghMemberRepository.selectMember(testMember) != null) {
             return "hasEmail";
         }
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
         ghMember.setRole(Role.USER.getKey());
         String password = ghMember.getPassword();
@@ -94,6 +93,7 @@ public class GhMemberService implements UserDetailsService {//UserDetailsService
     @Transactional
     public String updateMember(GhMember ghMember) {
 
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String password = ghMember.getPassword();
         String encPW = encoder.encode(password);
 
@@ -117,6 +117,7 @@ public class GhMemberService implements UserDetailsService {//UserDetailsService
         if(ghMemberRepository.selectMember(ghMember) == null) {
             return "notUser";
         }
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
         String encPW = encoder.encode(ghMember.getPassword());
 

@@ -27,6 +27,7 @@
             <th>NAME</th>
             <th>EMAil</th>
             <th>ROLE</th>
+            <th>Locked</th>
         </tr>
         </thead>
         <tbody>
@@ -37,6 +38,14 @@
                 <td>${list.name}</td>
                 <td>${list.email}</td>
                 <td>${list.role}</td>
+                <td>
+                    <c:if test="${list.lockYN eq 'Y'}">
+                        <button class="btn btn-success btn" data-seq="${list.seq}">제재 해제</button>
+                    </c:if>
+                    <c:if test="${list.lockYN eq 'N'}">
+                        정상
+                    </c:if>
+                </td>
             </tr>
         </c:forEach>
 

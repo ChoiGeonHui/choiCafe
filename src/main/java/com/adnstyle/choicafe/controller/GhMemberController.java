@@ -75,15 +75,11 @@ public class GhMemberController {
     /**
      * 로그인 인증 성공시 항상 이동되는 API
      *
-     * @param authentication
-     * @param session
      * @return
      */
     @ResponseBody
     @RequestMapping({"/",""})
-    public Map<String, String> loginSuccess(Authentication authentication, HttpSession session) {
-        MemberDetail ghMember = (MemberDetail) authentication.getPrincipal();
-        session.setAttribute("user", new SessionMember(ghMember.getGhMember()));
+    public Map<String, String> loginSuccess() {
         Map<String, String> result = new HashMap<>();
         result.put("result", "success");
         return result;
@@ -100,7 +96,7 @@ public class GhMemberController {
 
         Map<String, String> result = new HashMap<>();
         result.put("result", "fail");
-        result.put("error", (String) request.getAttribute("error"));
+        result.put("error", (String) request.getAttribute("errorMsg"));
         return result;
     }
 

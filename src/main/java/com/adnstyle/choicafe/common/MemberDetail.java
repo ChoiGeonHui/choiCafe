@@ -53,7 +53,13 @@ public class MemberDetail implements UserDetails, OAuth2User, Serializable {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+
+        if (ghMember.getLockYN().equals("N")){
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
     @Override
@@ -63,7 +69,11 @@ public class MemberDetail implements UserDetails, OAuth2User, Serializable {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        if (ghMember.getLockYN().equals("N")){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
