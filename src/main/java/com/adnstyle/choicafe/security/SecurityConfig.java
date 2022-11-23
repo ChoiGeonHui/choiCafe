@@ -1,4 +1,4 @@
-package com.adnstyle.choicafe.config;
+package com.adnstyle.choicafe.security;
 
 import com.adnstyle.choicafe.domain.Role;
 import com.adnstyle.choicafe.oauth2.CustomOAuth2UserService2;
@@ -18,6 +18,8 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final CustomOAuth2UserService2 customOAuth2UserService;
+    private final LoginFailHandler loginFailHandler;
+//    private final LoginSuccessHandler loginSuccessHandler;
 
 
     @Bean
@@ -27,6 +29,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.httpBasic().disable();
 
         http
                     .authorizeRequests()
@@ -43,13 +46,15 @@ public class SecurityConfig {
                     .antMatchers("/oauth/transform", "oauth/transformMember").hasRole(Role.SOCIAL.name())
                     .antMatchers("/admin/**").hasRole(Role.ADMIN.name())
                     .antMatchers("/board/**","/reply/**").hasAnyRole(Role.USER.name(),Role.ADMIN.name())
-                    .anyRequest().authenticated()
+                    .anyRequest().authenticated();
 
-                .and()
+        http
                     .formLogin()
                     .usernameParameter("id").passwordParameter("password")
                     .loginPage("/oauth/login")
                     .loginProcessingUrl("/oauth/sginIn") //해당 주소로 오는 로그인을 가로채서 요청 처리
+                    .failureHandler(loginFailHandler)
+//                    .successHandler(LoginSuccessHandler)
                     .defaultSuccessUrl("/oauth/", true)
 
 

@@ -25,6 +25,10 @@ public interface GhMemberRepository {
 
     int updatePassword(GhMember ghMember);
 
+    void failCount(GhMember ghMember);
 
+    void lockMember(GhMember ghMember);
+
+    void unLockMember(GhMember ghMember);
 
 }

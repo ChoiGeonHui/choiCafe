@@ -14,36 +14,43 @@ import java.util.Date;
 @NoArgsConstructor
 public class GhMember implements Serializable {
 
+    /** 식별자 */
     private Long seq;
 
+    /** 아이디 */
     private String id;
 
+    /** 비밀번호 */
     private String password;
 
+    /** 이름 */
     private String name;
 
+    /** 이메일 */
     private String email;
 
+    /** 휴대폰 번호 */
     private String phone;
 
+    /** 사용자 권한 */
     private String role;
 
+    /** 소셜 플랫폼명 */
     private String provider;
 
+    /** 소셜 플랫폼 아이디 */
     private String providerId;
 
+    /** 탈퇴 여부 */
     private String delYN;
 
+    /** 생성일자 */
     private Date createdMember;
 
+    /** 제재 여부 */
+    private String lockYN;
 
-//    @Builder
-//    public GhMember(String name, String email, String role,String provider, String providerId) {
-//        this.name = name;
-//        this.email = email;
-//        this.role = role;
-//        this.provider = provider;
-//        this.providerId = providerId;
-//    }
+    /** 로그인 실패 횟수 */
+    private int failCount;
 
 }

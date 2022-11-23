@@ -27,6 +27,11 @@ public class GhMemberService implements UserDetailsService {//UserDetailsService
         return ghMemberRepository.selectCount();
 
     }
+
+    public GhMember selectMember (GhMember ghMember) {
+        return ghMemberRepository.selectMember(ghMember);
+    }
+
     
     public List<GhMember> selectMemberList () {
         return ghMemberRepository.selectMemberList();
@@ -144,4 +149,21 @@ public class GhMemberService implements UserDetailsService {//UserDetailsService
         }
         return new MemberDetail(ghMember);
     }
+
+    @Transactional
+    public void failCount(GhMember ghMember) {
+        ghMemberRepository.failCount(ghMember);
+    }
+
+    @Transactional
+    public void lockMember (GhMember ghMember) {
+        ghMemberRepository.lockMember(ghMember);
+    }
+
+
+    @Transactional
+    public void unLockMember (GhMember ghMember) {
+
+    }
+
 }

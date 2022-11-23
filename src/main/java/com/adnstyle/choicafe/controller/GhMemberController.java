@@ -5,12 +5,14 @@ import com.adnstyle.choicafe.common.SessionMember;
 import com.adnstyle.choicafe.domain.GhMember;
 import com.adnstyle.choicafe.service.GhMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,12 +25,6 @@ public class GhMemberController {
     GhMemberService ghMemberService;
 
     String layout = "templete/layout";
-
-
-    @RequestMapping("")
-    public String test1 () {
-        return "test";
-    }
 
 
     /**
@@ -84,14 +80,32 @@ public class GhMemberController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("/")
-    public Map<String, String> loginA(Authentication authentication, HttpSession session) {
+    @RequestMapping({"/",""})
+    public Map<String, String> loginSuccess(Authentication authentication, HttpSession session) {
         MemberDetail ghMember = (MemberDetail) authentication.getPrincipal();
         session.setAttribute("user", new SessionMember(ghMember.getGhMember()));
         Map<String, String> result = new HashMap<>();
         result.put("result", "success");
         return result;
     }
+
+    /**
+     * 로그인 실패시 실행되는 API
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/fail")
+    public Map<String, String> loginFail(HttpServletRequest request) {
+
+        Map<String, String> result = new HashMap<>();
+        result.put("result", "fail");
+        result.put("error", (String) request.getAttribute("error"));
+        return result;
+    }
+
+
+
 
     /**
      * 아이디 중복확인 API
