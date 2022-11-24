@@ -35,9 +35,11 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         HttpSession session = request.getSession();
 
-        // 실패횟수 초기화
-
         MemberDetail ghMember = (MemberDetail) authentication.getPrincipal();
+
+        // 실패횟수 초기화
+        ghMemberService.failCountReset(ghMember.getGhMember());
+
         session.setAttribute("user", new SessionMember(ghMember.getGhMember()));
         response.sendRedirect("/oauth/");
     }

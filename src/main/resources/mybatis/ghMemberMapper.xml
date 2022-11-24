@@ -140,6 +140,12 @@
         <include refid="wherePack"/>
     </update>
 
+    <update id="failCountReset">
+        update gh_member
+        set fail_count = 0
+        <include refid="wherePack"/>
+    </update>
+
     <update id="lockMember">
         update gh_member set lock_yn = 'Y'
         <include refid="wherePack"/>

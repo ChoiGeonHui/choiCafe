@@ -151,17 +151,40 @@ public class GhMemberService implements UserDetailsService {//UserDetailsService
         return new MemberDetail(ghMember);
     }
 
+    /**
+     * 로그인 실패 횟수 증가
+     * @param ghMember
+     */
     @Transactional
     public void failCount(GhMember ghMember) {
         ghMemberRepository.failCount(ghMember);
     }
 
+
+    /**
+     * 로그인 실패 횟수 초기화
+     * @param ghMember
+     */
+    @Transactional
+    public void failCountReset(GhMember ghMember) {
+        ghMemberRepository.failCountReset(ghMember);
+    }
+
+
+    /**
+     * 계정 제재
+     * @param ghMember
+     */
     @Transactional
     public void lockMember (GhMember ghMember) {
         ghMemberRepository.lockMember(ghMember);
     }
 
 
+    /**
+     * 계정 제재 해제
+     * @param ghMember
+     */
     @Transactional
     public void unLockMember (GhMember ghMember) {
 
