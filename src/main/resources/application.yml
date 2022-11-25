@@ -68,6 +68,13 @@ spring:
   mybatis:
     mapper-locations: mybatis/**/*Mapper.xml
 
+google:
+  recaptcha:
+    key:
+      site: 6LfV-i0jAAAAANc5m7st8KAaE0Ki0sQ-hPnWqi9H
+      secret: 6LfV-i0jAAAAAFf4dRP7qkoOVTUfxfTzlsGHceK5
+      url: https://www.google.com/recaptcha/api/siteverify
+
 ---
 spring:
   profiles: local

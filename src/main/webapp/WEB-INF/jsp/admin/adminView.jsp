@@ -40,7 +40,7 @@
                 <td>${list.role}</td>
                 <td>
                     <c:if test="${list.lockYN eq 'Y'}">
-                        <button class="btn btn-success btn" data-seq="${list.seq}">제재 해제</button>
+                        <button class="btn btn-warning btn-sm btnUnLock" data-seq="${list.seq}">제재 해제</button>
                     </c:if>
                     <c:if test="${list.lockYN eq 'N'}">
                         정상
@@ -59,3 +59,41 @@
 
 
 </div>
+
+<script type="text/javascript">
+
+    $(function () {
+
+        $('.btnUnLock').on('click', function () {
+
+            let seq = $(this).data('seq');
+
+            if(confirm('해당 계정제재를 해제 하시겠습니까? \n 계정 번호 : '+seq)) {
+
+                $.ajax({
+                    type : "POST",
+                    url : "/admin/unLock",
+                    data : {"seq" : seq},
+                    success : function (data) {
+                        if (data.result == "success") {
+                            alert('변경 되었습니다.');
+                            location.reload();
+                        } else {
+                            alert("오류 발생");
+                        }
+                    },
+                    error : function () {
+                        alert("에러 발생!");
+                    }
+
+                });
+
+            }
+
+        })
+
+
+    })
+
+
+</script>

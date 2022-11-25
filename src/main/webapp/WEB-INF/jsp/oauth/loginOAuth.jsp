@@ -20,6 +20,10 @@
             <div><a href="/oauth/findUser" type="button" class="btn btn-warning mt-2 col-12">비밀번호 찾기</a></div>
 <%--            <div><a href="/oauth2/authorization/google" class="btn btn-primary active col-12 mt-2" role="button">Google Login</a></div>--%>
 <%--            <div><a href="/oauth2/authorization/naver" class="btn btn-success col-12 mt-2" role="button">Naver Login</a></div>--%>
+
+            <form enctype="utf-8" id="formData">
+                <div id="recaptcha" class="g-recaptcha mt-2 col-12" data-sitekey="6LfV-i0jAAAAANc5m7st8KAaE0Ki0sQ-hPnWqi9H" data-callback="recaptchaCallback"></div>
+            </form>
         </div>
     </div>
 
@@ -59,15 +63,36 @@
 
     }
 
+    function doVailRecaptchr() {
+        let formData = $('#formData').serialize();
+        $.ajax({
+            type : "POST",
+            url: "/valid-recaptcha",
+            data : formData,
+            cache : false,
+            success : function (data) {
+                if (data == 'success') {
+                    login();
+                } else {
+                    alert('인증되지 않은 주소입니다.');
+                }
+
+            },
+            error : function (xhr, status, error) {
+                alert(error);
+            }
+        })
+    }
+
     $(function () {
 
         $("#password").on('keypress',function (e) {
             if (e.keyCode === 13) {
-                login();
+                doVailRecaptchr();
             }
         })
 
-        $("#btbSginIn").on('click', login)
+        $("#btbSginIn").on('click', doVailRecaptchr)
 
     })
 

@@ -27,10 +27,10 @@ public interface GhMemberRepository {
 
     void failCount(GhMember ghMember);
 
-    void failCountReset(GhMember ghMember);
+    int failCountReset(GhMember ghMember);
 
     void lockMember(GhMember ghMember);
 
-    void unLockMember(GhMember ghMember);
+    int unLockMember(GhMember ghMember);
 
 }

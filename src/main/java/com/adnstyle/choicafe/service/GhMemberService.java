@@ -186,8 +186,12 @@ public class GhMemberService implements UserDetailsService {//UserDetailsService
      * @param ghMember
      */
     @Transactional
-    public void unLockMember (GhMember ghMember) {
-
+    public String unLockMember (GhMember ghMember) {
+        if (ghMemberRepository.unLockMember(ghMember) > 0) {
+            return "success";
+        } else {
+            return "fail";
+        }
     }
 
 }

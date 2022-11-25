@@ -8,9 +8,13 @@ import com.adnstyle.choicafe.service.GhMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin")
@@ -55,6 +59,17 @@ public class AdminController {
     }
 
 
+    @ResponseBody
+    @PostMapping("/unLock")
+    public Map<String, String> unLock (GhMember ghMember) {
+
+        Map<String, String> result = new HashMap<>();
+
+        result.put("result", ghMemberService.unLockMember(ghMember));
+
+        return result;
+
+    }
 
 
 }

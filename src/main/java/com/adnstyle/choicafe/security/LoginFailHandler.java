@@ -33,6 +33,13 @@ public class LoginFailHandler implements AuthenticationFailureHandler {
 
         ghMember = ghMemberService.selectMember(ghMember);
 
+        if (ghMember == null) {
+            String errorMsg = "아이디 또는 비밀번호가 틀렸습니다.";
+            request.setAttribute("errorMsg", errorMsg);
+            request.getRequestDispatcher("/oauth/fail").forward(request, response);
+            return;
+        }
+
 
         //로그인 실패시 실패횟수 1증가
         if (ghMember.getFailCount() < 5) {
