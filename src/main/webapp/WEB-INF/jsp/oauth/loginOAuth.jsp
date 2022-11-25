@@ -13,6 +13,7 @@
     <div class="d-flex justify-content-center mt-5">
         <div class="col-4">
             <div><h1>로그인</h1></div>
+            <form enctype="utf-8" id="formData">
             <div class="col-12 d-flex input-group"><span class="col-2 font-weight-bold input-group-text input-group-append">ID </span><input type="text" id="id" class="form-control"></div>
             <div class="mt-3 col-12 d-flex"><span class="col-2 font-weight-bold input-group-text input-group-append">PW  </span><input type="password" id="password" class="form-control"></div>
             <div><input type="button" id="btbSginIn" class="btn btn-success active mt-2 col-12" value="로그인"></div>
@@ -21,14 +22,21 @@
 <%--            <div><a href="/oauth2/authorization/google" class="btn btn-primary active col-12 mt-2" role="button">Google Login</a></div>--%>
 <%--            <div><a href="/oauth2/authorization/naver" class="btn btn-success col-12 mt-2" role="button">Naver Login</a></div>--%>
 
-            <form enctype="utf-8" id="formData">
-                <div id="recaptcha" class="g-recaptcha mt-2 col-12" data-sitekey="6LfV-i0jAAAAANc5m7st8KAaE0Ki0sQ-hPnWqi9H" data-callback="recaptchaCallback"></div>
+                <div id="recaptcha" class="g-recaptcha mt-2 col-12" data-sitekey="${recaptchaSite}" data-callback="recaptchaCallback"></div>
             </form>
         </div>
     </div>
 
 </div>
 <script type="text/javascript">
+
+    var isRecaptchachecked=false;
+
+    function recaptchaCallback(){// 리캡챠 체크 박스 클릭시 isRecaptchachecked 값이 true로 변경
+
+        isRecaptchachecked = true;
+
+    }
 
     function login() {
 

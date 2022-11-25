@@ -37,7 +37,7 @@ public class RecaptchaService {
             con.setRequestProperty("User-Agent", USER_AGENT);
             con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 
-            String postParams = "secret" + secret + "&response=" + gRecaptchaResponse;
+            String postParams = "secret=" + secret + "&response=" + gRecaptchaResponse;
 
             con.setDoOutput(true);
 
