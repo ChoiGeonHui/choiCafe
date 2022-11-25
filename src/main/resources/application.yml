@@ -71,8 +71,8 @@ spring:
 google:
   recaptcha:
     key:
-      site: 6LfV-i0jAAAAANc5m7st8KAaE0Ki0sQ-hPnWqi9H
-      secret: 6LfV-i0jAAAAAFf4dRP7qkoOVTUfxfTzlsGHceK5
+      site: 6Lf0CjIjAAAAANNXQKtT_8SDZDYnTArZ8S9pLLTt
+      secret: 6Lf0CjIjAAAAALZYtIV1isGNU6XHuJU425h11hMP
       url: https://www.google.com/recaptcha/api/siteverify
 
 ---
