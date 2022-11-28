@@ -12,7 +12,9 @@ import org.springframework.stereotype.Component;
 public class ReCaptchaSettingsV3 {
 
     private String site;
+
     private String secret;
+
     private String url;
 
 }

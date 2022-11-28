@@ -36,7 +36,7 @@
 
     <div class="d-flex mx-auto input-group my-1 col-6">
         <span class="input-group-text col-3 pwd d-none">비밀번호</span>
-        <input type="password" id="password" name="password" class="form-control pwd d-none">
+        <input type="password" id="password" name="password" class="form-control pwd d-none" placeholder="변경할 비밀번호를 입력하세요.">
     </div>
 
     <div id="PWdiv" class="d-flex mx-auto input-group my-1 col-6">
@@ -49,7 +49,7 @@
                 <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
             </svg>
         </a>
-        <button id="modifyPW" class="btn btn-success pwd d-none">비밀번호 변경</button>
+        <button id="modifyPW" class="btn btn-success pwd d-none mt-2">비밀번호 변경</button>
     </div>
 </div>
 
@@ -111,7 +111,6 @@
               }
           })
       })
-
 
     })
 

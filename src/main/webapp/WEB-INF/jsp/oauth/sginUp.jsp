@@ -99,7 +99,7 @@
 
     </div>
     <div class="my-2">
-        <button id="btnSgin" class="btn btn-primary col-3">가입하기</button>
+        <button id="btnSgin" class="btn btn-primary col-2">가입하기</button>
         <a class="btn btn-secondary text-white col-2" href="/board/list/list">취소</a>
     </div>
 </div>

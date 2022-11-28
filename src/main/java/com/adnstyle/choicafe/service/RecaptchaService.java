@@ -77,6 +77,11 @@ public class RecaptchaService {
         }
     }
 
+    /**
+     * Recaptha V3
+     * @param token
+     * @return
+     */
     public String reCaptchaV3 (String token) {
 
         RestTemplate restTemplate = new RestTemplate();
@@ -85,8 +90,8 @@ public class RecaptchaService {
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.add("secret",reCaptchaSettingsV3.getSecret());
-        map.add("response",token);
+        map.add("secret", reCaptchaSettingsV3.getSecret());
+        map.add("response", token);
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map,headers);
 

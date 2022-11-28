@@ -37,6 +37,7 @@
     let recaptchaSite = $('#recaptchaSite').val();
 
 
+    /** 리캡챠 V3 */
     function doVailRecaptchr3 () {
         grecaptcha.ready(function () {
             grecaptcha.execute(recaptchaSite, {action: '/valid/recaptchaV3'})
@@ -60,6 +61,7 @@
         });
     }
 
+    /** 로그인 등록 페이지 */
     function login() {
 
         let id = $("#id").val();
@@ -93,6 +95,7 @@
 
     }
 
+    /** 리캡챠 V2 */
     function doVailRecaptchr() {
         let formData = $('#formData').serialize();
         $.ajax({
