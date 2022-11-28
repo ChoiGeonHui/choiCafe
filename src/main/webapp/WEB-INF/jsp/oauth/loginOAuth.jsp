@@ -13,7 +13,6 @@
     <div class="d-flex justify-content-center mt-5">
         <div class="col-4">
             <div><h1>로그인</h1></div>
-            <form enctype="utf-8" id="formData">
             <div class="col-12 d-flex input-group"><span class="col-2 font-weight-bold input-group-text input-group-append">ID </span><input type="text" id="id" class="form-control"></div>
             <div class="mt-3 col-12 d-flex"><span class="col-2 font-weight-bold input-group-text input-group-append">PW  </span><input type="password" id="password" class="form-control"></div>
             <div><input type="button" id="btbSginIn" class="btn btn-success active mt-2 col-12" value="로그인"></div>
@@ -22,20 +21,43 @@
 <%--            <div><a href="/oauth2/authorization/google" class="btn btn-primary active col-12 mt-2" role="button">Google Login</a></div>--%>
 <%--            <div><a href="/oauth2/authorization/naver" class="btn btn-success col-12 mt-2" role="button">Naver Login</a></div>--%>
 
-                <div id="recaptcha" class="g-recaptcha mt-2 col-12" data-sitekey="${recaptchaSite}" data-callback="recaptchaCallback"></div>
-            </form>
+<%--            <form enctype="utf-8" id="formData">--%>
+<%--                <div id="recaptcha" class="g-recaptcha mt-2 col-12" data-sitekey="${recaptchaSite}" data-callback="recaptchaCallback"></div>--%>
+<%--            </form>--%>
+
+            <input type="text" name="g-recaptcha-response" id="g-recaptcha-response" hidden="hidden" />
+            <input id="recaptchaSite" type="text" hidden="hidden" value="${recaptchaSite}" />
         </div>
     </div>
 
 </div>
+<script src="https://www.google.com/recaptcha/api.js?render=6Le8ljsjAAAAAK8Xnp6XLy8TR_skUUKt2ZsoZIoL"></script>
 <script type="text/javascript">
 
-    var isRecaptchachecked=false;
+    let recaptchaSite = $('#recaptchaSite').val();
 
-    function recaptchaCallback(){// 리캡챠 체크 박스 클릭시 isRecaptchachecked 값이 true로 변경
 
-        isRecaptchachecked = true;
-
+    function doVailRecaptchr3 () {
+        grecaptcha.ready(function () {
+            grecaptcha.execute(recaptchaSite, {action: '/valid/recaptchaV3'})
+                .then(function (token) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/valid/recaptchaV3",
+                        data: {"token": token},
+                        success: function (data) {
+                            if (data == 'success') {
+                                login()
+                            } else {
+                                alert('당신은 로봇입니까?');
+                            }
+                        },
+                        error: function (request, status, error) {
+                            alert(error);
+                        }
+                    });
+                });
+        });
     }
 
     function login() {
@@ -75,7 +97,7 @@
         let formData = $('#formData').serialize();
         $.ajax({
             type : "POST",
-            url: "/valid-recaptcha",
+            url: "/valid/recaptcha",
             data : formData,
             cache : false,
             success : function (data) {
@@ -84,7 +106,6 @@
                 } else {
                     alert('인증되지 않은 주소입니다.');
                 }
-
             },
             error : function (xhr, status, error) {
                 alert(error);
@@ -96,11 +117,11 @@
 
         $("#password").on('keypress',function (e) {
             if (e.keyCode === 13) {
-                doVailRecaptchr();
+                doVailRecaptchr3();
             }
         })
 
-        $("#btbSginIn").on('click', doVailRecaptchr)
+        $("#btbSginIn").on('click', doVailRecaptchr3)
 
     })
 

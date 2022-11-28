@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @Component
-@ConfigurationProperties("google.recaptcha.key2")
-public class ReCaptchaSettings {
+@ConfigurationProperties("google.recaptcha.key3")
+public class ReCaptchaSettingsV3 {
 
     private String site;
     private String secret;

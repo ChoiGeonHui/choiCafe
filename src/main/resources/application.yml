@@ -70,9 +70,13 @@ spring:
 
 google:
   recaptcha:
-    key:
+    key2:
       site: 6Lf0CjIjAAAAANNXQKtT_8SDZDYnTArZ8S9pLLTt
       secret: 6Lf0CjIjAAAAALZYtIV1isGNU6XHuJU425h11hMP
+      url: https://www.google.com/recaptcha/api/siteverify
+    key3:
+      site: 6Le8ljsjAAAAAK8Xnp6XLy8TR_skUUKt2ZsoZIoL
+      secret: 6Le8ljsjAAAAAPA8e_buvGV-qJjxuUUM9fmbdQvC
       url: https://www.google.com/recaptcha/api/siteverify
 
 ---

@@ -43,7 +43,7 @@ public class SecurityConfig {
                             "/**/*.html",
                             "/**/*.css",
                             "/**/*.js",
-                            "/**/*.jsp", "/oauth/**","/sctran/**","/smsCheck/**","/static/**","/valid-recaptcha").permitAll()
+                            "/**/*.jsp", "/oauth/**","/sctran/**","/smsCheck/**","/static/**","/valid/**").permitAll()
                     .antMatchers("/board/list/**","/board/view/detail").authenticated()
                     .antMatchers("/oauth/transform", "oauth/transformMember").hasRole(Role.SOCIAL.name())
                     .antMatchers("/admin/**").hasRole(Role.ADMIN.name())

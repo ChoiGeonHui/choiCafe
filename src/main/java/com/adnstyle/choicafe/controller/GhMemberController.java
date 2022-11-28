@@ -1,6 +1,7 @@
 package com.adnstyle.choicafe.controller;
 
 import com.adnstyle.choicafe.common.ReCaptchaSettings;
+import com.adnstyle.choicafe.common.ReCaptchaSettingsV3;
 import com.adnstyle.choicafe.domain.GhMember;
 import com.adnstyle.choicafe.service.GhMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class GhMemberController {
     GhMemberService ghMemberService;
 
     @Autowired
-    ReCaptchaSettings reCaptchaSettings;
+    ReCaptchaSettingsV3 reCaptchaSettingsV3;
 
     String layout = "templete/layout";
 
@@ -38,7 +39,7 @@ public class GhMemberController {
         if (session.getAttribute("user") != null) {
             return "redirect:/board/list/list";
         }
-        model.addAttribute("recaptchaSite", reCaptchaSettings.getSite());
+        model.addAttribute("recaptchaSite", reCaptchaSettingsV3.getSite());
         model.addAttribute("page", "oauth/loginOAuth");
         return layout;
     }
