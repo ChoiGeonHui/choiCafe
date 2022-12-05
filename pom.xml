@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.adnstyle</groupId>
     <artifactId>choi</artifactId>
-    <packaging>war</packaging>
+    <packaging>war</packaging> <!-- jar로 배포시 jsp파일은 배포가 되지 않으므로 war로 배포 후 -jvaa -jar 로 실행해야 한다. -->
     <version>0.0.1-SNAPSHOT</version>
     <name>choi</name>
     <description>choi</description>
