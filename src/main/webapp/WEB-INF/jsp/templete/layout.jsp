@@ -28,8 +28,8 @@
     <section>
         <jsp:include page="../${page}.jsp"/>
     </section>
-    <jsp:include page="../info/footer.jsp"/>
 
+    <jsp:include page="../info/footer.jsp"/>
 
 </div>
 
