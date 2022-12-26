@@ -12,26 +12,29 @@
         </layout>
     </appender>
 
-    <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>INFO</level>
-        </filter>
-        <file>cgh-svc.log</file>
+    <appender name="dailyRollingFileAppender"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- rollover daily -->
-            <fileNamePattern>cgh-svc-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy
-                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>50MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
+            <!--  경로 알맞게 주석 처리 할 것 -->
+            <springProfile name="local">
+                <fileNamePattern>/Users/adnstyle/logChoi/cgh-svc/cgh-svc.%d{yyyy-MM-dd}.log</fileNamePattern>
+            </springProfile>
+
+            <!--      pord      -->
+            <springProfile name="prod">
+                <fileNamePattern>/data/sf-rnd-prj/cgh-svc/logs/cgh-svc.%d{yyyy-MM-dd}.log</fileNamePattern>
+            </springProfile>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
         <encoder>
-            <pattern>[%-5level] %d{HH:mm:ss.SSS} %logger{36} - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level --- [%thread] %logger{35} : %msg %n</pattern>
         </encoder>
     </appender>
 
-    <logger name="com.adnstyle.choicafe" level="INFO"/>
+    <logger name="com.adnstyle.homepage" level="INFO"/>
     <logger name="jdbc.resultset" level="WARN"/>
     <logger name="jdbc.resultsettable" level="WARN"/>
     <logger name="jdbc.audit" level="WARN"/>
@@ -68,25 +71,10 @@
     <logger name="org.springframework.data.convert.CustomConversions" level="ERROR"/>
     <logger name="org.springframework.data.elasticsearch.support.VersionInfo" level="ERROR"/>
 
-    <springProfile name="local">
-        <root level="DEBUG">
-            <appender-ref ref="CONSOLE"/>
-<!--            <appender-ref ref="STDOUT"/>-->
-        </root>
-    </springProfile>
+    <root level="DEBUG">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="dailyRollingFileAppender"/>
+    </root>
 
-<!--    <springProfile name="dev">-->
-<!--        <root level="DEBUG">-->
-<!--            <appender-ref ref="CONSOLE"/>-->
-<!--            <appender-ref ref="ROLLING"/>-->
-<!--        </root>-->
-<!--    </springProfile>-->
-
-    <springProfile name="prod">
-        <root level="DEBUG">
-<!--            <appender-ref ref="CONSOLE"/>-->
-            <appender-ref ref="ROLLING"/>
-        </root>
-    </springProfile>
 
 </configuration>

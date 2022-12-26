@@ -85,9 +85,9 @@ spring:
 
 
   file-upload:
-    save-dir: D:/saveChoi/save
-    save-editor-dir: D:/saveChoi/editor
-    temp-dir: D:/saveChoi/temp
+    save-dir: /Users/adnstyle/saveChoi/save
+    save-editor-dir: /Users/adnstyle/saveChoi/editor
+    temp-dir: /Users/adnstyle/saveChoi/temp
 
 
 server:
@@ -113,7 +113,3 @@ server:
   error:
     whitelabel:
       enabled: false
-
-logging:
-  file:
-    path: /data/sf-rnd-prj/cgh-svc/logs

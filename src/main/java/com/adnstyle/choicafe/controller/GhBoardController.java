@@ -70,8 +70,8 @@ public class GhBoardController {
     @RequestMapping("/view/{boardHandle}")
     public String BoardView (@PathVariable("boardHandle") String boardHandle, @RequestParam("seq") Long seq, Model model) {
 
-        GhBoard ghBoard = ghBoardService.selectGhBoardBySeq(seq,boardHandle);
-        String url = ghBoardService.checkBoardAccess(boardHandle,ghBoard);
+        GhBoard ghBoard = ghBoardService.selectGhBoardBySeq(seq, boardHandle);
+        String url = ghBoardService.checkBoardAccess(boardHandle, ghBoard);
 
         model.addAttribute("page", url);
         model.addAttribute("ghBoard", ghBoard);

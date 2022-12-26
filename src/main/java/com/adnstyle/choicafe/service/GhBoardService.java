@@ -99,7 +99,7 @@ public class GhBoardService {
      * @return
      */
     @Transactional
-    public int cuBoard(GhBoard ghBoard,List<MultipartFile> fileList) {
+    public int cuBoard(GhBoard ghBoard, List<MultipartFile> fileList) {
         if (ghBoard.getSeq() == null || ghBoard.getSeq() == 0) { //식별자 존재 여부에 따라 등록, 수정이 나뉜다.
             ghBoardRepository.insertBoard(ghBoard);
             ghAttachService.save(ghBoard.getSeq(), "ghBoard", fileList);
