@@ -1,27 +1,14 @@
-logging:
-  level:
-    org:
-    springframework: debug
-    objectweb: debug
-
-    root: debug
-    com.adnstyle.choicafe: debug
-
-
-
 spring:
-  maindb:
-    datasource:
-      driver-class-name: org.mariadb.jdbc.Driver
-      jdbc-url: jdbc:mariadb://192.168.1.84:3306/a_ljy_db?useSSL=false&allowMultiQueries=true
-      username: a_ljy_user
-      password: '!adnstyleDB'
-  subdb:
-    datasource:
-      driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-      jdbc-url: jdbc:sqlserver://14.63.223.139:1432;databaseName=pms;encrypt=true;trustServerCertificate=true
-      username: sms_auth
-      password: dptmdpadptm12#
+  profiles:
+    group:
+      "local": "common"
+      "prod": "prod_yml, common"
+
+---
+spring:
+  config:
+    activate:
+      on-profile: "common"
 
 
   servlet:
@@ -79,9 +66,33 @@ google:
       secret: 6Le8ljsjAAAAAPA8e_buvGV-qJjxuUUM9fmbdQvC
       url: https://www.google.com/recaptcha/api/siteverify
 
+logging:
+  level:
+    org:
+    springframework: debug
+    objectweb: debug
+
+    root: info
+    com.adnstyle.choicafe: debug
+
+
 ---
 spring:
-  profiles: local
+  profiles:
+    active: local
+
+  maindb:
+    datasource:
+      driver-class-name: org.mariadb.jdbc.Driver
+      jdbc-url: jdbc:mariadb://14.63.226.76:9606/ghchoi_db?useSSL=false&allowMultiQueries=true
+      username: ghchoi
+      password: '!rjsgmL1228'
+  subdb:
+    datasource:
+      driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+      jdbc-url: jdbc:sqlserver://14.63.223.139:1432;databaseName=pms;encrypt=true;trustServerCertificate=true
+      username: sms_auth
+      password: dptmdpadptm12#
 
 
   file-upload:
@@ -99,8 +110,22 @@ server:
 
 ---
 spring:
-  profiles: prod
+  config:
+    activate:
+      on-profile: prod_yml
 
+  maindb:
+    datasource:
+      driver-class-name: org.mariadb.jdbc.Driver
+      jdbc-url: jdbc:mariadb://172.27.27.96:3306/ghchoi_db?useSSL=false&allowMultiQueries=true
+      username: ghchoi
+      password: '!rjsgmL1228'
+  subdb:
+    datasource:
+      driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+      jdbc-url: jdbc:sqlserver://14.63.223.139:1432;databaseName=pms;encrypt=true;trustServerCertificate=true
+      username: sms_auth
+      password: dptmdpadptm12#
 
   file-upload:
     save-dir: /data/sf-rnd-prj/cgh/upload/save

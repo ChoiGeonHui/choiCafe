@@ -15,7 +15,7 @@
     <appender name="dailyRollingFileAppender"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--  경로 알맞게 주석 처리 할 것 -->
+            <!--  경로 알맞게 설절 할 것 -->
             <springProfile name="local">
                 <fileNamePattern>/Users/adnstyle/logChoi/cgh-svc/cgh-svc.%d{yyyy-MM-dd}.log</fileNamePattern>
             </springProfile>
