@@ -9,6 +9,18 @@ spring:
   config:
     activate:
       on-profile: "common"
+  maindb:
+    datasource:
+      driver-class-name: org.mariadb.jdbc.Driver
+      jdbc-url: jdbc:mariadb://14.63.226.76:9606/ghchoi_db?useSSL=false&allowMultiQueries=true
+      username: ghchoi
+      password: '!rjsgmL1228'
+  subdb:
+    datasource:
+      driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+      jdbc-url: jdbc:sqlserver://14.63.223.139:1432;databaseName=pms;encrypt=true;trustServerCertificate=true
+      username: sms_auth
+      password: dptmdpadptm12#
 
 
   servlet:
@@ -81,19 +93,6 @@ spring:
   profiles:
     active: local
 
-  maindb:
-    datasource:
-      driver-class-name: org.mariadb.jdbc.Driver
-      jdbc-url: jdbc:mariadb://14.63.226.76:9606/ghchoi_db?useSSL=false&allowMultiQueries=true
-      username: ghchoi
-      password: '!rjsgmL1228'
-  subdb:
-    datasource:
-      driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-      jdbc-url: jdbc:sqlserver://14.63.223.139:1432;databaseName=pms;encrypt=true;trustServerCertificate=true
-      username: sms_auth
-      password: dptmdpadptm12#
-
 
   file-upload:
     save-dir: /Users/adnstyle/saveChoi/save
@@ -114,18 +113,6 @@ spring:
     activate:
       on-profile: prod_yml
 
-  maindb:
-    datasource:
-      driver-class-name: org.mariadb.jdbc.Driver
-      jdbc-url: jdbc:mariadb://172.27.27.96:3306/ghchoi_db?useSSL=false&allowMultiQueries=true
-      username: ghchoi
-      password: '!rjsgmL1228'
-  subdb:
-    datasource:
-      driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-      jdbc-url: jdbc:sqlserver://14.63.223.139:1432;databaseName=pms;encrypt=true;trustServerCertificate=true
-      username: sms_auth
-      password: dptmdpadptm12#
 
   file-upload:
     save-dir: /data/sf-rnd-prj/cgh/upload/save
