@@ -1,6 +1,8 @@
 package com.adnstyle.choicafe.security;
 
 import com.adnstyle.choicafe.domain.Role;
+import com.adnstyle.choicafe.jwt.JwtFilter;
+import com.adnstyle.choicafe.jwt.JwtProvider;
 import com.adnstyle.choicafe.oauth2.CustomOAuth2UserService2;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -22,6 +25,8 @@ public class SecurityConfig {
     private final LoginFailHandler loginFailHandler;
 
     private final LoginSuccessHandler loginSuccessHandler;
+
+    private final JwtProvider jwtProvider;
 
 
     @Bean
@@ -43,12 +48,14 @@ public class SecurityConfig {
                             "/**/*.html",
                             "/**/*.css",
                             "/**/*.js",
-                            "/**/*.jsp", "/oauth/**","/sctran/**","/smsCheck/**","/static/**","/valid/**").permitAll()
+                            "/**/*.jsp", "/oauth/**","/sctran/**","/smsCheck/**","/static/**","/valid/**","/token/**").permitAll()
                     .antMatchers("/board/list/**","/board/view/detail").authenticated()
                     .antMatchers("/oauth/transform", "oauth/transformMember").hasRole(Role.SOCIAL.name())
                     .antMatchers("/admin/**").hasRole(Role.ADMIN.name())
                     .antMatchers("/board/**","/reply/**").hasAnyRole(Role.USER.name(),Role.ADMIN.name())
-                    .anyRequest().authenticated();
+                    .anyRequest().authenticated()
+                    .and()
+                    .addFilterBefore(new JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
 
         http
                     .formLogin()
@@ -86,9 +93,9 @@ public class SecurityConfig {
                     .defaultSuccessUrl("/board/list/list", true)
                     .userInfoEndpoint()
                     .userService(customOAuth2UserService);
-        http
-                .headers()
-                .frameOptions().sameOrigin();
+//        http
+//                .headers()
+//                .frameOptions().sameOrigin();
 
         return http.build();
     }
