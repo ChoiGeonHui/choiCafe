@@ -11,9 +11,19 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
@@ -55,7 +65,8 @@ public class SecurityConfig {
                     .antMatchers("/board/**","/reply/**").hasAnyRole(Role.USER.name(),Role.ADMIN.name())
                     .anyRequest().authenticated()
                     .and()
-                    .addFilterBefore(new JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
+                    .addFilterBefore(new JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
+                    ;
 
         http
                     .formLogin()
@@ -64,7 +75,7 @@ public class SecurityConfig {
                     .loginProcessingUrl("/oauth/sginIn") //해당 주소로 오는 로그인을 가로채서 요청 처리
                     .failureHandler(loginFailHandler)
                     .successHandler(loginSuccessHandler)
-//                    .defaultSuccessUrl("/oauth/", true)
+                    //.defaultSuccessUrl("/oauth/", true)
 
 
                 .and()
@@ -76,7 +87,8 @@ public class SecurityConfig {
                 .and()
                     .logout()
                     .logoutSuccessUrl("/oauth/login")
-                    .invalidateHttpSession(true)
+                    .deleteCookies("Authorization")//쿠키에 저장된 JWT 토크 제거
+                    .invalidateHttpSession(true) //session 제거
 
                 .and()
                     .exceptionHandling()
@@ -84,9 +96,11 @@ public class SecurityConfig {
 
         http
                     .sessionManagement()
+//                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .invalidSessionUrl("/oauth/login")
                     .maximumSessions(1)
-                    .maxSessionsPreventsLogin(false);
+                    .maxSessionsPreventsLogin(false)
+                    ;
 
         http
                     .oauth2Login()

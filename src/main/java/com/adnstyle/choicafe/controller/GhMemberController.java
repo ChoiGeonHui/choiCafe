@@ -1,29 +1,35 @@
 package com.adnstyle.choicafe.controller;
 
-import com.adnstyle.choicafe.common.ReCaptchaSettings;
 import com.adnstyle.choicafe.common.ReCaptchaSettingsV3;
 import com.adnstyle.choicafe.domain.GhMember;
+import com.adnstyle.choicafe.jwt.JwtProvider;
 import com.adnstyle.choicafe.service.GhMemberService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
 @Controller
 @RequestMapping("/oauth")
+@Slf4j
+@RequiredArgsConstructor
 public class GhMemberController {
 
-    @Autowired
-    GhMemberService ghMemberService;
 
-    @Autowired
-    ReCaptchaSettingsV3 reCaptchaSettingsV3;
+    private final GhMemberService ghMemberService;
+
+
+    private final ReCaptchaSettingsV3 reCaptchaSettingsV3;
+
 
     String layout = "templete/layout";
 
@@ -81,7 +87,10 @@ public class GhMemberController {
      */
     @ResponseBody
     @RequestMapping({"/",""})
-    public Map<String, String> loginSuccess() {
+    public Map<String, String> loginSuccess(Authentication authentication, HttpServletResponse response) {
+
+
+
         Map<String, String> result = new HashMap<>();
         result.put("result", "success");
         return result;
