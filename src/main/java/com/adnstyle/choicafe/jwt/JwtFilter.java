@@ -39,7 +39,7 @@ public class JwtFilter extends GenericFilterBean {
             return;
         }
         String path = ((HttpServletRequest) servletRequest).getServletPath();
-        if (path.startsWith("/oauth/")){
+        if (path.startsWith("/oauth/")||path.startsWith("/logout")){
             filterChain.doFilter(servletRequest,servletResponse);
             return;
         }

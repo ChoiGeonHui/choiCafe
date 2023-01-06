@@ -120,8 +120,7 @@ public class SecurityConfig {
         return web -> {
             web.ignoring()
                     .antMatchers(
-                            "/static/**",
-                            "/logout","/favicon.ico");
+                            "/static/**", "/favicon.ico");
         };
     }
 

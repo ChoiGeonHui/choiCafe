@@ -97,11 +97,11 @@ public class JwtProvider {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return !claims.getBody().getExpiration().before(new Date());
         } catch (SecurityException | MalformedJwtException | IllegalArgumentException exception) {
-            log.info("잘못된 Jwt 토큰입니다");
+            log.info("잘못된 JWT 입니다");
         } catch (ExpiredJwtException exception) {
-            log.info("만료된 Jwt 토큰입니다");
+            log.info("만료된 JWT 입니다");
         } catch (UnsupportedJwtException exception) {
-            log.info("지원하지 않는 Jwt 토큰입니다");
+            log.info("지원하지 않는 JWT 입니다");
         }
 
         return false;
