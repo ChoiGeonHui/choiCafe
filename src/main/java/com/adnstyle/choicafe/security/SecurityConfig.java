@@ -10,7 +10,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -50,6 +52,7 @@ public class SecurityConfig {
 
         http
                     .authorizeRequests()
+                    .antMatchers("/oauth/transform", "oauth/transformMember").hasRole(Role.SOCIAL.name())
                     .antMatchers("/error",
                             "/**/*.png",
                             "/**/*.gif",
@@ -60,7 +63,6 @@ public class SecurityConfig {
                             "/**/*.js",
                             "/**/*.jsp", "/oauth/**","/sctran/**","/smsCheck/**","/static/**","/valid/**","/token/**").permitAll()
                     .antMatchers("/board/list/**","/board/view/detail").authenticated()
-                    .antMatchers("/oauth/transform", "oauth/transformMember").hasRole(Role.SOCIAL.name())
                     .antMatchers("/admin/**").hasRole(Role.ADMIN.name())
                     .antMatchers("/board/**","/reply/**").hasAnyRole(Role.USER.name(),Role.ADMIN.name())
                     .anyRequest().authenticated()
@@ -107,11 +109,20 @@ public class SecurityConfig {
                     .defaultSuccessUrl("/board/list/list", true)
                     .userInfoEndpoint()
                     .userService(customOAuth2UserService);
-//        http
-//                .headers()
-//                .frameOptions().sameOrigin();
+        http
+                .headers()
+                .frameOptions().sameOrigin();
 
         return http.build();
+    }
+    @Bean //security 적용을 하지 않을 url 작성
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> {
+            web.ignoring()
+                    .antMatchers(
+                            "/static/**",
+                            "/logout","/favicon.ico");
+        };
     }
 
 

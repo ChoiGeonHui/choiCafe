@@ -35,8 +35,8 @@ public class JwtProvider {
     private String jwtTokenPrefix = "Bearer";
 
 
-    private long accessTokenValidTime = Duration.ofMinutes(1).toMillis(); // 만료시간 30분
-    private long refreshTokenValidTime = Duration.ofDays(14).toMillis(); // 만료시간 2주
+    private long accessTokenValidTime = Duration.ofMinutes(10).toMillis(); // 만료시간 10분
+    private long refreshTokenValidTime = Duration.ofDays(7).toMillis(); // 만료시간 7일
 
 
     @PostConstruct
@@ -48,7 +48,7 @@ public class JwtProvider {
     /**JWT 토큰을 생성하는 메서드*/
     public String createToken (String id, String role) {
         Claims claims = Jwts.claims().setSubject(id);
-        claims.put("role",role);
+        claims.put("role", role);
         Date now = new Date();
 
         return Jwts.builder()
@@ -68,7 +68,7 @@ public class JwtProvider {
             throw new RuntimeException("권한 정보가 없는 토큰입니다.");
         }
 
-        // 클레임에서 권한 정보 가져오기
+        // 클레임에서 권한 정보 가져오기 : role 가져오기
         Collection<? extends GrantedAuthority> authorities =
                 Arrays.stream(claims.get("role").toString().split(","))
                         .map(SimpleGrantedAuthority::new)

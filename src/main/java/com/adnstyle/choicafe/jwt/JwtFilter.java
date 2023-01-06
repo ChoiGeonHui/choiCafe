@@ -14,7 +14,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Slf4j
@@ -40,7 +39,7 @@ public class JwtFilter extends GenericFilterBean {
             return;
         }
         String path = ((HttpServletRequest) servletRequest).getServletPath();
-        if (path.startsWith("/static/se2/js/HuskyEZCreator.js")||path.startsWith("/oauth/login")||path.startsWith("/oauth/sginIn")){
+        if (path.startsWith("/oauth/")){
             filterChain.doFilter(servletRequest,servletResponse);
             return;
         }
