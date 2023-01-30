@@ -1,7 +1,6 @@
 package com.adnstyle.choicafe.domain;
 
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.Alias;
@@ -52,5 +51,7 @@ public class GhMember implements Serializable {
 
     /** 로그인 실패 횟수 */
     private int failCount;
+
+    private String boMenu;
 
 }

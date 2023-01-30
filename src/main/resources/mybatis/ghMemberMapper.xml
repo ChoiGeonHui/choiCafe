@@ -16,6 +16,7 @@
         <result property="createdMember"    column="created_member"/>
         <result property="lockYN"           column="lock_yn"/>
         <result property="failCount"        column="fail_count"/>
+        <result property="boMenu"           column="bo_menu"/>
     </resultMap>
 
     <sql id="selectSimple">
@@ -32,7 +33,8 @@
             del_yn,
             created_member,
             lock_yn,
-            fail_count
+            fail_count,
+            bo_menu
         from
             gh_member
     </sql>
@@ -52,6 +54,9 @@
             <if test="phone != null">
                 and phone = #{phone}
             </if>
+            <if test="role != null">
+                and role = #{role}
+            </if>
 
         </where>
     </sql>
@@ -70,6 +75,12 @@
         <include refid="selectSimple"/>
         <include refid="wherePack"/>
 
+    </select>
+    
+    <select id="checkAuthorization" resultType="int">
+        select count(*)
+        from gh_member
+        where id = #{id} and role = #{role} and bo_menu like concat('%',#{menuName},'%');
     </select>
 
 

@@ -3,6 +3,7 @@ package com.adnstyle.choicafe.repository.maindb;
 
 import com.adnstyle.choicafe.domain.GhMember;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -32,5 +33,7 @@ public interface GhMemberRepository {
     void lockMember(GhMember ghMember);
 
     int unLockMember(GhMember ghMember);
+
+    int checkAuthorization(@Param("id")String id, @Param("role")String role, @Param("menuName")String menuName);
 
 }

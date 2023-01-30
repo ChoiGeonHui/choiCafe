@@ -1,6 +1,7 @@
 package com.adnstyle.choicafe.jwt;
 
 
+import com.adnstyle.choicafe.security.ErrorCode;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +36,7 @@ public class JwtProvider {
     private String jwtTokenPrefix = "Bearer";
 
 
-    private long accessTokenValidTime = Duration.ofMinutes(10).toMillis(); // 만료시간 10분
+    private long accessTokenValidTime = Duration.ofMinutes(60).toMillis(); // 만료시간 n분
     private long refreshTokenValidTime = Duration.ofDays(7).toMillis(); // 만료시간 7일
 
 
@@ -82,7 +83,7 @@ public class JwtProvider {
     }
 
 
-    private Claims parseClaims(String accessToken) {
+    public Claims parseClaims(String accessToken) {
         try {
             return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(accessToken).getBody();
         } catch (ExpiredJwtException e) {
@@ -92,16 +93,19 @@ public class JwtProvider {
 
 
     /** JWT 토큰 유효성 체크*/
-    public boolean validateToken(String token) {
+    public boolean validateToken(String token, HttpServletRequest request) {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return !claims.getBody().getExpiration().before(new Date());
         } catch (SecurityException | MalformedJwtException | IllegalArgumentException exception) {
             log.info("잘못된 JWT 입니다");
+            request.setAttribute("exception", ErrorCode.WRONG_TYPE_TOKEN.getCode());
         } catch (ExpiredJwtException exception) {
             log.info("만료된 JWT 입니다");
+            request.setAttribute("exception", ErrorCode.EXPIRED_TOKEN.getCode());
         } catch (UnsupportedJwtException exception) {
             log.info("지원하지 않는 JWT 입니다");
+            request.setAttribute("exception", ErrorCode.UNSUPPORTED_TOKEN.getCode());
         }
 
         return false;

@@ -25,6 +25,7 @@ public class JwtFilter extends GenericFilterBean {
 
     /**
      * 가지고 있는 토큰의 검사하는 메서드
+     *
      * @param servletRequest
      * @param servletResponse
      * @param filterChain
@@ -33,37 +34,35 @@ public class JwtFilter extends GenericFilterBean {
      */
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        Cookie cookies [] = ((HttpServletRequest)servletRequest).getCookies();
+        Cookie cookies[] = ((HttpServletRequest) servletRequest).getCookies();
         if (cookies == null) {
-            filterChain.doFilter(servletRequest,servletResponse);
+            filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
         String path = ((HttpServletRequest) servletRequest).getServletPath();
-        if (path.startsWith("/oauth/")||path.startsWith("/logout")){
-            filterChain.doFilter(servletRequest,servletResponse);
-            return;
-        }
-
-        String token = "";
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("Authorization")) {//Authorization 이름을 가진 쿠키 가져오기
-                token = cookie.getValue();
-            }
-        }
-        String requestURI = ((HttpServletRequest) servletRequest).getRequestURI();
-
-        if (StringUtils.hasText(token) && jwtProvider.validateToken(token)) {
-            Authentication authentication = jwtProvider.getAuthentication(token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            log.info("Security context에 인증 정보를 저장했습니다, uri: {"+requestURI+"}");
+        if (path.startsWith("/oauth/") || path.startsWith("/logout") || path.startsWith("/error")||path.startsWith("/valid")) {
+            filterChain.doFilter(servletRequest, servletResponse);
         } else {
-            log.debug("유효한 Jwt 토큰이 없습니다, uri: {"+requestURI+"}");
-//            ((HttpServletResponse)servletResponse).sendRedirect("/logout");
+
+            String token = "";
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("Authorization")) {//Authorization 이름을 가진 쿠키 가져오기
+                    token = cookie.getValue();
+                }
+            }
+            String requestURI = ((HttpServletRequest) servletRequest).getRequestURI();
+            HttpServletRequest request = (HttpServletRequest) servletRequest;
+            if (StringUtils.hasText(token) && jwtProvider.validateToken(token, request)) {
+                Authentication authentication = jwtProvider.getAuthentication(token);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                log.info("Security context에 인증 정보를 저장했습니다, uri: {" + requestURI + "}");
+            } else {
+                log.debug("유효한 Jwt 토큰이 없습니다, uri: {" + requestURI + "}");
+            }
+            filterChain.doFilter(servletRequest, servletResponse);
         }
-        filterChain.doFilter(servletRequest,servletResponse);
+
     }
-
-
 
 
 }
