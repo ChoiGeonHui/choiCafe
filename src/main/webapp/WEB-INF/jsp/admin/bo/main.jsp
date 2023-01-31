@@ -13,6 +13,7 @@
 <div class="container text-center mt-5">
     <h2>This is back office main page.</h2>
 
+    <jsp:include page="../menuView.jsp"/>
 
     <table class="table text-center mt-3">
         <thead>

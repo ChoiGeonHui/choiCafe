@@ -59,13 +59,14 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
 //        response.setHeader("Authorization", cookie.toString());
 
-        Cookie tokenCookie = new Cookie("Authorization",jwtProvider.createToken(ghMember.getGhMember().getId(), ghMember.getGhMember().getRole()));
-        tokenCookie.setMaxAge(60*60);
+        Cookie tokenCookie = new Cookie("Authorization", jwtProvider.createToken(ghMember.getGhMember().getId(), ghMember.getGhMember().getRole()));
+        tokenCookie.setMaxAge(2*60*60);
         tokenCookie.setPath("/");
+        tokenCookie.setHttpOnly(true); //xss 공격을 막기위한 설정
+        tokenCookie.setSecure(true);
         response.addCookie(tokenCookie);
 
         session.setAttribute("user", new SessionMember(ghMember.getGhMember()));
         response.sendRedirect("/oauth/");
-//
     }
 }

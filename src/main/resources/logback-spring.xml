@@ -24,7 +24,7 @@
             <springProfile name="prod">
                 <fileNamePattern>/data/sf-rnd-prj/cgh-svc/logs/cgh-svc.%d{yyyy-MM-dd}.log</fileNamePattern>
             </springProfile>
-            <maxHistory>30</maxHistory>
+            <maxHistory>30</maxHistory><!-- 최대 로그파일 보관 갯수 설정   -->
         </rollingPolicy>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>DEBUG</level>

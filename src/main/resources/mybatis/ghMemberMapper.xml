@@ -42,6 +42,9 @@
 
     <sql id="wherePack">
         <where>
+            <if test="seq != null">
+                and seq = #{seq}
+            </if>
             <if test="id != null">
                 and id = #{id}
             </if>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.adnstyle.choicafe.repository.maindb.BackOfficeRepository">
+
+    <resultMap id="simpleBackOffice" type="com.adnstyle.choicafe.domain.BackOffice">
+        <id property="seq" column="seq"/>
+        <result property="menuName" column="menu_name"/>
+        <result property="menuRole" column="menu_role"/>
+    </resultMap>
+
+    <select id="selectList" resultMap="simpleBackOffice">
+        select seq, menu_name, menu_role
+        from back_office;
+    </select>
+
+</mapper>

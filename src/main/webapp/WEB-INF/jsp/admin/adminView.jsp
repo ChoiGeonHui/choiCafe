@@ -13,10 +13,7 @@
 <div class="container text-center mt-5">
     <h2>관리자 페이지 입니다.</h2>
 
-    <div class="d-flex col-6">
-        <a href="/admin" class="btn btn-outline-warning col-2 mx-1">사용자</a>
-        <a href="/admin/board" class="btn btn-outline-danger col-2 mx-1">D-Board</a>
-    </div>
+    <jsp:include page="menuView.jsp"/>
 
 
     <table class="table text-center mt-3">
