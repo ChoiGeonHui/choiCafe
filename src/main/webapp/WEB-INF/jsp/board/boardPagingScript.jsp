@@ -10,6 +10,9 @@
 
     //페이징, 일괄삭제 체크박스 및 버튼 스크립트
 
+    let cookie = document.cookie;
+
+    console.log('cookie: '+cookie);
 
     function selectAll(){
 

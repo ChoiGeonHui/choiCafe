@@ -94,8 +94,8 @@ public class SecurityConfig {
                     .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .invalidSessionUrl("/oauth/login")
-                    .maximumSessions(1)
-                    .maxSessionsPreventsLogin(false)
+//                    .maximumSessions(1)
+//                    .maxSessionsPreventsLogin(false)
                     ;
 
         http

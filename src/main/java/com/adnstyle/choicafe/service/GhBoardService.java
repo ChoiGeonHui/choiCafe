@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -99,7 +100,17 @@ public class GhBoardService {
      * @return
      */
     @Transactional
-    public int cuBoard(GhBoard ghBoard, List<MultipartFile> fileList) {
+    public int cuBoard(GhBoard ghBoard, List<MultipartFile> fileList, HttpServletRequest request) {
+
+        String referer = request.getHeader("REFERER");
+        if (referer == null || referer.length() == 0) {
+            log.debug("no referer. Who are you? : "+ referer); // 비정상적인 요청
+            return 0;
+        } else {
+            log.debug("referer is not null: "+ referer); // 정상적인 요청
+        }
+
+
         if (ghBoard.getSeq() == null || ghBoard.getSeq() == 0) { //식별자 존재 여부에 따라 등록, 수정이 나뉜다.
             ghBoardRepository.insertBoard(ghBoard);
             ghAttachService.save(ghBoard.getSeq(), "ghBoard", fileList);

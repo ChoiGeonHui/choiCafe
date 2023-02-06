@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,8 +96,8 @@ public class GhBoardController {
     }
 
     @RequestMapping("/insertUpdate")
-    public String cuBoard(GhBoard ghBoard, @RequestPart("fileList") List<MultipartFile> file) {
-        ghBoardService.cuBoard(ghBoard, file);
+    public String cuBoard(GhBoard ghBoard, @RequestPart("fileList") List<MultipartFile> file, HttpServletRequest request) {
+        ghBoardService.cuBoard(ghBoard, file, request);
         return "redirect:/board/list/list";
     }
 

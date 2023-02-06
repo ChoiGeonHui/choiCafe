@@ -63,7 +63,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         tokenCookie.setMaxAge(2*60*60);
         tokenCookie.setPath("/");
         tokenCookie.setHttpOnly(true); //xss 공격을 막기위한 설정
-        tokenCookie.setSecure(true);
+//        tokenCookie.setSecure(true);
         response.addCookie(tokenCookie);
 
         session.setAttribute("user", new SessionMember(ghMember.getGhMember()));

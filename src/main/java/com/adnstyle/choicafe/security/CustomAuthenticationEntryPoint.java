@@ -26,7 +26,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
 
         // 토큰이 존재하지 않는 경우
-        if (exception.equals("null")) {
+        if (exception.equals("null")|| exception == null) {
             setResponse(response, ErrorCode.UNKNOWN_ERROR);
             response.sendRedirect("/oauth/login");// 지정된 url로 이동
         }
@@ -54,7 +54,13 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
             setResponse(response, ErrorCode.UNSUPPORTED_TOKEN);
             response.sendRedirect("/logout");// 지정된 url로 이동
 
-        } else {
+        }
+        //지원되지 않는 토큰인 경우
+        else if (exception.equals(ErrorCode.NO_IMAGE.getCode() + "")) {
+            setResponse(response, ErrorCode.NO_IMAGE);
+        }
+
+        else {
             setResponse(response, ErrorCode.ACCESS_DENIED);
             response.sendRedirect("/logout");// 지정된 url로 이동
         }

@@ -3,6 +3,7 @@ package com.adnstyle.choicafe.service;
 import com.adnstyle.choicafe.common.FileUploadDirByYML;
 import com.adnstyle.choicafe.domain.GhAttach;
 import com.adnstyle.choicafe.repository.maindb.GhAttachRepository;
+import com.adnstyle.choicafe.security.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +15,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,6 +40,10 @@ public class GhAttachService {
 
     private static final Logger log = LoggerFactory.getLogger(GhAttachService.class);
 
+    private final HttpServletRequest request;
+
+    private final HttpServletResponse response;
+
 
     public List<GhAttach> selectAttach(String tableType, Long tableSeq) {
         GhAttach ghAttach = new GhAttach();
@@ -49,15 +55,22 @@ public class GhAttachService {
 
     /**
      * 이미지 화면 보기, 파일 다운로드
+     *
      * @param ghAttach 파일 식별자
-     * @param handing 파일 다운로드 여부 ( download / view )
+     * @param handing  파일 다운로드 여부 ( download / view )
      * @throws IOException
      */
     public void download(GhAttach ghAttach, String handing) throws IOException {
 
 
         //DB에서 파일 데이터 가져오기
-        ghAttach = ghAttachRepository.selectAttach(ghAttach).get(0);
+        try {
+            ghAttach = ghAttachRepository.selectAttach(ghAttach).get(0);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            request.setAttribute("exception", ErrorCode.NO_IMAGE.getCode());
+            return;
+        }
 
         File f = new File(fileUploadDirByYML.getSaveDir() + ghAttach.getSavedDir() + "/" + ghAttach.getSavedName());
 
@@ -65,7 +78,7 @@ public class GhAttachService {
         HttpServletResponse response = requestAttributes.getResponse();
 
         response.setContentType(ghAttach.getType());
-        
+
         if (handing.equals("download")) { //파일 다운로드 하기
             response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(ghAttach.getDisplayName(), "UTF-8") + "\"");
         }
@@ -82,16 +95,17 @@ public class GhAttachService {
             outputChannel = Channels.newChannel(response.getOutputStream());
             inputChannel.transferTo(0, fin.available(), outputChannel);
         } catch (Exception e) {
-            throw e;
+//            request.setAttribute("exception", ErrorCode.NO_IMAGE.getCode());
         } finally {
             try {
                 if (fin != null) fin.close();
                 if (inputChannel.isOpen()) inputChannel.close();
                 if (outputChannel.isOpen()) outputChannel.close();
             } catch (Exception e) {
-                fin.close();
-                inputChannel.close();
-                outputChannel.close();
+//                fin.close();
+//                inputChannel.close();
+//                outputChannel.close();
+                request.setAttribute("exception", ErrorCode.NO_IMAGE.getCode());
             }
 
         }
@@ -99,13 +113,12 @@ public class GhAttachService {
     }
 
 
-
     /**
      * 파일 저장
      *
-     * @param seq 게시물 식별자
+     * @param seq       게시물 식별자
      * @param tableName 참조 테이블
-     * @param fileList 첨부파일 리스트
+     * @param fileList  첨부파일 리스트
      */
     @Transactional
     public void save(Long seq, String tableName, List<MultipartFile> fileList) {
@@ -155,13 +168,14 @@ public class GhAttachService {
 
     /**
      * 첨부파일 갱신
-     * @param seq 게시물 식별자
-     * @param tableType 참조테이블
+     *
+     * @param seq          게시물 식별자
+     * @param tableType    참조테이블
      * @param ghAttachList 저장된 파일 리스트
-     * @param file 업로드할 파일 리스트
+     * @param file         업로드할 파일 리스트
      */
     @Transactional
-    public void update(Long seq, String tableType,List<GhAttach> ghAttachList,List<MultipartFile> file) {
+    public void update(Long seq, String tableType, List<GhAttach> ghAttachList, List<MultipartFile> file) {
 
         GhAttach attach = new GhAttach();
         attach.setTableSeq(seq);
@@ -174,7 +188,7 @@ public class GhAttachService {
 
             for (GhAttach j : ghAttachList) { //submit 해서 가져온 파일
 
-                if (i.getSeq() != j.getSeq()){
+                if (i.getSeq() != j.getSeq()) {
                     continue;
                 }
 
@@ -210,6 +224,7 @@ public class GhAttachService {
 
     /**
      * 파일 저장 디렉토리 생성
+     *
      * @param saveDir
      */
     private void createDirectory(String saveDir) {
@@ -232,6 +247,7 @@ public class GhAttachService {
 
     /**
      * 파일 저장 경로 생성
+     *
      * @param tableName
      * @return
      */
