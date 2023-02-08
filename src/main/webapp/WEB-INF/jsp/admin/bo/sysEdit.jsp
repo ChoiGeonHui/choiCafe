@@ -57,3 +57,20 @@
     </div>
 
 </div>
+<script type="text/javascript">
+
+    $(function () {
+
+        $("#btnUpdate").on("click", function () {
+
+            // let boMenu =
+
+
+            alert();
+        })
+
+
+
+    })
+
+</script>

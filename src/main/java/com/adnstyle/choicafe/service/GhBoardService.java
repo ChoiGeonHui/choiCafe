@@ -103,7 +103,8 @@ public class GhBoardService {
     public int cuBoard(GhBoard ghBoard, List<MultipartFile> fileList, HttpServletRequest request) {
 
         String referer = request.getHeader("REFERER");
-        if (referer == null || referer.length() == 0) {
+        String host = request.getHeader("host")+"/board/view";
+        if (referer == null || referer.length() == 0 || !referer.contains(host)) {
             log.debug("no referer. Who are you? : "+ referer); // 비정상적인 요청
             return 0;
         } else {

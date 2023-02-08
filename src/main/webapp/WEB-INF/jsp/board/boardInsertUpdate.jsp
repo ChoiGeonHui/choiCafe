@@ -85,6 +85,12 @@
             }
             oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
             //스마트 에디터 값을 텍스트컨텐츠로 전달
+
+            if ($("#content").val().length > 1000) {
+                alert('내용 글자수 초과.');
+                e.preventDefault();
+                return false;
+            }
             return;
         })
 
