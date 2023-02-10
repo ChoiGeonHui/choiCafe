@@ -39,26 +39,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         // 실패횟수 초기화
         ghMemberService.failCountReset(ghMember.getGhMember());
 
-//        TokenInfo jwt = jwtProvider.createToken(authentication);
-//
-//        String accessToken = jwtProvider.createAccessToken(authentication);
-//
-//        log.debug("jwt : " +jwt);
-//
-//        response.setHeader("Authorization", accessToken);
-
-//        jwtProvider.setHeaderAccessToken(response, jwtProvider.createToken(ghMember.getGhMember().getId(), ghMember.getGhMember().getRole()));
-
-//        ResponseCookie cookie = ResponseCookie.from("jwtToken", jwtProvider.createToken(ghMember.getGhMember().getId(), ghMember.getGhMember().getRole()))
-//                .maxAge(7*24*60*60)
-//                .path("/")
-//                .secure(true)
-//                .sameSite("None")
-//                .httpOnly(true)
-//                .build();
-
-//        response.setHeader("Authorization", cookie.toString());
-
         Cookie tokenCookie = new Cookie("Authorization", jwtProvider.createToken(ghMember.getGhMember().getId(), ghMember.getGhMember().getRole()));
         tokenCookie.setMaxAge(2*60*60);
         tokenCookie.setPath("/");
