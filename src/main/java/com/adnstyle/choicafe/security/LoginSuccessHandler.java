@@ -39,11 +39,13 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         // 실패횟수 초기화
         ghMemberService.failCountReset(ghMember.getGhMember());
 
-        Cookie tokenCookie = new Cookie("Authorization", jwtProvider.createToken(ghMember.getGhMember().getId(), ghMember.getGhMember().getRole()));
+        //쿠키 생성
+        Cookie tokenCookie =
+                new Cookie("Authorization", jwtProvider.createToken(ghMember.getGhMember().getId(), ghMember.getGhMember().getRole()));
         tokenCookie.setMaxAge(2*60*60);
         tokenCookie.setPath("/");
         tokenCookie.setHttpOnly(true); //xss 공격을 막기위한 설정
-//        tokenCookie.setSecure(true);
+//        tokenCookie.setSecure(true);   // https 에서만 쿠키전송이 되도록 설정
         response.addCookie(tokenCookie);
 
         session.setAttribute("user", new SessionMember(ghMember.getGhMember()));
