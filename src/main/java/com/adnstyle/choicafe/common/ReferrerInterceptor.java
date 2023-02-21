@@ -1,6 +1,5 @@
 package com.adnstyle.choicafe.common;
 
-import com.sun.tools.sjavac.server.Sjavac;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -25,9 +24,10 @@ public class ReferrerInterceptor implements HandlerInterceptor {
         String host = request.getHeader("host");
         if (referer == null || referer.length() == 0 || !referer.contains(host)) {
             log.debug("no referer. Who are you? : "+ referer); // 비정상적인 요청
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-            response.getWriter().write("{\"error\":\"diffrent referrer\",\"Msg\":\"출처가 불분명한 요청입니다.\"}");
+            response.getWriter().write("{\"error\":\"unknown referrer\",\"Msg\":\"출처가 불분명한 요청입니다.\"}");
             return false;
         } else {
             log.debug("referer is not null: "+ referer); // 정상적인 요청
