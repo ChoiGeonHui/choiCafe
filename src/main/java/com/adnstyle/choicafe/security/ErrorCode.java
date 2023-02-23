@@ -15,7 +15,8 @@ public enum ErrorCode {
     EXPIRED_TOKEN(1005, "만료된 토큰입니다."),
     UNSUPPORTED_TOKEN(1006, "지원하지 않는 토큰입니다."),
     ACCESS_DENIED(1007, "권한이 없습니다."),
-    NO_IMAGE(1008, "이미지가 없습니다");
+    NO_IMAGE(1008, "이미지가 없습니다"),
+    UNKEWN_REFERRER(1010,"출처가 불분명한 요청입니다.");
 
 
     private int code;
