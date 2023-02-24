@@ -147,6 +147,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
+        <dependency>
+            <groupId>net.thauvin.erik.httpstatus</groupId>
+            <artifactId>httpstatus</artifactId>
+            <version>1.0.5</version>
+        </dependency>
 
     </dependencies>
 

@@ -1,6 +1,5 @@
 package com.adnstyle.choicafe.security;
 
-import com.adnstyle.choicafe.common.ReferrerFilter;
 import com.adnstyle.choicafe.domain.Role;
 import com.adnstyle.choicafe.jwt.JwtFilter;
 import com.adnstyle.choicafe.jwt.JwtProvider;
@@ -63,7 +62,6 @@ public class SecurityConfig {
                     .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                 .and()
                     .addFilterBefore(new JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
-//                    .addFilterBefore(new ReferrerFilter(), UsernamePasswordAuthenticationFilter.class)
                     ;
 
         http

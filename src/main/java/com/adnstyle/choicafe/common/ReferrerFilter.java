@@ -1,6 +1,7 @@
 package com.adnstyle.choicafe.common;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -9,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Slf4j
-@WebFilter(urlPatterns = "/board/insertUpdate,/board/delete,/reply/**,/admin/**")
+@WebFilter(urlPatterns = {"/board/insertUpdate","/board/delete","/reply/*","/admin/*"})
 public class ReferrerFilter implements Filter {
 
     @Override
@@ -17,16 +18,14 @@ public class ReferrerFilter implements Filter {
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
+        log.debug("Filter log ============================");
 
         String referer = request.getHeader("REFERER");
-
         String host = request.getHeader("host");
-        if (referer == null || referer.length() == 0 || !referer.contains(host)) {
-            log.debug("no referer. Who are you? : "+ referer); // 비정상적인 요청
-            throw new RuntimeException();
-        } else {
-            log.debug("referer is not null: "+ referer); // 정상적인 요청
-            log.debug("Interceptor : preHandle "+ request.getRequestURI());
+        if (referer == null || referer.length() == 0 || !referer.contains(host)){
+            log.debug("NOT_REFERRER _by Filter");
+            response.sendError(HttpStatus.BAD_REQUEST.value());
+            return;
         }
         filterChain.doFilter(request, response);
     }
